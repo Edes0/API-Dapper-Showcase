@@ -1,0 +1,92 @@
+using System.Reflection;
+using System.Text;
+using Boilerplate.Api.DependencyInjection;
+using Boilerplate.CoreServices.Middlewares;
+using Boilerplate.Infrastructure.Identity;
+using Boilerplate.Infrastructure.Security.Configurations;
+using Boilerplate.Infrastructure.Security.Tokens;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var configurationBuilder = builder.Configuration.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+    .AddJsonFile("Properties/appsettings.json")
+    .AddJsonFile($"Properties/appsettings.{builder.Environment.EnvironmentName}.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+// Add services to the container.
+var services = builder.Services;
+
+const string allowedSpecificOrigins = "AllowedSpecificOrigins";
+
+services.AddControllers();
+services.AddMediatR(Assembly.GetExecutingAssembly());
+
+services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Boilerplate.Api", Version = "v1" }));
+
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
+
+// When copying the project make sure to change name of the migration assembly to the correct name.
+services.AddDbContext<AppDbContext>(opt =>
+    opt.UseMySql(builder.Configuration.GetConnectionString("DbConnectionString"), serverVersion, b => b.MigrationsAssembly("Boilerplate.Api")));
+
+// Specify specific cors options here later.
+services.AddCors(options => options.AddPolicy(allowedSpecificOrigins, policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+var tokenConfig = configurationBuilder.GetSection("TokenConfig");
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = tokenConfig.Get<TokenConfig>().Issuer,
+        ValidAudience = tokenConfig.Get<TokenConfig>().Audience,
+        IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig
+                    .Get<TokenConfig>()
+                    .SecretKey))
+    });
+
+// Add secret key to signin configurations.
+var signingConfigurations = new SigningConfigurations(tokenConfig
+    .Get<TokenConfig>()
+    .SecretKey);
+services.AddSingleton(signingConfigurations);
+
+// Dependency injection
+DependencyInjection.AddDependencyInjection(services, builder, tokenConfig);
+
+var app = builder.Build();
+
+// This ensure that the database is created with seed when in development mode if it does not already exist.
+// Additional environments can be added here later therefore it is separated from the line below.
+if (app.Environment.IsDevelopment())
+{
+    using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+    var context = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
+    context?.Database.EnsureCreated();
+}
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Boilerplate.Api v1"));
+}
+
+app.UseCors(allowedSpecificOrigins);
+app.UseHttpsRedirection();
+app.UseMiddleware(typeof(ExceptionMiddleware));
+app.Use(async (context, next) => await ControllerExceptionMiddleware.HandleControllerExceptions(context, next));
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();

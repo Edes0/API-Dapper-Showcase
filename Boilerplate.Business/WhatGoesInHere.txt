@@ -1,0 +1,13 @@
+In this project Handlers are placed that for example handle business validation of certain entities getting created for example. 
+Helpers are also placed in this project. 
+Business rule validation should be added in this project. For example if you atempt to delete an entity and want to make sure
+that underlying entities are not existing you could have a rule for that. 
+
+The business project is the central place for business rules.
+
+Example folder structure:
+- Handlers
+- Helpers
+- Interfaces (if needed)
+- Models (if needed)
+- Validation (All business rules goes here - A business rule is for example -> You can't delete a boilerplate if it has an age above 5). 

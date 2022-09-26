@@ -1,0 +1,38 @@
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Application.deps.json
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Application.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/ref/Boilerplate.Application.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Application.pdb
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.GlobalUsings.g.cs
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.csproj.AssemblyReference.cache
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.AssemblyInfoInputs.cache
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.AssemblyInfo.cs
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.csproj.CoreCompileInputs.cache
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/ref/Boilerplate.Application.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.pdb
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Domain.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Domain.pdb
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.CoreServices.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.CoreServices.pdb
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Infrastructure.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Infrastructure.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Application.deps.json
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Application.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Application.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.CoreServices.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Domain.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Infrastructure.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.CoreServices.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Domain.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/bin/Debug/net6.0/Boilerplate.Infrastructure.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.csproj.AssemblyReference.cache
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.AssemblyInfoInputs.cache
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.AssemblyInfo.cs
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.csproj.CoreCompileInputs.cache
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.csproj.CopyComplete
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/refint/Boilerplate.Application.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/Boilerplate.Application.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/obj/Debug/net6.0/ref/Boilerplate.Application.dll

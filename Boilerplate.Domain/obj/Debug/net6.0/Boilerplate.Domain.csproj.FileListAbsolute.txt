@@ -1,0 +1,25 @@
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/bin/Debug/net6.0/Boilerplate.Domain.deps.json
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/bin/Debug/net6.0/Boilerplate.Domain.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/bin/Debug/net6.0/ref/Boilerplate.Domain.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/bin/Debug/net6.0/Boilerplate.Domain.pdb
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.GlobalUsings.g.cs
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.csproj.AssemblyReference.cache
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.AssemblyInfoInputs.cache
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.AssemblyInfo.cs
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.csproj.CoreCompileInputs.cache
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/ref/Boilerplate.Domain.dll
+/Users/danielpersson/Insync/persson.daniel.1990@gmail.com/Google Drive/FrontEdgeIT/boilerplate-csharp-new/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/bin/Debug/net6.0/Boilerplate.Domain.deps.json
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/bin/Debug/net6.0/Boilerplate.Domain.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/bin/Debug/net6.0/Boilerplate.Domain.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.csproj.AssemblyReference.cache
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.AssemblyInfoInputs.cache
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.AssemblyInfo.cs
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.csproj.CoreCompileInputs.cache
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/refint/Boilerplate.Domain.dll
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/Boilerplate.Domain.pdb
+/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Domain/obj/Debug/net6.0/ref/Boilerplate.Domain.dll
