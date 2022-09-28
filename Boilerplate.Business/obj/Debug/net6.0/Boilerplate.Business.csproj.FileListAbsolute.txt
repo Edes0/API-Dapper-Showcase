@@ -10,3 +10,15 @@
 /Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Business/obj/Debug/net6.0/refint/Boilerplate.Business.dll
 /Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Business/obj/Debug/net6.0/Boilerplate.Business.pdb
 /Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Business/obj/Debug/net6.0/ref/Boilerplate.Business.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\bin\Debug\net6.0\Boilerplate.Business.deps.json
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\bin\Debug\net6.0\Boilerplate.Business.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\bin\Debug\net6.0\Boilerplate.Business.pdb
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.csproj.AssemblyReference.cache
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.AssemblyInfoInputs.cache
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.AssemblyInfo.cs
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.csproj.CoreCompileInputs.cache
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\refint\Boilerplate.Business.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\Boilerplate.Business.pdb
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.Business\obj\Debug\net6.0\ref\Boilerplate.Business.dll

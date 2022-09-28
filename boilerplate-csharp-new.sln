@@ -1,29 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Api", "Boilerplate.Api\Boilerplate.Api.csproj", "{87BAC18E-9915-40C4-9356-D0455D2B9BFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Api", "Boilerplate.Api\Boilerplate.Api.csproj", "{87BAC18E-9915-40C4-9356-D0455D2B9BFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Application", "Boilerplate.Application\Boilerplate.Application.csproj", "{C6CCDABC-3D13-4798-AE81-EF1EAE4962C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Application", "Boilerplate.Application\Boilerplate.Application.csproj", "{C6CCDABC-3D13-4798-AE81-EF1EAE4962C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Business", "Boilerplate.Business\Boilerplate.Business.csproj", "{465CF21C-6917-427A-BEE5-C628149311FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Business", "Boilerplate.Business\Boilerplate.Business.csproj", "{465CF21C-6917-427A-BEE5-C628149311FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.CoreServices", "Boilerplate.CoreServices\Boilerplate.CoreServices.csproj", "{FEA23FF8-4CAE-475A-9415-4175AEEC24EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.CoreServices", "Boilerplate.CoreServices\Boilerplate.CoreServices.csproj", "{FEA23FF8-4CAE-475A-9415-4175AEEC24EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Domain", "Boilerplate.Domain\Boilerplate.Domain.csproj", "{6C21B59D-04E2-498F-8543-47434F8A0FAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Domain", "Boilerplate.Domain\Boilerplate.Domain.csproj", "{6C21B59D-04E2-498F-8543-47434F8A0FAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Infrastructure", "Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj", "{F962CE14-1CB8-45B3-B0A2-140A4DADF5B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Infrastructure", "Boilerplate.Infrastructure\Boilerplate.Infrastructure.csproj", "{F962CE14-1CB8-45B3-B0A2-140A4DADF5B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Persistence", "Boilerplate.Persistence\Boilerplate.Persistence.csproj", "{C4C9073D-2998-4873-8FCB-53E838E48C8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Persistence", "Boilerplate.Persistence\Boilerplate.Persistence.csproj", "{C4C9073D-2998-4873-8FCB-53E838E48C8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70EF2666-64A7-4372-AD4D-829D5F2A1F0E}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile.txt = Dockerfile.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{87BAC18E-9915-40C4-9356-D0455D2B9BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -54,5 +56,11 @@ Global
 		{C4C9073D-2998-4873-8FCB-53E838E48C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4C9073D-2998-4873-8FCB-53E838E48C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4C9073D-2998-4873-8FCB-53E838E48C8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {455ABC55-623F-411C-916F-E4CA26F06AC9}
 	EndGlobalSection
 EndGlobal

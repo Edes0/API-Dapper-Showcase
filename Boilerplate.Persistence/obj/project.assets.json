@@ -836,10 +836,17 @@
         },
         "runtime": {
           "bin/placeholder/Boilerplate.Application.dll": {}
+        }
+      },
+      "Boilerplate.Business/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Boilerplate.Business.dll": {}
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "runtime": {
+          "bin/placeholder/Boilerplate.Business.dll": {}
+        }
       },
       "Boilerplate.CoreServices/1.0.0": {
         "type": "project",
@@ -887,10 +894,7 @@
         },
         "runtime": {
           "bin/placeholder/Boilerplate.Infrastructure.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        }
       }
     }
   },
@@ -2443,6 +2447,11 @@
       "path": "../Boilerplate.Application/Boilerplate.Application.csproj",
       "msbuildProject": "../Boilerplate.Application/Boilerplate.Application.csproj"
     },
+    "Boilerplate.Business/1.0.0": {
+      "type": "project",
+      "path": "../Boilerplate.Business/Boilerplate.Business.csproj",
+      "msbuildProject": "../Boilerplate.Business/Boilerplate.Business.csproj"
+    },
     "Boilerplate.CoreServices/1.0.0": {
       "type": "project",
       "path": "../Boilerplate.CoreServices/Boilerplate.CoreServices.csproj",
@@ -2462,37 +2471,43 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Boilerplate.Application >= 1.0.0",
+      "Boilerplate.Business >= 1.0.0",
       "Dapper >= 2.0.123",
       "MySql.Data >= 8.0.27"
     ]
   },
   "packageFolders": {
-    "/Users/danielpersson/.nuget/packages/": {}
+    "C:\\Users\\sjogr_v8becyz\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Persistence/Boilerplate.Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Persistence\\Boilerplate.Persistence.csproj",
       "projectName": "Boilerplate.Persistence",
-      "projectPath": "/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Persistence/Boilerplate.Persistence.csproj",
-      "packagesPath": "/Users/danielpersson/.nuget/packages/",
-      "outputPath": "/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Persistence/obj/",
+      "projectPath": "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Persistence\\Boilerplate.Persistence.csproj",
+      "packagesPath": "C:\\Users\\sjogr_v8becyz\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/danielpersson/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\sjogr_v8becyz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/Boilerplate.Application.csproj": {
-              "projectPath": "/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Application/Boilerplate.Application.csproj"
+            "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Application\\Boilerplate.Application.csproj": {
+              "projectPath": "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Application\\Boilerplate.Application.csproj"
+            },
+            "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Business\\Boilerplate.Business.csproj": {
+              "projectPath": "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Business\\Boilerplate.Business.csproj"
             }
           }
         }
@@ -2527,14 +2542,11 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/6.0.300/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

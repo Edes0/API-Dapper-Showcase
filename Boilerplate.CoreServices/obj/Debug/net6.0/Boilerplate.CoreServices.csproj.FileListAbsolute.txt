@@ -33,3 +33,15 @@
 /Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.CoreServices/obj/Debug/net6.0/refint/Boilerplate.CoreServices.dll
 /Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.CoreServices/obj/Debug/net6.0/Boilerplate.CoreServices.pdb
 /Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.CoreServices/obj/Debug/net6.0/ref/Boilerplate.CoreServices.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\bin\Debug\net6.0\Boilerplate.CoreServices.deps.json
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\bin\Debug\net6.0\Boilerplate.CoreServices.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\bin\Debug\net6.0\Boilerplate.CoreServices.pdb
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.csproj.AssemblyReference.cache
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.AssemblyInfoInputs.cache
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.AssemblyInfo.cs
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.csproj.CoreCompileInputs.cache
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\refint\Boilerplate.CoreServices.dll
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\Boilerplate.CoreServices.pdb
+C:\Users\sjogr_v8becyz\Source\Repos\baimax-backend\Boilerplate.CoreServices\obj\Debug\net6.0\ref\Boilerplate.CoreServices.dll
