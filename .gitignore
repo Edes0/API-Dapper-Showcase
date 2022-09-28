@@ -107,6 +107,3 @@ ASALocalRun/
 .mfractor/
 # Coverage files
 lcov.info
-
-# Ignore appsettings for production.
-appsettings.Production.json

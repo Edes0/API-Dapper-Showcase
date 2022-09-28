@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "r48kTcLvTQ05c2ZAUABkCN7+bLC8nNg8m4iKcCXilgfeLVKjbtnQrwifcH0LnXnRGw6Ww0MHlY0UsATI6Jnpig==",
+  "dgSpecHash": "EhLVwWGIbttyznaD/cOZbvIyiA0LKo1GMjfXhwDxvPGwTeUAB4ifeiwLIZRy30T1Yc/z6N8YsTF/+kR940p7JA==",
   "success": true,
-  "projectFilePath": "/Users/danielpersson/BoilerPlate/boilerplate-csharp-starter-code/Boilerplate.Business/Boilerplate.Business.csproj",
+  "projectFilePath": "C:\\Users\\sjogr_v8becyz\\source\\repos\\baimax-backend\\Boilerplate.Business\\Boilerplate.Business.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

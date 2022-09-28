@@ -9,6 +9,7 @@
       "Boilerplate.Persistence/1.0.0": {
         "dependencies": {
           "Boilerplate.Application": "1.0.0",
+          "Boilerplate.Business": "1.0.0",
           "Dapper": "2.0.123",
           "MySql.Data": "8.0.27"
         },
@@ -537,6 +538,11 @@
           "Boilerplate.Application.dll": {}
         }
       },
+      "Boilerplate.Business/1.0.0": {
+        "runtime": {
+          "Boilerplate.Business.dll": {}
+        }
+      },
       "Boilerplate.CoreServices/1.0.0": {
         "dependencies": {
           "FluentValidation": "10.3.4",
@@ -999,6 +1005,11 @@
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
     "Boilerplate.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Boilerplate.Business/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
