@@ -1,0 +1,12 @@
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\bin\Debug\net6.0\Mimbly.CoreServices.deps.json
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\bin\Debug\net6.0\Mimbly.CoreServices.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\bin\Debug\net6.0\Mimbly.CoreServices.pdb
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.csproj.AssemblyReference.cache
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.AssemblyInfoInputs.cache
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.AssemblyInfo.cs
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.csproj.CoreCompileInputs.cache
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\refint\Mimbly.CoreServices.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\Mimbly.CoreServices.pdb
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.CoreServices\obj\Debug\net6.0\ref\Mimbly.CoreServices.dll
