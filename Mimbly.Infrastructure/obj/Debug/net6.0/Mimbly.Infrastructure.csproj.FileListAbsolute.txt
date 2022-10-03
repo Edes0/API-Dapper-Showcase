@@ -1,0 +1,17 @@
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.Infrastructure.deps.json
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.Infrastructure.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.Infrastructure.pdb
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.CoreServices.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.Domain.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.CoreServices.pdb
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\bin\Debug\net6.0\Mimbly.Domain.pdb
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.AssemblyInfo.cs
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.csproj.CopyComplete
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\refint\Mimbly.Infrastructure.dll
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\Mimbly.Infrastructure.pdb
+C:\Users\sjogr_v8becyz\source\repos\baimax-backend\Mimbly.Infrastructure\obj\Debug\net6.0\ref\Mimbly.Infrastructure.dll
