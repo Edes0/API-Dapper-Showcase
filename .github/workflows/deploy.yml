@@ -48,16 +48,16 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker buildx build --platform linux/amd64 -f Dockerfile . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/apps/baimax-backend:latest
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/apps/baimax-backend:latest
+          docker buildx build --platform linux/amd64 -f Dockerfile . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/apps/Mimbly-backend:latest
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/apps/Mimbly-backend:latest
       - name: 'Deploy to Azure Container Instances'
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ secrets.RESOURCE_GROUP }}
           dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/apps/baimax-backend:latest
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/apps/Mimbly-backend:latest
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: baimax-backend
+          name: Mimbly-backend
           location: 'swedencentral'
