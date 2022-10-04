@@ -1,12 +1,14 @@
-name: .NET
+name: deploy
 
 on:
+  push:
+    branches: [ master ]
   pull_request:
-    branches: [ "staging" ]
+    branches: [ master, staging ]
 
 jobs:
   build:
-
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
