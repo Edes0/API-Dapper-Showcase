@@ -26,7 +26,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
   build_docker_and_push_to_registry:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
