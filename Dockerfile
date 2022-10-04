@@ -14,7 +14,7 @@ RUN dotnet publish -c Release -o out --no-restore
 # Server Stage
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 5000
 COPY --from=build-env /app/out .
 
 ENTRYPOINT ["dotnet", "Mimbly.Api.dll"]
