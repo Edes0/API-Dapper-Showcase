@@ -18,4 +18,6 @@ COPY --from=build-env /app/out .
 
 ENV ASPNETCORE_URLS=http://+:5050
 
+EXPOSE 5050
+
 ENTRYPOINT ["dotnet", "Mimbly.Api.dll"]
