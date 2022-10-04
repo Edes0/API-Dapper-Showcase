@@ -1,15 +1,15 @@
 using System.Reflection;
 using System.Text;
-using Mimbly.Api.DependencyInjection;
-using Mimbly.CoreServices.Middlewares;
-using Mimbly.Infrastructure.Identity;
-using Mimbly.Infrastructure.Security.Configurations;
-using Mimbly.Infrastructure.Security.Tokens;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Mimbly.Api.DependencyInjection;
+using Mimbly.CoreServices.Middlewares;
+using Mimbly.Infrastructure.Identity.Context;
+using Mimbly.Infrastructure.Security.Configurations;
+using Mimbly.Infrastructure.Security.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,11 +29,8 @@ services.AddMediatR(Assembly.GetExecutingAssembly());
 
 services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mimbly.Api", Version = "v1" }));
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
-
 // When copying the project make sure to change name of the migration assembly to the correct name.
-services.AddDbContext<AppDbContext>(opt =>
-    opt.UseMySql(builder.Configuration.GetConnectionString("DbConnectionString"), serverVersion, b => b.MigrationsAssembly("Mimbly.Api")));
+services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString")));
 
 // Specify specific cors options here later.
 services.AddCors(options => options.AddPolicy(allowedSpecificOrigins, policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));

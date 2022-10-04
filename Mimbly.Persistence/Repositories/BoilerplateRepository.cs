@@ -1,46 +1,49 @@
 namespace Mimbly.Persistence.Repositories;
 
+using System.Data;
+using System.Data.SqlClient;
 using Application.Common.Interfaces;
-using Application.Common.ServiceOptions;
 using Dapper;
 using Domain.Models;
-using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
 
 public class MimblyRepository : IMimblyRepository
 {
-    private readonly ConnectionStrings _connectionOptions;
+    private readonly IConfiguration _config;
+    public string ConnectionStringName { get; set; } = "DbConnectionString";
 
-    public MimblyRepository(ConnectionStrings connectionOptions)
+    public MimblyRepository(IConfiguration config)
     {
-        _connectionOptions = connectionOptions;
+        _config = config;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
     public async Task<IEnumerable<Mimbly>> GetMimblys()
     {
-        const string sqlQueryString =
+        var sql =
         @"
             SELECT *
             FROM Mimbly
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        return await dbConnection.QueryAsync<Mimbly>(
-            sqlQueryString);
+        string ConnectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(ConnectionString);
+        return await connection.QueryAsync<Mimbly>(sql);
     }
 
     public async Task<IEnumerable<Mimbly>> GetMimblysFilteredMinByAge(int age)
     {
-        const string sqlQueryString =
+        var sql =
         @"
             SELECT *
             FROM Mimbly
             WHERE age >= @Age
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        return await dbConnection.QueryAsync<Mimbly>(
-            sqlQueryString, new
+        string ConnectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(ConnectionString);
+        return await connection.QueryAsync<Mimbly>(
+            sql, new
             {
                 Age = age
             });

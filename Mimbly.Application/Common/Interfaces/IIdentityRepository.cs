@@ -18,5 +18,4 @@ public interface IIdentityRepository
     Task ChangeUserPassword(Guid userId, string hashedPassword);
     Task LogoutUserCurrentDevice(Guid userId, string refreshToken);
     Task LogoutUserAllDevices(Guid userId);
-    Task CreateInvitedUsers(IEnumerable<User> newUsers);
 }

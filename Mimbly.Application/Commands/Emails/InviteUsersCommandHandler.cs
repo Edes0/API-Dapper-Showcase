@@ -1,6 +1,8 @@
 namespace Mimbly.Application.Commands.Emails;
 
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Common.Interfaces;
 using Domain.ApplicationModels.Email;
 using Domain.DomainModels;
@@ -22,36 +24,6 @@ public class InviteUsersCommandHandler : IRequestHandler<InviteUsersCommand, Inv
         _identityRepository = identityRepository;
         _tokenHandler = tokenHandler;
         _inviteUserService = inviteUserService;
-    }
-
-    public async Task<InvitedUserVm> Handle(InviteUsersCommand request, CancellationToken cancellationToken)
-    {
-        var invitedUsers = request.InviteUsersRequestDto.Users.ToList();
-        var existingUsers = invitedUsers
-            .Select(async x => await _identityRepository.GetUserByEmail(x.Email))
-            .Select(task => task.Result)
-            .Where(user => user != null)
-            .Select(user => new InvitedUserModel { Email = user.Email, Error = "Email already in use." })
-            .ToList();
-
-        var existingEmailAddressesForFiltering = existingUsers
-            .Select(user => user.Email).ToList();
-
-        var newEmailAddresses = invitedUsers
-            .Where(user => !existingEmailAddressesForFiltering.Contains(user.Email)).ToList();
-
-        var newUserModels = newEmailAddresses
-            .Select(x => CreateNewUser(x.Email));
-
-        await _identityRepository.CreateInvitedUsers(newUserModels);
-
-        foreach (var invitedUser in newEmailAddresses)
-        {
-            var invitePasswordToken = _tokenHandler.BuildPasswordResetTokenForNewUser(invitedUser.Email);
-            _inviteUserService.SendInviteMailToUser(invitedUser.Email, invitePasswordToken);
-        }
-
-        return new InvitedUserVm(existingUsers.Concat(newEmailAddresses));
     }
 
     private static User CreateNewUser(string email)
@@ -79,4 +51,6 @@ public class InviteUsersCommandHandler : IRequestHandler<InviteUsersCommand, Inv
 
         return res.ToString();
     }
+
+    public Task<InvitedUserVm> Handle(InviteUsersCommand request, CancellationToken cancellationToken) => throw new NotImplementedException();
 }

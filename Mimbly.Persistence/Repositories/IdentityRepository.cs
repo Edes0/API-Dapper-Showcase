@@ -1,19 +1,21 @@
 namespace Mimbly.Persistence.Repositories;
 
+using System.Data;
+using System.Data.SqlClient;
 using System.Security.Claims;
 using Application.Common.Interfaces;
-using Application.Common.ServiceOptions;
 using Dapper;
 using Domain.DomainModels;
-using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
 
 public class IdentityRepository : IIdentityRepository
 {
-    private readonly ConnectionStrings _connectionOptions;
+    private readonly IConfiguration _config;
+    public string ConnectionStringName { get; set; } = "DbConnectionString";
 
-    public IdentityRepository(ConnectionStrings connectionOptions)
+    public IdentityRepository(IConfiguration config)
     {
-        _connectionOptions = connectionOptions;
+        _config = config;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
@@ -26,7 +28,7 @@ public class IdentityRepository : IIdentityRepository
 
     public async Task RegisterUser(string email, string password, string firstName, string lastName)
     {
-        const string insertUserSql =
+        var sql =
         @"
             INSERT INTO user
                 (id, email, password, first_name, last_name)
@@ -36,9 +38,10 @@ public class IdentityRepository : IIdentityRepository
 
         var id = Guid.NewGuid();
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbConnection.ExecuteScalarAsync(
-            insertUserSql, new
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        await connection.ExecuteScalarAsync(
+            sql, new
             {
                 Id = id,
                 Email = email,
@@ -60,8 +63,9 @@ public class IdentityRepository : IIdentityRepository
 
         var id = Guid.NewGuid();
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbConnection.ExecuteScalarAsync(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        await connection.ExecuteScalarAsync(
             sqlInsertString, new
             {
                 Id = id,
@@ -79,8 +83,9 @@ public class IdentityRepository : IIdentityRepository
             WHERE email = @Email
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        return await dbConnection.QueryFirstOrDefaultAsync<User>(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        return await connection.QueryFirstOrDefaultAsync<User>(
             sqlQueryString, new
             {
                 Email = email
@@ -96,8 +101,9 @@ public class IdentityRepository : IIdentityRepository
             WHERE id = @UserId
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        return await dbConnection.QueryFirstOrDefaultAsync<User>(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        return await connection.QueryFirstOrDefaultAsync<User>(
             sqlQueryString, new
             {
                 UserId = userId
@@ -114,8 +120,9 @@ public class IdentityRepository : IIdentityRepository
             AND refresh_token = @RefreshToken
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbConnection.ExecuteScalarAsync(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        await connection.ExecuteScalarAsync(
             sqlDeleteString, new
             {
                 UserId = userId,
@@ -132,41 +139,13 @@ public class IdentityRepository : IIdentityRepository
             WHERE user_id = @UserId
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbConnection.ExecuteScalarAsync(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        await connection.ExecuteScalarAsync(
             sqlDeleteString, new
             {
                 UserId = userId
             });
-    }
-
-    public async Task CreateInvitedUsers(IEnumerable<User> newUsers)
-    {
-        const string insertUserSql =
-        @"
-            INSERT INTO user
-                (id, email, password, first_name, last_name)
-            VALUES
-                (@Id, @Email, @Password, @FirstName, @LastName)
-        ";
-
-        await using var dbCon = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbCon.OpenAsync();
-        await using var transaction = await dbCon.BeginTransactionAsync();
-
-        foreach (var user in newUsers)
-        {
-            await dbCon.ExecuteScalarAsync(insertUserSql, new
-            {
-                user.Id,
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                user.Password,
-            }, transaction);
-        }
-
-        await transaction.CommitAsync();
     }
 
     public async Task ChangeUserPassword(Guid userId, string hashedPassword)
@@ -178,8 +157,9 @@ public class IdentityRepository : IIdentityRepository
             WHERE id = @UserId
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbConnection.ExecuteScalarAsync(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        await connection.ExecuteScalarAsync(
             sqlUpdateString, new
             {
                 UserId = userId,
@@ -196,8 +176,9 @@ public class IdentityRepository : IIdentityRepository
             WHERE user_id = @UserId
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        return await dbConnection.QueryAsync<string>(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        return await connection.QueryAsync<string>(
             sqlQueryString, new
             {
                 UserId = userId,
@@ -214,8 +195,9 @@ public class IdentityRepository : IIdentityRepository
                 AND rt.user_id = @UserId
         ";
 
-        await using var dbConnection = new MySqlConnection(_connectionOptions.DbConnectionString);
-        await dbConnection.ExecuteScalarAsync(
+        string connectionString = _config.GetConnectionString(ConnectionStringName);
+        using IDbConnection connection = new SqlConnection(connectionString);
+        await connection.ExecuteScalarAsync(
             sqlUpdateString, new
             {
                 OldToken = oldToken,
