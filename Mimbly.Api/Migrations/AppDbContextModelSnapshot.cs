@@ -4,6 +4,7 @@ using Mimbly.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Mimbly.Infrastructure.Identity.Context;
 
 #nullable disable
 

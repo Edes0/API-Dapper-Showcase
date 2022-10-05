@@ -1,4 +1,4 @@
-namespace Mimbly.Infrastructure.Identity;
+namespace Mimbly.Infrastructure.Identity.Context;
 
 using System;
 using Mimbly.Domain.Models;
