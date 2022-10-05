@@ -1,12 +1,12 @@
-namespace Mimbly.Domain.Models;
+namespace Mimbly.Domain.Enitites;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-[Table("Mimbly")]
-public class Mimbly
+[Table("Mimbox")]
+public class Mimbox
 {
     [Key]
     [Column("id", TypeName = "CHAR(36)", Order = 1)]
@@ -28,7 +28,7 @@ public class Mimbly
     */
     public static void Configure(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Mimbly>()
+        modelBuilder.Entity<Mimbox>()
             .HasIndex(x => x.Age);
     }
 }

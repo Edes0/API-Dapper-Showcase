@@ -19,8 +19,11 @@ public static class DependencyInjection
 {
     public static void AddDependencyInjection(IServiceCollection services, WebApplicationBuilder builder, IConfigurationSection tokenConfig)
     {
+        // DataAccessLayer
+        services.AddScoped<ISqlDataAccess, SqlDataAccess>();
+
         // Repositories
-        services.AddScoped<IMimblyRepository, MimblyRepository>();
+        services.AddScoped<IMimboxRepository, MimboxRepository>();
         services.AddScoped<IIdentityRepository, IdentityRepository>();
 
         // Services

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Common.Validators;
 using CoreServices.Validation;
 
-public class CreateMimblyRequestDto
+public class CreateMimboxRequestDto
 {
     public string FirstName { get; set; } = null!;
 

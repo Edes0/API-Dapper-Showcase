@@ -1,9 +1,8 @@
-namespace Mimbly.Domain.Models;
+namespace Mimbly.Domain.Enitites;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DomainModels;
 using Microsoft.EntityFrameworkCore;
 
 [Table("refresh_token")]

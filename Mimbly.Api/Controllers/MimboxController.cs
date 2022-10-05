@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 [ApiController]
 [Authorize]
 [Route("api/v1/[controller]")]
-public class MimblyController : BaseController
+public class MimboxController : BaseController
 {
-    public MimblyController(IMediator mediator) : base(mediator)
+    public MimboxController(IMediator mediator) : base(mediator)
     {
     }
 
@@ -29,12 +29,12 @@ public class MimblyController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateMimbly([FromBody] CreateMimblyRequestDto createMimblyRequestDto)
+    public async Task<ActionResult> CreateMimbly([FromBody] CreateMimboxRequestDto createMimblyRequestDto)
     {
         await _mediator.Send(
-            new CreateMimblyCommand
+            new CreateMimboxCommand
             {
-                CreateMimblyRequest = createMimblyRequestDto
+                CreateMimboxRequest = createMimblyRequestDto
             });
 
         return Ok("Mimbly created successfully");

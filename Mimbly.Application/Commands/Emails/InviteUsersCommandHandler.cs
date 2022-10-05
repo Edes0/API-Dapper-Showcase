@@ -4,11 +4,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Interfaces;
-using Domain.ApplicationModels.Email;
-using Domain.DomainModels;
 using Infrastructure.ExternalServices.Interfaces.ExternalServices.MailServices;
 using Infrastructure.Security.Tokens.Interfaces;
 using MediatR;
+using Mimbly.Domain.Enitites;
 
 public class InviteUsersCommandHandler : IRequestHandler<InviteUsersCommand, InvitedUserVm>
 {

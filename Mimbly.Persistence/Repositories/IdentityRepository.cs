@@ -5,8 +5,8 @@ using System.Data.SqlClient;
 using System.Security.Claims;
 using Application.Common.Interfaces;
 using Dapper;
-using Domain.DomainModels;
 using Microsoft.Extensions.Configuration;
+using Mimbly.Domain.Enitites;
 
 public class IdentityRepository : IIdentityRepository
 {
