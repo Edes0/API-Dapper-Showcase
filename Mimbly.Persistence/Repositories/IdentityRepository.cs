@@ -30,10 +30,10 @@ public class IdentityRepository : IIdentityRepository
     {
         var sql =
         @"
-            INSERT INTO user
-                (id, email, password, first_name, last_name)
+            INSERT INTO [user]
+                (id, email, password, first_name, last_name, created_at, updated_at)
             VALUES
-                (@Id, @Email, @Password, @FirstName, @LastName)
+                (@Id, @Email, @Password, @FirstName, @LastName, @CreatedAt, @UpdatedAt)
         ";
 
         var id = Guid.NewGuid();
@@ -47,7 +47,9 @@ public class IdentityRepository : IIdentityRepository
                 Email = email,
                 Password = password,
                 FirstName = firstName,
-                LastName = lastName
+                LastName = lastName,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             });
     }
 
@@ -79,7 +81,7 @@ public class IdentityRepository : IIdentityRepository
         const string sqlQueryString =
         @"
             SELECT *
-            FROM user
+            FROM [user]
             WHERE email = @Email
         ";
 
@@ -97,7 +99,7 @@ public class IdentityRepository : IIdentityRepository
         const string sqlQueryString =
         @"
             SELECT *
-            FROM user
+            FROM [user]
             WHERE id = @UserId
         ";
 
@@ -152,7 +154,7 @@ public class IdentityRepository : IIdentityRepository
     {
         const string sqlUpdateString =
         @"
-            UPDATE user
+            UPDATE [user]
             SET password = @HashedPassword
             WHERE id = @UserId
         ";

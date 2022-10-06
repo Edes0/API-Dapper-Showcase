@@ -3,13 +3,25 @@ using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Mimbly.Api.DependencyInjection;
+using Mimbly.Application.Common.Interfaces.ExternalServices.MailServices;
+using Mimbly.Application.Common.Interfaces;
+using Mimbly.Application.Common.ServiceOptions;
+using Mimbly.CoreServices.Configurations;
 using Mimbly.CoreServices.Middlewares;
+using Mimbly.Infrastructure.ExternalServices.Interfaces.ExternalServices.MailServices;
+using Mimbly.Infrastructure.ExternalServices.MailServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Infrastructure.Security.Configurations;
 using Mimbly.Infrastructure.Security.Tokens;
+using Mimbly.Infrastructure.Security.Tokens.Interfaces;
+using Mimbly.Persistence.Repositories;
+using Mimbly.Infrastructure.Security.Tokens;
+using Mimbly.Application;
+using Mimbly.Application.Common.Mappings;
+using Mimbly.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,19 +34,32 @@ var configurationBuilder = builder.Configuration.SetBasePath(AppDomain.CurrentDo
 // Add services to the container.
 var services = builder.Services;
 
-const string allowedSpecificOrigins = "AllowedSpecificOrigins";
+services.AddAutoMapper(typeof(MappingProfile).Assembly);
+services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly); //TODO: Göra snyggare?
 
+// DataAccessLayer
+services.ConfigureDataAccessManager();
+
+// Repositories
+services.ConfigureMimboxRepository();
+services.ConfigureIdentityRepository();
+
+// Services
+services.ConfigureMailService();
+services.ConfigureMailService();
+services.ConfigureInviteUserService();
+services.ConfigureResetPasswordService();
+services.ConfigureCors();
 services.AddControllers();
+services.ConfigureAppDbContext(builder.Configuration);
 services.AddMediatR(Assembly.GetExecutingAssembly());
-
 services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mimbly.Api", Version = "v1" }));
 
-// When copying the project make sure to change name of the migration assembly to the correct name.
-services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"), b => b.MigrationsAssembly("Mimbly.Api")));
-;
-
-// Specify specific cors options here later.
-services.AddCors(options => options.AddPolicy(allowedSpecificOrigins, policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings")); //TODO: Ta bort?
+services.Configure<MailGunConfig>(builder.Configuration.GetSection("MailGunConfig"));
+services.Configure<MailGunConfig>(builder.Configuration.GetSection("MailGunConfig"));
+services.Configure<FrontendApplicationConfig>(builder.Configuration.GetSection("FrontendApplicationConfig"));
+services.AddSingleton(provider => provider.GetRequiredService<IOptions<ConnectionStrings>>().Value); //TODO: Ta bort?
 
 var tokenConfig = configurationBuilder.GetSection("TokenConfig");
 
@@ -59,8 +84,8 @@ var signingConfigurations = new SigningConfigurations(tokenConfig
     .SecretKey);
 services.AddSingleton(signingConfigurations);
 
-// Dependency injection
-DependencyInjection.AddDependencyInjection(services, builder, tokenConfig);
+services.Configure<TokenConfig>(tokenConfig);
+services.AddScoped<ITokenHandler, Mimbly.Infrastructure.Security.Tokens.TokenHandler>();
 
 var app = builder.Build();
 
@@ -76,7 +101,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
 }
 
-app.UseCors(allowedSpecificOrigins);
+app.UseCors("WhatToAdd"); //TODO Add specific origin to cors. also have in config in ServiceExtensions "CorsPolicy"
 app.UseHttpsRedirection();
 app.UseMiddleware(typeof(ExceptionMiddleware));
 app.Use(async (context, next) => await ControllerExceptionMiddleware.HandleControllerExceptions(context, next));

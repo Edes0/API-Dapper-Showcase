@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 public class RefreshToken
 {
     [Key]
-    [Column("id", TypeName = "CHAR(36)", Order = 1)]
+    [Column("id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
-    [Column("user_id", TypeName = "Char(36)")]
+    [Column("user_id", TypeName = "uniqueidentifier")]
     [Required]
     public Guid UserId { get; private set; }
 

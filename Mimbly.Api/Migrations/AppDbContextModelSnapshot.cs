@@ -51,9 +51,9 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Enitites.RefreshToken", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id")
                         .HasColumnOrder(1);
 
@@ -67,9 +67,8 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("token_set_at");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("Char(36)")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -83,9 +82,9 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Enitites.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id")
                         .HasColumnOrder(1);
 

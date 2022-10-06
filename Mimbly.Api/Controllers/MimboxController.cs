@@ -1,6 +1,6 @@
 namespace Mimbly.Api.Controllers;
 
-using Application.Commands.CreateMimbly;
+using Application.Commands.CreateMimbox;
 using Application.Contracts.RequestDtos;
 using Application.Queries.Mimbly;
 using FollowUp.Api.Controllers;

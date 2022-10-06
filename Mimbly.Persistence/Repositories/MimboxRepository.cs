@@ -8,15 +8,12 @@ using Microsoft.Extensions.Configuration;
 public class MimboxRepository : IMimboxRepository
 {
     private readonly ISqlDataAccess _db;
-
-    private readonly IConfiguration _config;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
 
-    public MimboxRepository(ISqlDataAccess db, IConfiguration config)
+    public MimboxRepository(ISqlDataAccess db)
     {
         _db = db;
-        _config = config;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 

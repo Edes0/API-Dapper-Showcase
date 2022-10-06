@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221006092300_InitialMigration")]
+    [Migration("20221006144033_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,9 +53,9 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Enitites.RefreshToken", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id")
                         .HasColumnOrder(1);
 
@@ -69,9 +69,8 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("token_set_at");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("Char(36)")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
@@ -85,9 +84,9 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Enitites.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id")
                         .HasColumnOrder(1);
 
