@@ -30,7 +30,8 @@ services.AddMediatR(Assembly.GetExecutingAssembly());
 services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mimbly.Api", Version = "v1" }));
 
 // When copying the project make sure to change name of the migration assembly to the correct name.
-services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString")));
+services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"), b => b.MigrationsAssembly("Mimbly.Api")));
+;
 
 // Specify specific cors options here later.
 services.AddCors(options => options.AddPolicy(allowedSpecificOrigins, policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
@@ -70,11 +71,7 @@ if (app.Environment.IsDevelopment())
     using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
     var context = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
     context?.Database.EnsureCreated();
-}
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
 }

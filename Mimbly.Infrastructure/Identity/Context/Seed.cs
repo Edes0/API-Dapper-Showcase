@@ -1,4 +1,4 @@
-namespace Mimbly.Infrastructure.Identity;
+namespace Mimbly.Infrastructure.Identity.Context;
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ public static class Seed
         ///         SEED USER          ///
         //////////////////////////////////
 
-        var MimblyModels = new List<Domain.Models.Mimbly>
+        var MimblyModels = new List<Domain.Enitites.Mimbox>
             {
                 new()
                 {
@@ -32,6 +32,6 @@ public static class Seed
                 }
             };
 
-        modelBuilder.Entity<Domain.Models.Mimbly>().HasData(MimblyModels);
+        modelBuilder.Entity<Domain.Enitites.Mimbox>().HasData(MimblyModels);
     }
 }

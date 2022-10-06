@@ -1,9 +1,8 @@
 namespace Mimbly.Infrastructure.Identity.Context;
 
 using System;
-using Mimbly.Domain.Models;
-using Domain.DomainModels;
 using Microsoft.EntityFrameworkCore;
+using Mimbly.Domain.Enitites;
 
 public class AppDbContext : DbContext
 {
@@ -11,7 +10,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Mimbly> DbSetMimblyModel { get; set; } = null!;
+    public DbSet<Mimbox> DbSetMimblyModel { get; set; } = null!;
     public DbSet<User> DbSetUserModel { get; set; } = null!;
     public DbSet<RefreshToken> DbSetRefreshTokenModel { get; set; } = null!;
 
@@ -25,7 +24,7 @@ public class AppDbContext : DbContext
             Seed.SeedDataBase(modelBuilder);
         }
 
-        Mimbly.Configure(modelBuilder);
+        Mimbox.Configure(modelBuilder);
         User.Configure(modelBuilder);
         RefreshToken.Configure(modelBuilder);
     }

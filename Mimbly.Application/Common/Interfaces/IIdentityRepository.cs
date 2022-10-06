@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Domain.DomainModels;
+using Mimbly.Domain.Enitites;
 
 public interface IIdentityRepository
 {

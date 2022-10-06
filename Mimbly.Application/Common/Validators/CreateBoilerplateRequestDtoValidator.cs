@@ -2,7 +2,7 @@ namespace Mimbly.Application.Common.Validators;
 using Contracts.RequestDtos;
 using FluentValidation;
 
-public class CreateMimblyRequestDtoValidator : AbstractValidator<CreateMimblyRequestDto>
+public class CreateMimblyRequestDtoValidator : AbstractValidator<CreateMimboxRequestDto>
 {
     public CreateMimblyRequestDtoValidator()
     {

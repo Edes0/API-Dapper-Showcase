@@ -10,26 +10,26 @@ using MediatR;
 
 public class GetMimblyByMinAgeHandler : IRequestHandler<GetMimblyByMinAgeQuery, MimblysFilteredByAgeVm>
 {
-    private readonly IMimblyRepository _MimblyRepository;
+    private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
     public GetMimblyByMinAgeHandler(
-        IMimblyRepository MimblyRepository,
+        IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
-        _MimblyRepository = MimblyRepository;
+        _mimboxRepository = mimboxRepository;
         _mapper = mapper;
     }
 
     public async Task<MimblysFilteredByAgeVm> Handle(GetMimblyByMinAgeQuery request, CancellationToken cancellationToken)
     {
-        var Mimblys = await _MimblyRepository.GetMimblysFilteredMinByAge(request.Age);
+        var mimboxes = await _mimboxRepository.GetMimblysFilteredMinByAge(request.Age);
 
-        var MimblyDtos = _mapper.Map<IEnumerable<MimblyDto>>(Mimblys);
+        var mimboxDtos = _mapper.Map<IEnumerable<MimboxDto>>(mimboxes);
 
         return new MimblysFilteredByAgeVm
         {
-            Mimblys = MimblyDtos
+            Mimblys = mimboxDtos
         };
     }
 }

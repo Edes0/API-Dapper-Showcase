@@ -1,4 +1,4 @@
-namespace Mimbly.Domain.DomainModels;
+namespace Mimbly.Domain.Enitites;
 
 using System;
 using System.ComponentModel.DataAnnotations;
