@@ -3,6 +3,7 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Mimbly.Domain.Enitites;
 
 public static class Seed
 {
@@ -14,7 +15,7 @@ public static class Seed
         ///         SEED USER          ///
         //////////////////////////////////
 
-        var MimblyModels = new List<Domain.Enitites.Mimbox>
+        var mimboxEntites = new List<Mimbox>
             {
                 new()
                 {
@@ -32,6 +33,6 @@ public static class Seed
                 }
             };
 
-        modelBuilder.Entity<Domain.Enitites.Mimbox>().HasData(MimblyModels);
+        modelBuilder.Entity<Mimbox>().HasData(mimboxEntites);
     }
 }

@@ -27,7 +27,7 @@ namespace Mimbly.Api.Migrations
                 name: "user",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "CHAR(36)", nullable: false),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     email = table.Column<string>(type: "CHAR(128)", nullable: false),
                     password = table.Column<string>(type: "CHAR(255)", nullable: false),
                     first_name = table.Column<string>(type: "CHAR(128)", nullable: true),
@@ -44,8 +44,8 @@ namespace Mimbly.Api.Migrations
                 name: "refresh_token",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "CHAR(36)", nullable: false),
-                    user_id = table.Column<string>(type: "Char(36)", nullable: false),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     refresh_token = table.Column<string>(type: "Char(255)", nullable: false),
                     token_set_at = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

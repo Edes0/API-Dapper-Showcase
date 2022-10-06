@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Commands.CreateMimbly;
+namespace Mimbly.Application.Commands.CreateMimbox;
 
 using Contracts.RequestDtos;
 using MediatR;
