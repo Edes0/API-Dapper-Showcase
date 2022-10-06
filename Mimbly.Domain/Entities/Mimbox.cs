@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 public class Mimbox
 {
     [Key]
-    [Column("id", TypeName = "CHAR(36)", Order = 1)]
+    [Column("id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
     [Column("first_name", TypeName = "Char(108)")]

@@ -71,11 +71,7 @@ if (app.Environment.IsDevelopment())
     using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
     var context = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
     context?.Database.EnsureCreated();
-}
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
 }

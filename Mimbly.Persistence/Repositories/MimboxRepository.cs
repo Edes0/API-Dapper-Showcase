@@ -1,19 +1,31 @@
 namespace Mimbly.Persistence.Repositories;
+
 using Application.Common.Interfaces;
+using Dapper;
 using Domain.Enitites;
+using Microsoft.Extensions.Configuration;
 
 public class MimboxRepository : IMimboxRepository
 {
     private readonly ISqlDataAccess _db;
 
-    public MimboxRepository(ISqlDataAccess db) => _db = db;
+    private readonly IConfiguration _config;
+    public string ConnectionStringName { get; set; } = "DbConnectionString";
 
-    public async Task<IEnumerable<Mimbox>> GetMimblys()
+
+    public MimboxRepository(ISqlDataAccess db, IConfiguration config)
+    {
+        _db = db;
+        _config = config;
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
+    }
+
+    public async Task<IEnumerable<Mimbox>> GetAllMimboxes()
     {
         var sql =
         @"
             SELECT *
-            FROM Mimbly
+            FROM Mimbox
         ";
 
         return await _db.LoadData<Mimbox, dynamic>(sql, new { });
@@ -24,7 +36,7 @@ public class MimboxRepository : IMimboxRepository
         var sql =
         @"
             SELECT *
-            FROM Mimbly
+            FROM Mimbox
             WHERE age >= @Age
         ";
 

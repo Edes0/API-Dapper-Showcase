@@ -23,13 +23,13 @@ public class GetMimblyByMinAgeHandler : IRequestHandler<GetMimblyByMinAgeQuery, 
 
     public async Task<MimblysFilteredByAgeVm> Handle(GetMimblyByMinAgeQuery request, CancellationToken cancellationToken)
     {
-        var Mimblys = await _mimboxRepository.GetMimblysFilteredMinByAge(request.Age);
+        var mimboxes = await _mimboxRepository.GetMimblysFilteredMinByAge(request.Age);
 
-        var MimblyDtos = _mapper.Map<IEnumerable<MimblyDto>>(Mimblys);
+        var mimboxDtos = _mapper.Map<IEnumerable<MimboxDto>>(mimboxes);
 
         return new MimblysFilteredByAgeVm
         {
-            Mimblys = MimblyDtos
+            Mimblys = mimboxDtos
         };
     }
 }

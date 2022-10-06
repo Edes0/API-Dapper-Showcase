@@ -5,7 +5,7 @@ using global::Mimbly.Application.Contracts.Dtos;
 
 public class MimblysFilteredByAgeVm
 {
-    public IEnumerable<MimblyDto> Mimblys { get; set; }
+    public IEnumerable<MimboxDto> Mimblys { get; set; }
 
-    public MimblysFilteredByAgeVm() => Mimblys = new List<MimblyDto>();
+    public MimblysFilteredByAgeVm() => Mimblys = new List<MimboxDto>();
 }

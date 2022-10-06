@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mimbly.Api.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace Mimbly.Api.Migrations
                 name: "Mimbox",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "CHAR(36)", nullable: false),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     first_name = table.Column<string>(type: "Char(108)", nullable: true),
                     last_name = table.Column<string>(type: "Char(108)", nullable: true),
                     age = table.Column<byte>(type: "TINYINT", nullable: false)
@@ -59,16 +59,6 @@ namespace Mimbly.Api.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Mimbox",
-                columns: new[] { "id", "age", "first_name", "last_name" },
-                values: new object[] { "496e6f57-3059-418c-9470-ce832269d656", (byte)31, "Daniel", "Persson" });
-
-            migrationBuilder.InsertData(
-                table: "Mimbox",
-                columns: new[] { "id", "age", "first_name", "last_name" },
-                values: new object[] { "61854b29-390e-42fe-b418-452db1603801", (byte)33, "Rundberg", "Rundbergsson" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mimbox_age",

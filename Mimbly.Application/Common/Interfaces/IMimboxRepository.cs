@@ -2,9 +2,10 @@ namespace Mimbly.Application.Common.Interfaces;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Mimbly.Domain.Enitites;
 
 public interface IMimboxRepository
 {
-    Task<IEnumerable<Domain.Enitites.Mimbox>> GetMimblys();
-    Task<IEnumerable<Domain.Enitites.Mimbox>> GetMimblysFilteredMinByAge(int age);
+    Task<IEnumerable<Mimbox>> GetAllMimboxes();
+    Task<IEnumerable<Mimbox>> GetMimblysFilteredMinByAge(int age);
 }

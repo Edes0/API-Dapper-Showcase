@@ -48,7 +48,7 @@ public class SqlDataAccess : ISqlDataAccess
                 await connection.ExecuteAsync(sql, transaction);
             }
             transaction.Commit();
-            connection.Close();
+            //connection.Close();
         }
         catch (Exception)
         {

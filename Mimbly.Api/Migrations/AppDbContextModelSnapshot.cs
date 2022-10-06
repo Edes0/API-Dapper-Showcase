@@ -24,9 +24,9 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Enitites.Mimbox", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id")
                         .HasColumnOrder(1);
 
@@ -47,22 +47,6 @@ namespace Mimbly.Api.Migrations
                     b.HasIndex("Age");
 
                     b.ToTable("Mimbox");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "496e6f57-3059-418c-9470-ce832269d656",
-                            Age = (byte)31,
-                            FirstName = "Daniel",
-                            LastName = "Persson"
-                        },
-                        new
-                        {
-                            Id = "61854b29-390e-42fe-b418-452db1603801",
-                            Age = (byte)33,
-                            FirstName = "Rundberg",
-                            LastName = "Rundbergsson"
-                        });
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Enitites.RefreshToken", b =>

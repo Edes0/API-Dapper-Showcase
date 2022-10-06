@@ -2,7 +2,7 @@ namespace Mimbly.Application.Contracts.Dtos;
 
 using System;
 
-public class MimblyDto
+public class MimboxDto
 {
     public Guid Id { get; set; }
 

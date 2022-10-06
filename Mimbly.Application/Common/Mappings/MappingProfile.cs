@@ -5,5 +5,5 @@ using Mimbly.Application.Contracts.Dtos;
 
 public class MappingProfile : Profile
 {
-    public MappingProfile() => CreateMap<Domain.Enitites.Mimbox, MimblyDto>();
+    public MappingProfile() => CreateMap<Domain.Enitites.Mimbox, MimboxDto>();
 }

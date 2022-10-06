@@ -8,9 +8,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mimbly.Application.Queries.Mimbox.GetAll;
 
 [ApiController]
-[Authorize]
+//[Authorize] //TODO: LIsta ur hur man använder authorization
 [Route("api/v1/[controller]")]
 public class MimboxController : BaseController
 {
@@ -18,6 +19,13 @@ public class MimboxController : BaseController
     {
     }
 
+    [HttpGet]
+    public async Task<ActionResult<MimboxesNotFiltered>> GetAllMimboxes()
+    {
+        return Ok(await _mediator.Send(new GetAllMimboxesQuery { }));
+    }
+
+    [Route("byage")]
     [HttpGet]
     public async Task<ActionResult<MimblysFilteredByAgeVm>> FilterMimblysByAge([BindRequired, FromQuery] int age)
     {
