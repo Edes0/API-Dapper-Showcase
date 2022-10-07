@@ -1,5 +1,6 @@
 namespace Mimbly.Application.Common.Interfaces;
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mimbly.Domain.Enitites;
@@ -7,5 +8,8 @@ using Mimbly.Domain.Enitites;
 public interface IMimboxRepository
 {
     Task<IEnumerable<Mimbox>> GetAllMimboxes();
-    Task<IEnumerable<Mimbox>> GetMimblysFilteredMinByAge(int age);
+    Task<IEnumerable<Mimbox>> GetMimboxById(Guid id);
+    Task<IEnumerable<Mimbox>> GetMimboxesFilteredMinByAge(int age);
+    Task CreateMimbox(Mimbox mimbox);
+    Task DeleteMimbox(Guid id);
 }

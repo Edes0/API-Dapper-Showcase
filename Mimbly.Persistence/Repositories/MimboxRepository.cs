@@ -1,9 +1,9 @@
 namespace Mimbly.Persistence.Repositories;
 
+using System;
 using Application.Common.Interfaces;
 using Dapper;
 using Domain.Enitites;
-using Microsoft.Extensions.Configuration;
 
 public class MimboxRepository : IMimboxRepository
 {
@@ -28,7 +28,19 @@ public class MimboxRepository : IMimboxRepository
         return await _db.LoadData<Mimbox, dynamic>(sql, new { });
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimblysFilteredMinByAge(int age)
+    public async Task<IEnumerable<Mimbox>> GetMimboxById(Guid id)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Mimbox
+            WHERE Id = @id
+        ";
+
+        return await _db.LoadData<Mimbox, dynamic>(sql, new { });
+    }
+
+    public async Task<IEnumerable<Mimbox>> GetMimboxesFilteredMinByAge(int age)
     {
         var sql =
         @"
@@ -42,5 +54,30 @@ public class MimboxRepository : IMimboxRepository
             {
                 Age = age
             });
+    }
+
+    public async Task CreateMimbox(Mimbox mimbox)
+    {
+        var sql =
+        @"
+            INSERT INTO Mimbox
+                (id, first_name, last_name, age)
+            VALUES
+                (@Id, @FirstName, @LastName, @Age)
+        ";
+
+        await _db.SaveData(sql, mimbox);
+    }
+
+    public async Task DeleteMimbox(Guid id)
+    {
+        var sql =
+        @"
+            DELETE
+            FROM Mimbox
+            WHERE Id = @id
+        ";
+
+        await _db.SaveData(sql, id);
     }
 }

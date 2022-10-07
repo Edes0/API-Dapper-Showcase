@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Queries.Mimbox.GetAll;
+namespace Mimbly.Application.Queries.Mimbox.GetByAge;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -8,12 +8,12 @@ using global::Mimbly.Application.Common.Interfaces;
 using global::Mimbly.Application.Contracts.Dtos.Mimbox;
 using MediatR;
 
-public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, MimboxesNotFiltered>
+public class GetFilterByAgeMimboxHandler : IRequestHandler<GetFilterByAgeMimboxQuery, MimboxesFilteredByAge>
 {
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
-    public GetAllMimboxesHandler(
+    public GetFilterByAgeMimboxHandler(
         IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
@@ -21,13 +21,13 @@ public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, Mimbox
         _mapper = mapper;
     }
 
-    public async Task<MimboxesNotFiltered> Handle(GetAllMimboxesQuery request, CancellationToken cancellationToken)
+    public async Task<MimboxesFilteredByAge> Handle(GetFilterByAgeMimboxQuery request, CancellationToken cancellationToken)
     {
-        var mimboxes = await _mimboxRepository.GetAllMimboxes();
+        var mimboxes = await _mimboxRepository.GetMimboxesFilteredMinByAge(request.Age);
 
         var mimboxDtos = _mapper.Map<IEnumerable<MimboxDto>>(mimboxes);
 
-        return new MimboxesNotFiltered
+        return new MimboxesFilteredByAge
         {
             Mimboxes = mimboxDtos
         };
