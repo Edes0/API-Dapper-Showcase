@@ -28,19 +28,19 @@ public class MimboxRepository : IMimboxRepository
         return await _db.LoadData<Mimbox, dynamic>(sql, new { });
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimboxById(Guid id)
+    public async Task<IEnumerable<Mimbox>> GetMimboxById(Guid Id) //TODO: Change db, then change this
     {
         var sql =
         @"
             SELECT *
             FROM Mimbox
-            WHERE Id = @id
+            WHERE id = @Id
         ";
 
-        return await _db.LoadData<Mimbox, dynamic>(sql, new { });
+        return await _db.LoadData<Mimbox, dynamic>(sql, new { id = Id });
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimboxesFilteredMinByAge(int age)
+    public async Task<IEnumerable<Mimbox>> GetMimboxesFilteredMinByAge(int Age) //TODO: Change db, then change this
     {
         var sql =
         @"
@@ -49,11 +49,7 @@ public class MimboxRepository : IMimboxRepository
             WHERE age >= @Age
         ";
 
-        return await _db.LoadData<Mimbox, dynamic>(sql,
-            new
-            {
-                Age = age
-            });
+        return await _db.LoadData<Mimbox, dynamic>(sql, new { age = Age });
     }
 
     public async Task CreateMimbox(Mimbox mimbox)
@@ -69,15 +65,15 @@ public class MimboxRepository : IMimboxRepository
         await _db.SaveData(sql, mimbox);
     }
 
-    public async Task DeleteMimbox(Guid id)
+    public async Task DeleteMimbox(Mimbox mimbox)
     {
         var sql =
         @"
             DELETE
             FROM Mimbox
-            WHERE Id = @id
+            WHERE id = @Id
         ";
 
-        await _db.SaveData(sql, id);
+        await _db.SaveData(sql, mimbox);
     }
 }

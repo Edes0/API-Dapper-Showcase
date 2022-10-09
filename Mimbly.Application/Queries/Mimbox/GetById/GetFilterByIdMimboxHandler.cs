@@ -1,13 +1,13 @@
 namespace Mimbly.Application.Queries.Mimbox.GetById;
 
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using global::Mimbly.Application.Common.Interfaces;
 using global::Mimbly.Application.Contracts.Dtos.Mimbox;
-using global::Mimbly.Application.Queries.Mimbox.GetByAge;
-using MediatR;
+using Mimbly.CoreServices.Exceptions;
+using Microsoft.IdentityModel.Tokens;
 
 public class GetFilterByIdMimboxHandler : IRequestHandler<GetFilterByIdMimboxQuery, MimboxFilteredById>
 {
@@ -26,7 +26,9 @@ public class GetFilterByIdMimboxHandler : IRequestHandler<GetFilterByIdMimboxQue
     {
         var mimbox = await _mimboxRepository.GetMimboxById(request.Id);
 
-        var mimboxDto = _mapper.Map<MimboxDto>(mimbox);
+        if (mimbox.IsNullOrEmpty()) throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
+
+        var mimboxDto = _mapper.Map<MimboxDto>(mimbox.First());
 
         return new MimboxFilteredById
         {

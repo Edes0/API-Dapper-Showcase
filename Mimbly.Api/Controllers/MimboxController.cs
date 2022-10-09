@@ -27,6 +27,7 @@ public class MimboxController : BaseController
     }
 
     [Route("ById")]
+    [HttpGet]
     public async Task<ActionResult<MimboxFilteredById>> FilterMimboxesById([BindRequired, FromQuery] Guid id)
     {
         return Ok(await _mediator.Send(new GetFilterByIdMimboxQuery { Id = id }));

@@ -9,7 +9,7 @@ using Mimbly.Application.Common.Interfaces;
 public class SqlDataAccess : ISqlDataAccess
 {
 
-    private readonly IConfiguration _config;
+    private readonly  IConfiguration _config;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
     public SqlDataAccess(IConfiguration config) => _config = config;

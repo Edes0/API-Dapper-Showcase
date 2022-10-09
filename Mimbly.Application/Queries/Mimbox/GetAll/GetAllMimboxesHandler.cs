@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
+using Mimbly.CoreServices.Exceptions;
 using global::Mimbly.Application.Common.Interfaces;
 using global::Mimbly.Application.Contracts.Dtos.Mimbox;
-using MediatR;
+using Microsoft.IdentityModel.Tokens;
 
 public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, MimboxesNotFiltered>
 {
@@ -24,6 +26,8 @@ public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, Mimbox
     public async Task<MimboxesNotFiltered> Handle(GetAllMimboxesQuery request, CancellationToken cancellationToken)
     {
         var mimboxes = await _mimboxRepository.GetAllMimboxes();
+
+        if (mimboxes.IsNullOrEmpty()) throw new NotFoundException("No mimboxes found in database");
 
         var mimboxDtos = _mapper.Map<IEnumerable<MimboxDto>>(mimboxes);
 
