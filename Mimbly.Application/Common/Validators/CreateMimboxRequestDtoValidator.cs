@@ -1,10 +1,11 @@
 namespace Mimbly.Application.Common.Validators;
 using Contracts.RequestDtos;
 using FluentValidation;
+using Mimbly.Application.Contracts.Dtos.Mimbox;
 
-public class CreateMimblyRequestDtoValidator : AbstractValidator<CreateMimboxRequestDto>
+public class CreateMimboxRequestDtoValidator : AbstractValidator<CreateMimboxRequestDto>
 {
-    public CreateMimblyRequestDtoValidator()
+    public CreateMimboxRequestDtoValidator()
     {
         RuleFor(x => x.Age).NotEmpty().WithMessage("Age is required");
         RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required");
