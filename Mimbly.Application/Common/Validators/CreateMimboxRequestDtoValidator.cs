@@ -1,5 +1,4 @@
 namespace Mimbly.Application.Common.Validators;
-using Contracts.RequestDtos;
 using FluentValidation;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 

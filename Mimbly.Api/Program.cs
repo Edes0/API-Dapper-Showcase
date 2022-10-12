@@ -1,27 +1,17 @@
 using System.Reflection;
-using System.Text;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Mimbly.Application.Common.Interfaces.ExternalServices.MailServices;
-using Mimbly.Application.Common.Interfaces;
+using Microsoft.Identity.Web;
 using Mimbly.Application.Common.ServiceOptions;
 using Mimbly.CoreServices.Configurations;
 using Mimbly.CoreServices.Middlewares;
-using Mimbly.Infrastructure.ExternalServices.Interfaces.ExternalServices.MailServices;
-using Mimbly.Infrastructure.ExternalServices.MailServices;
 using Mimbly.Infrastructure.Identity.Context;
-using Mimbly.Infrastructure.Security.Configurations;
-using Mimbly.Infrastructure.Security.Tokens;
-using Mimbly.Infrastructure.Security.Tokens.Interfaces;
-using Mimbly.Persistence.Repositories;
-using Mimbly.Infrastructure.Security.Tokens;
 using Mimbly.Application;
 using Mimbly.Application.Common.Mappings;
 using Mimbly.Api.Extensions;
+using Mimbly.Infrastructure.Security.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,13 +32,8 @@ services.ConfigureDataAccessManager();
 
 // Repositories
 services.ConfigureMimboxRepository();
-services.ConfigureIdentityRepository();
 
 // Services
-services.ConfigureMailService();
-services.ConfigureMailService();
-services.ConfigureInviteUserService();
-services.ConfigureResetPasswordService();
 services.ConfigureCors();
 services.AddControllers();
 services.ConfigureAppDbContext(builder.Configuration);
@@ -61,31 +46,28 @@ services.Configure<MailGunConfig>(builder.Configuration.GetSection("MailGunConfi
 services.Configure<FrontendApplicationConfig>(builder.Configuration.GetSection("FrontendApplicationConfig"));
 services.AddSingleton(provider => provider.GetRequiredService<IOptions<ConnectionStrings>>().Value); //TODO: Ta bort?
 
-var tokenConfig = configurationBuilder.GetSection("TokenConfig");
+// Authentication
+// https://learn.microsoft.com/en-us/azure/active-directory/develop/scenario-protected-web-api-app-configuration
+// https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-web-api?tabs=csharpclient
+
+var azureAd = configurationBuilder.GetSection("AzureAd");
+var azureAdConfig = azureAd.Get<AzureAdConfiguration>();
 
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters
+    .AddMicrosoftIdentityWebApi(azureAd);
+
+Console.WriteLine(azureAdConfig.ClientId);
+
+services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    var existingOnTokenValidatedHandler = options.Events.OnTokenValidated;
+    options.Events.OnTokenValidated = async context =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = tokenConfig.Get<TokenConfig>().Issuer,
-        ValidAudience = tokenConfig.Get<TokenConfig>().Audience,
-        IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig
-                    .Get<TokenConfig>()
-                    .SecretKey))
-    });
-
-// Add secret key to signin configurations.
-var signingConfigurations = new SigningConfigurations(tokenConfig
-    .Get<TokenConfig>()
-    .SecretKey);
-services.AddSingleton(signingConfigurations);
-
-services.Configure<TokenConfig>(tokenConfig);
-services.AddScoped<ITokenHandler, Mimbly.Infrastructure.Security.Tokens.TokenHandler>();
+        await existingOnTokenValidatedHandler(context);
+        options.TokenValidationParameters.ValidAudiences = new[] { azureAdConfig.ClientId };
+        options.TokenValidationParameters.ValidIssuer = azureAdConfig.Issuer;
+    };
+});
 
 var app = builder.Build();
 
@@ -101,8 +83,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
 }
 
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+    app.UseHsts();
+}
+
 app.UseCors("WhatToAdd"); //TODO Add specific origin to cors. also have in config in ServiceExtensions "CorsPolicy"
-app.UseHttpsRedirection();
 app.UseMiddleware(typeof(ExceptionMiddleware));
 app.Use(async (context, next) => await ControllerExceptionMiddleware.HandleControllerExceptions(context, next));
 app.UseAuthentication();
