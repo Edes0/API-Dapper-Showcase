@@ -31,9 +31,9 @@ public class IdentityRepository : IIdentityRepository
         var sql =
         @"
             INSERT INTO [user]
-                (id, email, password, first_name, last_name, created_at, updated_at)
+                (id, email, password, first_name, last_name)
             VALUES
-                (@Id, @Email, @Password, @FirstName, @LastName, @CreatedAt, @UpdatedAt)
+                (@Id, @Email, @Password, @FirstName, @LastName)
         ";
 
         var id = Guid.NewGuid();
@@ -47,9 +47,7 @@ public class IdentityRepository : IIdentityRepository
                 Email = email,
                 Password = password,
                 FirstName = firstName,
-                LastName = lastName,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                LastName = lastName
             });
     }
 
