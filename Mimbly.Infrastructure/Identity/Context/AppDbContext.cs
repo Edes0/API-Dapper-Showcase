@@ -3,6 +3,7 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using Microsoft.EntityFrameworkCore;
 using Mimbly.Domain.Entities;
+using NLog.Filters;
 
 public class AppDbContext : DbContext
 {
@@ -27,5 +28,17 @@ public class AppDbContext : DbContext
         {
             Seed.SeedDataBase(modelBuilder);
         }
+
+        // Building Mimbox enitity
+        modelBuilder.Entity<Mimbox>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.HasOne(x => x.ParentCompany)
+                .WithMany(x => x.ChildCompanies)
+                .HasForeignKey(x => x.ParentId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
     }
 }
