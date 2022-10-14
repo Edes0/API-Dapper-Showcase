@@ -33,25 +33,37 @@ public class Mimbox
     [Column("Mimbox_Location_Id", TypeName = "uniqueidentifier")]
     public Guid? LocationId { get; set; }
 
-    [Column("Parent_Id", TypeName = "uniqueidentifier")]
-    public Guid? ParentId { get; set; }
+    [Column("Company_Id", TypeName = "uniqueidentifier")]
+    public Guid? CompanyId { get; set; }
 
-    public Company ParentCompany { get; set; }
+    public ICollection<MimboxLog>? MimboxLogList { get; } = new List<MimboxLog>();
 
-    public ICollection<Company> ChildCompanies { get; } = new List<Company>();
+    public MimboxStatus Status { get; set; }
 
-    public ICollection<MimboxLog>? MimboxLogs { get; } = new List<MimboxLog>();
+    public MimboxModel Model { get; set; }
 
-    public virtual MimboxStatus Status { get; set; }
-    public virtual MimboxModel Model { get; set; }
+    public Location Location { get; set; }
 
-    public virtual Location? Location { get; set; }
-  
+    public Company Company { get; set; }
 
 
     public Mimbox()
     {
         Id = Guid.NewGuid();
-        MimboxLog log = new("Mimbox created"); //TODO: CHANGE
+        MimboxLog log = new("Mimbox created");
+        MimboxLogList.Add(log);
+    }
+
+    public static void Configure(ModelBuilder modelBuilder)
+    {
+        //var mimbox = modelBuilder.Entity<Mimbox>();
+
+        //mimbox.HasOne(x => x.Model).WithMany(c => c.Mimboxes);
+        //mimbox.HasOne(x => x.Status).WithMany(c => c.Mimboxes);
+        //mimbox.HasOne(x => x.Location).WithMany(c => c.Mimboxes);
+        //mimbox.HasOne(x => x.Company).WithMany(c => c.MimboxList);
+        //mimbox.HasMany(x => x.MimboxLogList).WithOne(c => c.Mimbox);
+        //mimbox.HasF(x => x.)
+        //.OnDelete(DeleteBehavior.SetNull);
     }
 }

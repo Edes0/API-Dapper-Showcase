@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Mimbly.Domain.Entities;
-using NLog.Fluent;
+using Mimbly.Domain.Enums;
 
 public static class Seed
 {
@@ -101,7 +101,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = "Laundry"
+                   Name = ModelType.LaundryRoom
                 }
         };
 
@@ -116,13 +116,13 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = "Broken"
+                   Name = StatusType.Broken
                 },
 
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = "ToBeInstalled"
+                   Name = StatusType.ToBeInstalled
                 }
         };
 

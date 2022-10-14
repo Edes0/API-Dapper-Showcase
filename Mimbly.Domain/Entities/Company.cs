@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Table("Company")]
@@ -12,17 +13,20 @@ public class Company
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
-    [Required]
     [Column("Name", TypeName = "Nvarchar(50)")]
     public string Name { get; set; }
 
     [Column("Parent_Id", TypeName = "uniqueidentifier")]
     public Guid? ParentId { get; set; }
 
-    public List<CompanyContact>? Contacts { get; set; }
+    public Company ParentCompany { get; set; }
 
-    ///Navigation property
-    //public virtual Company? ParentCompany { get; set; }
+    public ICollection<Company> ChildCompanyList { get; } = new List<Company>();
+
+    public ICollection<CompanyContact> ContactList { get; } = new List<CompanyContact>();
+
+    public ICollection<Mimbox> MimboxList { get; } = new List<Mimbox>();
+
 
     public Company(string name)
     {
@@ -32,5 +36,14 @@ public class Company
 
     public Company()
     {
+    }
+
+    public static void Configure(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Company>()
+        .HasOne(x => x.ParentCompany)
+            .WithMany(x => x.ChildCompanyList)
+            .HasForeignKey(x => x.ParentId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

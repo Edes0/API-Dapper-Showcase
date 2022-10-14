@@ -35,11 +35,16 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("Nvarchar(50)")
                         .HasColumnName("Name");
 
+                    b.Property<Guid>("ParentCompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Parent_Id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentCompanyId");
 
                     b.ToTable("Company");
                 });
@@ -102,12 +107,10 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Country");
 
                     b.Property<string>("PostalCode")
-                        .IsRequired()
                         .HasColumnType("Varchar(5)")
                         .HasColumnName("Postal_code");
 
                     b.Property<string>("Region")
-                        .IsRequired()
                         .HasColumnType("Nvarchar(100)")
                         .HasColumnName("Region");
 
@@ -129,11 +132,12 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<double>("Carbon")
+                    b.Property<double>("Co2")
                         .HasColumnType("float")
-                        .HasColumnName("Carbon");
+                        .HasColumnName("Co2");
 
                     b.Property<Guid?>("CompanyId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Company_Id");
 
@@ -142,6 +146,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Economy");
 
                     b.Property<Guid?>("LocationId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Mimbox_Location_Id");
 
@@ -182,9 +187,10 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("Date")
-                        .HasColumnName("Created_At");
+                        .HasColumnName("Created");
 
                     b.Property<string>("Log")
                         .IsRequired()
@@ -233,15 +239,31 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("Nvarchar(50)")
                         .HasColumnName("Name");
 
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("Date")
+                        .HasColumnName("Updated");
+
                     b.HasKey("Id");
 
                     b.ToTable("Mimbox_Status");
                 });
 
+            modelBuilder.Entity("Mimbly.Domain.Entities.Company", b =>
+                {
+                    b.HasOne("Mimbly.Domain.Entities.Company", "ParentCompany")
+                        .WithMany("ChildCompanyList")
+                        .HasForeignKey("ParentCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParentCompany");
+                });
+
             modelBuilder.Entity("Mimbly.Domain.Entities.CompanyContact", b =>
                 {
                     b.HasOne("Mimbly.Domain.Entities.Company", "Company")
-                        .WithMany("Contacts")
+                        .WithMany("ContactList")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -252,21 +274,25 @@ namespace Mimbly.Api.Migrations
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
                     b.HasOne("Mimbly.Domain.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .WithMany("MimboxList")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Mimbly.Domain.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                        .WithMany("Mimboxes")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxModel", "Model")
-                        .WithMany()
+                        .WithMany("Mimboxes")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxStatus", "Status")
-                        .WithMany()
+                        .WithMany("Mimboxes")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -283,7 +309,7 @@ namespace Mimbly.Api.Migrations
             modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLog", b =>
                 {
                     b.HasOne("Mimbly.Domain.Entities.Mimbox", "Mimbox")
-                        .WithMany("MimboxLogs")
+                        .WithMany("MimboxLogList")
                         .HasForeignKey("MimboxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -293,12 +319,31 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Entities.Company", b =>
                 {
-                    b.Navigation("Contacts");
+                    b.Navigation("ChildCompanyList");
+
+                    b.Navigation("ContactList");
+
+                    b.Navigation("MimboxList");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.Location", b =>
+                {
+                    b.Navigation("Mimboxes");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
-                    b.Navigation("MimboxLogs");
+                    b.Navigation("MimboxLogList");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxModel", b =>
+                {
+                    b.Navigation("Mimboxes");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxStatus", b =>
+                {
+                    b.Navigation("Mimboxes");
                 });
 #pragma warning restore 612, 618
         }

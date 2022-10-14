@@ -12,26 +12,22 @@ public class Location
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
-    [Required]
     [Column("Country", TypeName = "Nvarchar(100)")]
     public string Country { get; set; }
 
-    [Required]
     [Column("Region", TypeName = "Nvarchar(100)")]
     public string? Region { get; set; }
 
-    [Required]
     [Column("Postal_code", TypeName = "Varchar(5)")]
     public string? PostalCode { get; set; }
 
-    [Required]
     [Column("City", TypeName = "Nvarchar(100)")]
     public string City { get; set; }
 
-    [Required]
     [Column("Street_Address", TypeName = "Nvarchar(100)")]
     public string StreetAddress { get; set; }
 
+    public virtual ICollection<Mimbox> Mimboxes { get; set; }
 
     public Location(string country, string city, string streetAddress)
     {

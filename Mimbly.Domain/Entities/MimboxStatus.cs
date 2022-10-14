@@ -3,6 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Mimbly.Domain.Enums;
 
 [Table("Mimbox_Status")]
 public class MimboxStatus
@@ -11,12 +12,16 @@ public class MimboxStatus
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; init; }
 
-    [Required]
     [Column("Name", TypeName = "Nvarchar(50)")]
-    public string Name { get; set; }
+    public StatusType Name { get; set; }
+
+    [Column("Updated", TypeName = "Date")]
+    public DateTime Updated { get; set; } = DateTime.Now;
+
+    public virtual ICollection<Mimbox> Mimboxes { get; set; }
 
 
-    public MimboxStatus(string name)
+    public MimboxStatus(StatusType name)
     {
         Id = Guid.NewGuid();
         Name = name;

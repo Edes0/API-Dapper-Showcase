@@ -16,8 +16,8 @@ public class MimboxLog
     public string Log { get; set; }
 
     [Required]
-    [Column("Created_At", TypeName = "Date")]
-    public DateTime CreatedAt { get; set; } = DateTime.Now; //TODO: Change this and make it better, just did this to make it work
+    [Column("Created", TypeName = "Date")]
+    public DateTime Created { get; set; } = DateTime.Now; //TODO: Change this and make it better, just did this to make it work
 
     [Required]
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
