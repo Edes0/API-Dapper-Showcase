@@ -3,7 +3,7 @@ namespace Mimbly.Application.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Mimbly.Domain.Enitites;
+using Mimbly.Domain.Entities;
 
 public interface IMimboxRepository
 {

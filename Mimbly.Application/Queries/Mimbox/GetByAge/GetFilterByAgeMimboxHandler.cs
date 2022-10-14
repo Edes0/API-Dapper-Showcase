@@ -9,7 +9,6 @@ using global::Mimbly.Application.Contracts.Dtos.Mimbox;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using Mimbly.CoreServices.Exceptions;
-using Mimbly.Domain.Enitites;
 
 public class GetFilterByAgeMimboxHandler : IRequestHandler<GetFilterByAgeMimboxQuery, MimboxesFilteredByAge>
 {

@@ -1,34 +1,73 @@
-namespace Mimbly.Domain.Enitites;
+namespace Mimbly.Domain.Entities;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 [Table("Mimbox")]
 public class Mimbox
 {
     [Key]
-    [Column("id", TypeName = "uniqueidentifier", Order = 1)]
+    [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
-    [Column("first_name", TypeName = "Char(108)")]
-    public string? FirstName { get; set; }
+    [Required]
+    [Column("Water", TypeName = "float")]
+    public float Water { get; set; } = 0;
 
-    [Column("last_name", TypeName = "Char(108)")]
-    public string? LastName { get; set; }
+    [Required]
+    [Column("Carbon", TypeName = "float")]
+    public float Carbon { get; set; } = 0;
 
-    [Column("age", TypeName = "TINYINT")]
-    public int Age { get; set; }
+    [Required]
+    [Column("Plastic", TypeName = "float")]
+    public float Plastic { get; set; } = 0;
+
+    [Required]
+    [Column("Economy", TypeName = "float")]
+    public float Economy { get; set; } = 0;
+
+    [Required]
+    [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
+    public Guid StatusId { get; set; }
+
+    [Required]
+    [Column("Mimbox_Model_Id", TypeName = "uniqueidentifier")]
+    public Guid ModelId { get; set; }
+
+    [Column("Mimbox_Location_Id", TypeName = "uniqueidentifier")]
+    public Guid? LocationId { get; set; }
+
+    [Column("Company_Id", TypeName = "uniqueidentifier")]
+    public Guid? CompanyId { get; set; }
+
+
+    //Navigation property
+    public ICollection<MimboxLog>? MimboxLogs { get; set; }
+
+    //[ForeignKey("StatusId")]
+    public virtual MimboxStatus Status { get; set; }
+
+    //[ForeignKey("ModelId")]
+    public virtual MimboxModel Model { get; set; }
+
+    //[ForeignKey("LocationId")]
+    public virtual Location? Location { get; set; }
+
+    //[ForeignKey("CompanyId")]
+    public virtual Company? Company { get; set; }
+
+
+    public Mimbox()
+    {
+        Id = Guid.NewGuid();
+        MimboxLog log = new("Mimbox created"); //TODO: CHANGE
+    }
+
 
     /**
     * Model configurations.
     *
     * @Param {ModelBuilder} modelBuilder - Used for entity configurations in database.
     */
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Mimbox>()
-            .HasIndex(x => x.Age);
-    }
 }
