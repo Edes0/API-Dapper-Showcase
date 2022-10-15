@@ -27,6 +27,7 @@ public class CompanyContact
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid CompanyId { get; set; }
 
+    [ForeignKey("CompanyId")]
     public virtual Company Company { get; set; }
 
 

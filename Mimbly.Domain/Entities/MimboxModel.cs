@@ -12,7 +12,6 @@ public class MimboxModel
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; init; }
 
-    [Required]
     [Column("Name", TypeName = "Nvarchar(50)")]
     public ModelType Name { get; set; }
 

@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221014221339_InitialMigration")]
+    [Migration("20221015214601_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,16 +37,13 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("Nvarchar(50)")
                         .HasColumnName("Name");
 
-                    b.Property<Guid>("ParentCompanyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Parent_Id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCompanyId");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Company");
                 });
@@ -139,7 +136,6 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Co2");
 
                     b.Property<Guid?>("CompanyId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Company_Id");
 
@@ -148,7 +144,6 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Economy");
 
                     b.Property<Guid?>("LocationId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Mimbox_Location_Id");
 
@@ -255,9 +250,7 @@ namespace Mimbly.Api.Migrations
                 {
                     b.HasOne("Mimbly.Domain.Entities.Company", "ParentCompany")
                         .WithMany("ChildCompanyList")
-                        .HasForeignKey("ParentCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("ParentCompany");
                 });
@@ -277,15 +270,11 @@ namespace Mimbly.Api.Migrations
                 {
                     b.HasOne("Mimbly.Domain.Entities.Company", "Company")
                         .WithMany("MimboxList")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("Mimbly.Domain.Entities.Location", "Location")
                         .WithMany("Mimboxes")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxModel", "Model")
                         .WithMany("Mimboxes")

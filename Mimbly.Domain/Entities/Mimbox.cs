@@ -36,15 +36,15 @@ public class Mimbox
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid? CompanyId { get; set; }
 
-    public ICollection<MimboxLog>? MimboxLogList { get; } = new List<MimboxLog>();
+    public ICollection<MimboxLog>? MimboxLogList { get; set; } = new List<MimboxLog>();
 
     public MimboxStatus Status { get; set; }
 
     public MimboxModel Model { get; set; }
 
-    public Location Location { get; set; }
+    public Location? Location { get; set; }
 
-    public Company Company { get; set; }
+    public Company? Company { get; set; }
 
 
     public Mimbox()

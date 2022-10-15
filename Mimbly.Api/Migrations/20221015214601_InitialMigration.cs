@@ -15,18 +15,16 @@ namespace Mimbly.Api.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "Nvarchar(50)", nullable: false),
-                    Parent_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ParentCompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Parent_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Company", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Company_Company_ParentCompanyId",
-                        column: x => x.ParentCompanyId,
+                        name: "FK_Company_Company_Parent_Id",
+                        column: x => x.Parent_Id,
                         principalTable: "Company",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -103,8 +101,8 @@ namespace Mimbly.Api.Migrations
                     Economy = table.Column<double>(type: "float", nullable: false),
                     Mimbox_Status_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Mimbox_Model_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Mimbox_Location_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Company_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Mimbox_Location_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Company_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,14 +111,12 @@ namespace Mimbly.Api.Migrations
                         name: "FK_Mimbox_Company_Company_Id",
                         column: x => x.Company_Id,
                         principalTable: "Company",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Mimbox_Mimbox_Location_Mimbox_Location_Id",
                         column: x => x.Mimbox_Location_Id,
                         principalTable: "Mimbox_Location",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Mimbox_Mimbox_Model_Mimbox_Model_Id",
                         column: x => x.Mimbox_Model_Id,
@@ -156,9 +152,9 @@ namespace Mimbly.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Company_ParentCompanyId",
+                name: "IX_Company_Parent_Id",
                 table: "Company",
-                column: "ParentCompanyId");
+                column: "Parent_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Company_Contact_Company_Id",

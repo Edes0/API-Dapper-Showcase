@@ -129,6 +129,30 @@ public static class Seed
         modelBuilder.Entity<MimboxStatus>().HasData(statusEntites);
 
         //////////////////////////////////
+        ///         SEED LOGS          ///
+        //////////////////////////////////
+
+        var mimboxLogEntites = new List<MimboxLog>
+        {
+                new()
+                {
+                   Id = Guid.NewGuid(),
+                   Log = "This mimxbox is broken"
+                },
+
+                new()
+                {
+                   Id = Guid.NewGuid(),
+                   Log = "This mimbox is yet to be installed"
+                },
+                new()
+                {
+                   Id = Guid.NewGuid(),
+                   Log = "Going to install in next week, lol"
+                }
+        };
+
+        //////////////////////////////////
         ///         SEED MIMBOXES      ///
         //////////////////////////////////
 
@@ -138,7 +162,6 @@ public static class Seed
                 {
                     StatusId = statusEntites[0].Id,
                     ModelId = modelEntites[0].Id,
-                    //MimboxLogs = new() { mimboxLogEntites[0] } //TODO: To add logs by seeding in the future
                 },
 
                 new ()
@@ -147,40 +170,18 @@ public static class Seed
                     StatusId = statusEntites[0].Id,
                     ModelId = modelEntites[0].Id,
                     LocationId = locationEntites[0].Id,
-                    //MimboxLogs = new() { mimboxLogEntites[1], mimboxLogEntites[2] } //TODO: To add logs by seeding in the future
                 }
         };
 
-        modelBuilder.Entity<Mimbox>().HasData(mimboxEntites);
-
-
-        //////////////////////////////////
-        ///         SEED LOGS          ///
-        //////////////////////////////////
-
-        var mimboxLogEntites = new List<MimboxLog>
-        {
-                new()
-                {
-                   Id = Guid.NewGuid(),
-                   Log = "This mimxbox is broken",
-                   MimboxId = mimboxEntites[0].Id
-                },
-
-                new()
-                {
-                   Id = Guid.NewGuid(),
-                   Log = "This mimbox is yet to be installed",
-                   MimboxId = mimboxEntites[1].Id
-                },
-                new()
-                {
-                   Id = Guid.NewGuid(),
-                   Log = "Going to install in next week, lol",
-                   MimboxId = mimboxEntites[1].Id
-                }
-        };
+        // Adding MimboxId to logs
+        mimboxLogEntites[0].MimboxId = mimboxEntites[0].Id;
+        mimboxLogEntites[1].MimboxId = mimboxEntites[1].Id;
+        mimboxLogEntites[1].MimboxId = mimboxEntites[1].Id;
 
         modelBuilder.Entity<MimboxLog>().HasData(mimboxLogEntites);
+        modelBuilder.Entity<Mimbox>().HasData(mimboxEntites);
+
+        modelBuilder.Entity<Mimbox>().OwnsOne(x => x.MimboxLogList).HasData(mimboxLogEntites);
+        
     }
 }
