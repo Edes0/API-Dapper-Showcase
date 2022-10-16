@@ -3,7 +3,6 @@ namespace Mimbly.Domain.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 [Table("Mimbox")]
 public class Mimbox
@@ -36,7 +35,7 @@ public class Mimbox
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid? CompanyId { get; set; }
 
-    public ICollection<MimboxLog>? MimboxLogList { get; set; } = new List<MimboxLog>();
+    public ICollection<MimboxLog> MimboxLogList { get; set; } = new List<MimboxLog>();
 
     public MimboxStatus Status { get; set; }
 
@@ -50,20 +49,5 @@ public class Mimbox
     public Mimbox()
     {
         Id = Guid.NewGuid();
-        MimboxLog log = new("Mimbox created");
-        MimboxLogList.Add(log);
-    }
-
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        //var mimbox = modelBuilder.Entity<Mimbox>();
-
-        //mimbox.HasOne(x => x.Model).WithMany(c => c.Mimboxes);
-        //mimbox.HasOne(x => x.Status).WithMany(c => c.Mimboxes);
-        //mimbox.HasOne(x => x.Location).WithMany(c => c.Mimboxes);
-        //mimbox.HasOne(x => x.Company).WithMany(c => c.MimboxList);
-        //mimbox.HasMany(x => x.MimboxLogList).WithOne(c => c.Mimbox);
-        //mimbox.HasF(x => x.)
-        //.OnDelete(DeleteBehavior.SetNull);
     }
 }

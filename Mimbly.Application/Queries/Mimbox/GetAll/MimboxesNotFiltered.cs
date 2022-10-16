@@ -1,7 +1,7 @@
 namespace Mimbly.Application.Queries.Mimbox.GetAll;
 
 using System.Collections.Generic;
-using global::Mimbly.Application.Contracts.Dtos.Mimbox;
+using Mimbly.Application.Contracts.Dtos.Mimbox;
 
 public class MimboxesNotFiltered
 {

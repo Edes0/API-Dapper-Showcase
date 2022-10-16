@@ -1,6 +1,6 @@
 namespace Mimbly.Application.Queries.Mimbox.GetById;
 
-using global::Mimbly.Application.Contracts.Dtos.Mimbox;
+using Mimbly.Application.Contracts.Dtos.Mimbox;
 
 public class MimboxFilteredById
 {

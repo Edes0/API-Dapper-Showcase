@@ -37,8 +37,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Status).WithMany(c => c.Mimboxes));
         modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Location).WithMany(c => c.Mimboxes));
         modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Company).WithMany(c => c.MimboxList));
-        modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasMany(x => x.MimboxLogList).WithOne(c => c.Mimbox));
-
+        //modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasMany(x => x.MimboxLogList).WithOne(c => c.Mimbox));
 
         // Building MimboxLog property settings
         modelBuilder.Entity<MimboxLog>(entity => entity.Property(x => x.Created)
