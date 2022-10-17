@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Queries.Company.GetById;
+namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,12 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 
-public class GetFilterByIdCompanyHandler : IRequestHandler<GetFilterByIdCompanyQuery, CompanyFilteredById>
+public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterWithChildrenByIdCompanyQuery, CompanyWithChildrenFilteredById>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
 
-    public GetFilterByIdCompanyHandler(
+    public GetFilterWithAllDataByIdCompanyHandler(
         ICompanyRepository companyRepository,
         IMapper mapper)
     {
@@ -22,18 +22,18 @@ public class GetFilterByIdCompanyHandler : IRequestHandler<GetFilterByIdCompanyQ
         _mapper = mapper;
     }
 
-    public async Task<CompanyFilteredById> Handle(GetFilterByIdCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<CompanyWithChildrenFilteredById> Handle(GetFilterWithChildrenByIdCompanyQuery request, CancellationToken cancellationToken)
     {
-        var company = await _companyRepository.GetCompanyById(request.Id);
+        var company = await _companyRepository.GetCompanyWithChildrenById(request.Id);
 
         if (company.IsNullOrEmpty())
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDto = _mapper.Map<CompanyDto>(company.First());
+        var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(company.First());
 
-        return new CompanyFilteredById
+        return new CompanyWithChildrenFilteredById
         {
-            Company = companyDto
+            Companies = companyDtos
         };
     }
 }

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Commands.Mimbox.DeleteMimbox;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.Application.Queries.Mimbox.GetAll;
-using Mimbly.Application.Queries.Mimbox.GetByAge;
 using Mimbly.Application.Queries.Mimbox.GetById;
 
 [ApiController]
@@ -33,13 +32,6 @@ public class MimboxController : BaseController
         return Ok(await _mediator.Send(new GetFilterByIdMimboxQuery { Id = id }));
     }
 
-    [Route("ByAge")]
-    [HttpGet]
-    public async Task<ActionResult<MimboxesFilteredByAge>> FilterMimboxesByAge([BindRequired, FromQuery] int age)
-    {
-        return Ok(await _mediator.Send(new GetFilterByAgeMimboxQuery { Age = age }));
-    }
-
     [HttpPost]
     public async Task<ActionResult> CreateMimbox([FromBody] CreateMimboxRequestDto createMimboxRequestDto)
     {
@@ -54,5 +46,5 @@ public class MimboxController : BaseController
         await _mediator.Send(new DeleteMimboxCommand { Id = id });
 
         return Ok("Mimbox removed successfully");
-}
+    }
 }

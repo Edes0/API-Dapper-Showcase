@@ -1,6 +1,6 @@
 namespace Mimbly.Application.Queries.Company.GetById;
 
-using global::Mimbly.Application.Contracts.Dtos.Company;
+using Mimbly.Application.Contracts.Dtos.Company;
 
 public class CompanyFilteredById
 {
