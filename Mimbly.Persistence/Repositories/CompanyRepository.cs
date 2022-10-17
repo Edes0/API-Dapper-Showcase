@@ -43,17 +43,19 @@ public class CompanyRepository : ICompanyRepository
     {
         var sql =
         @"
-   WITH Children AS
-(
-    SELECT *
-        FROM Company WHERE Parent_Id = @id
-    UNION ALL
-    SELECT Company.* FROM Company  JOIN Children  ON Company.Parent_Id = Children.Id
-)
-SELECT*
-    FROM Children
+             WITH Children AS
+            (
+            SELECT *
+            FROM Company WHERE Parent_Id = @id OR Id = @id
 
-OPTION(MAXRECURSION 32767)
+            UNION ALL
+
+            SELECT Company.* FROM Company  JOIN Children ON Company.Parent_Id = Children.Id
+            )
+            SELECT DISTINCT *
+            FROM Children
+
+            OPTION(MAXRECURSION 32767)
         ";
 
         return await _db.LoadData<Company, dynamic>(sql, new { });

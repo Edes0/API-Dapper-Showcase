@@ -24,12 +24,11 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
 
     public async Task<CompanyWithChildrenFilteredById> Handle(GetFilterWithChildrenByIdCompanyQuery request, CancellationToken cancellationToken)
     {
-        var company = await _companyRepository.GetCompanyWithChildrenById(request.Id);
+        var companies = await _companyRepository.GetCompanyWithChildrenById(request.Id);
 
-        if (company.IsNullOrEmpty())
-            throw new NotFoundException($"Can't find company with id: {request.Id}");
+        if (companies.IsNullOrEmpty()) throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(company.First());
+        var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
         return new CompanyWithChildrenFilteredById
         {

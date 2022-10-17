@@ -19,6 +19,7 @@ public class Company
     [Column("Parent_Id", TypeName = "uniqueidentifier")]
     public Guid? ParentId { get; set; }
 
+    //Navigation property
     [ForeignKey("ParentId")]
     public Company ParentCompany { get; set; }
 
