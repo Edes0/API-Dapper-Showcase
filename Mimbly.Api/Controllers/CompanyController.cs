@@ -30,7 +30,7 @@ public class CompanyController : BaseController
         return Ok(await _mediator.Send(new GetFilterByIdCompanyQuery { Id = id }));
     }
 
-    [Route("WithAllDataById")]
+    [Route("WithChildren")]
     [HttpGet]
     public async Task<ActionResult<CompanyFilteredById>> CompanyWithChildrenById([BindRequired, FromQuery] Guid id)
     {

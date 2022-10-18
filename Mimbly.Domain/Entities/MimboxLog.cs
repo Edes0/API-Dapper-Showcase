@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Table("Mimbox_Log")]
@@ -20,8 +21,7 @@ public class MimboxLog
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
 
-    //Navigation property
-
+    // Navigation property
     [ForeignKey("MimboxId")]
     public virtual Mimbox Mimbox { get; set; }
 
@@ -34,5 +34,12 @@ public class MimboxLog
 
     public MimboxLog()
     {
+    }
+
+    public static void Configure(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<MimboxLog>(entity => entity
+        .Property(x => x.Created)
+        .ValueGeneratedOnAdd());
     }
 }

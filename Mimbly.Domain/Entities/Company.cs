@@ -19,14 +19,15 @@ public class Company
     [Column("Parent_Id", TypeName = "uniqueidentifier")]
     public Guid? ParentId { get; set; }
 
-    [ForeignKey("ParentId")]
-    public Company ParentCompany { get; set; }
-
     public ICollection<Company> ChildCompanyList { get; } = new List<Company>();
 
     public ICollection<CompanyContact> ContactList { get; } = new List<CompanyContact>();
 
     public ICollection<Mimbox> MimboxList { get; } = new List<Mimbox>();
+
+    // Navigation property
+    [ForeignKey("ParentId")]
+    public virtual Company ParentCompany { get; set; }
 
 
     public Company(string name)

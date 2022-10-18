@@ -15,6 +15,7 @@ public class MimboxModel
     [Column("Name", TypeName = "Nvarchar(50)")]
     public ModelType Name { get; set; }
 
+    // Navigation property
     public virtual ICollection<Mimbox> Mimboxes { get; set; }
 
 

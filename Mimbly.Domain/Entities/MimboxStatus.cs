@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Mimbly.Domain.Enums;
 
@@ -18,6 +19,7 @@ public class MimboxStatus
     [Column("Updated", TypeName = "Date")]
     public DateTime Updated { get; set; } = DateTime.Now;
 
+    // Navigation property
     public virtual ICollection<Mimbox> Mimboxes { get; set; }
 
 
@@ -29,5 +31,10 @@ public class MimboxStatus
 
     public MimboxStatus()
     {
+    }
+    public static void Configure(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<MimboxStatus>(entity => entity.Property(x => x.Updated)
+            .ValueGeneratedOnUpdate());
     }
 }

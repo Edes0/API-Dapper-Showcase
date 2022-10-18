@@ -43,7 +43,8 @@ public class Mimbox
 
     public Location? Location { get; set; }
 
-    public Company? Company { get; set; }
+    //Navigation property
+    public virtual Company? Company { get; set; }
 
 
     public Mimbox()

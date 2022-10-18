@@ -27,7 +27,9 @@ public class Location
     [Column("Street_Address", TypeName = "Nvarchar(100)")]
     public string StreetAddress { get; set; }
 
+    // Navigation property
     public virtual ICollection<Mimbox> Mimboxes { get; set; }
+
 
     public Location(string country, string city, string streetAddress)
     {
