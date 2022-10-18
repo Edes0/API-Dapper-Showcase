@@ -25,11 +25,30 @@ public static class Seed
                 {
                    Id = Guid.NewGuid(),
                    Name = "Volvo Ab"
+                },
+                new ()
+                {
+                   Id = Guid.NewGuid(),
+                   Name = "Saab Ab"
+                },
+                new ()
+                {
+                   Id = Guid.NewGuid(),
+                   Name = "Snickar Ab"
+                },
+                new ()
+                {
+                   Id = Guid.NewGuid(),
+                   Name = "Pampers Ab"
                 }
         };
 
         //Setting ParentId for Städ AB.
-        companyEntites[0].ParentId = companyEntites[1].Id;
+
+        for (int i = 0, u = 1; i < companyEntites.Count - 1; i++, u++)
+        {
+            companyEntites[i].ParentId = companyEntites[u].Id;
+        }
 
         modelBuilder.Entity<Company>().HasData(companyEntites);
 

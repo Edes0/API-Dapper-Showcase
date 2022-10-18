@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Queries.Company.GetAll;
 using Mimbly.Application.Queries.Company.GetById;
+using Mimbly.Application.Queries.Company.GetWithAllDataById;
 
 [ApiController]
 //[Authorize] //TODO: LIsta ur hur man använder authorization
@@ -27,6 +28,13 @@ public class CompanyController : BaseController
     public async Task<ActionResult<CompanyFilteredById>> FilterComapniesById([BindRequired, FromQuery] Guid id)
     {
         return Ok(await _mediator.Send(new GetFilterByIdCompanyQuery { Id = id }));
+    }
+
+    [Route("WithChildren")]
+    [HttpGet]
+    public async Task<ActionResult<CompanyFilteredById>> CompanyWithChildrenById([BindRequired, FromQuery] Guid id)
+    {
+        return Ok(await _mediator.Send(new GetFilterWithChildrenByIdCompanyQuery { Id = id }));
     }
 
     //    [HttpPost]

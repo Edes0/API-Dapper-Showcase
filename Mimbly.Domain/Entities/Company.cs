@@ -28,6 +28,10 @@ public class Company
 
     public ICollection<Mimbox> MimboxList { get; } = new List<Mimbox>();
 
+    // Navigation property
+    [ForeignKey("ParentId")]
+    public virtual Company ParentCompany { get; set; }
+
 
     public Company(string name)
     {

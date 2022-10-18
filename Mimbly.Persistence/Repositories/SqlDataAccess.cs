@@ -1,6 +1,4 @@
 ﻿namespace Mimbly.Persistence.Repositories;
-
-using System.Data;
 using System.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +7,7 @@ using Mimbly.Application.Common.Interfaces;
 public class SqlDataAccess : ISqlDataAccess
 {
 
-    private readonly  IConfiguration _config;
+    private readonly IConfiguration _config;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
     public SqlDataAccess(IConfiguration config) => _config = config;
@@ -19,7 +17,7 @@ public class SqlDataAccess : ISqlDataAccess
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
 
-        using IDbConnection connection = new SqlConnection(connectionString);
+        await using var connection = new SqlConnection(connectionString);
         var data = await connection.QueryAsync<T>(sql, parameters);
 
         return data.ToList();
@@ -29,48 +27,23 @@ public class SqlDataAccess : ISqlDataAccess
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
 
-        using IDbConnection connection = new SqlConnection(connectionString);
+        await using var connection = new SqlConnection(connectionString);
         await connection.ExecuteAsync(sql, parameters);
     }
 
     public async Task Transaction(params string[] sqlArray)
     {
-        try
+        var connectionString = _config.GetConnectionString(ConnectionStringName);
+
+        await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync();
+        var transaction = await connection.BeginTransactionAsync();
+
+        foreach (var sql in sqlArray)
         {
-            var connectionString = _config.GetConnectionString(ConnectionStringName);
-
-            using IDbConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            var transaction = connection.BeginTransaction();
-
-            foreach (var sql in sqlArray)
-            {
-                await connection.ExecuteAsync(sql, transaction);
-            }
-            transaction.Commit();
-            //connection.Close();
+            await connection.ExecuteAsync(sql, transaction);
         }
-        catch (Exception)
-        {
-            throw new NotImplementedException(); //TODO: FIX: TransactionFailedException();
-        }
-    }
-
-    public async Task SaveDataQuery(string sql) //TODO: Remove this before prod
-    {
-        string ConnectionString = _config.GetConnectionString(ConnectionStringName);
-
-        using IDbConnection connection = new SqlConnection(ConnectionString);
-        await connection.QueryAsync(sql);
-    }
-
-    public async Task<T> LoadOneObject<T, U>(string sql, U parameter) //TODO: Remove this before prod
-    {
-        string ConnectionString = _config.GetConnectionString(ConnectionStringName);
-
-        using IDbConnection connection = new SqlConnection(ConnectionString);
-        var data = await connection.QueryAsync<T>(sql, parameter);
-
-        return data.FirstOrDefault();
+        await transaction.CommitAsync();
+        //connection.Close();
     }
 }

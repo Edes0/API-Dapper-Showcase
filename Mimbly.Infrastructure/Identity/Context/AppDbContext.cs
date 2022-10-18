@@ -29,22 +29,8 @@ public class AppDbContext : DbContext
             Seed.SeedDataBase(modelBuilder);
         }
 
-        // Building Company enitity relationships
-        modelBuilder.Entity<Company>(company => company.HasMany(x => x.ContactList).WithOne(c => c.Company));
-
-        // Building Mimbox enitity relationships
-        modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Model).WithMany(c => c.Mimboxes));
-        modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Status).WithMany(c => c.Mimboxes));
-        modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Location).WithMany(c => c.Mimboxes));
-        modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasOne(x => x.Company).WithMany(c => c.MimboxList));
-        //modelBuilder.Entity<Mimbox>(mimbox => mimbox.HasMany(x => x.MimboxLogList).WithOne(c => c.Mimbox));
-
-        // Building MimboxLog property settings
-        modelBuilder.Entity<MimboxLog>(entity => entity.Property(x => x.Created)
-            .ValueGeneratedOnAdd());
-
-        // Building MimboxStatus property settings
-        modelBuilder.Entity<MimboxStatus>(entity => entity.Property(x => x.Updated)
-            .ValueGeneratedOnUpdate());
+        // Configure entities
+        MimboxLog.Configure(modelBuilder);
+        MimboxStatus.Configure(modelBuilder);
     }
 }

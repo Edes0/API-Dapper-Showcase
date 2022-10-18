@@ -9,7 +9,6 @@ public interface IMimboxRepository
 {
     Task<IEnumerable<Mimbox>> GetAllMimboxes();
     Task<IEnumerable<Mimbox>> GetMimboxById(Guid id);
-    Task<IEnumerable<Mimbox>> GetMimboxesFilteredMinByAge(int age);
     Task CreateMimbox(Mimbox mimbox);
     Task DeleteMimbox(Mimbox mimbox);
 }

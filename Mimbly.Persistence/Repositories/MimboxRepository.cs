@@ -28,28 +28,16 @@ public class MimboxRepository : IMimboxRepository
         return await _db.LoadData<Mimbox, dynamic>(sql, new { });
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimboxById(Guid Id)
+    public async Task<IEnumerable<Mimbox>> GetMimboxById(Guid id)
     {
         var sql =
         @"
             SELECT *
             FROM Mimbox
-            WHERE id = @Id
+            WHERE Id = @id
         ";
 
-        return await _db.LoadData<Mimbox, dynamic>(sql, new { id = Id });
-    }
-
-    public async Task<IEnumerable<Mimbox>> GetMimboxesFilteredMinByAge(int Age)
-    {
-        var sql =
-        @"
-            SELECT *
-            FROM Mimbox
-            WHERE age >= @Age
-        ";
-
-        return await _db.LoadData<Mimbox, dynamic>(sql, new { age = Age });
+        return await _db.LoadData<Mimbox, dynamic>(sql, new { Id = id });
     }
 
     public async Task CreateMimbox(Mimbox mimbox)
@@ -71,7 +59,7 @@ public class MimboxRepository : IMimboxRepository
         @"
             DELETE
             FROM Mimbox
-            WHERE id = @Id
+            WHERE Id = @Id
         ";
 
         await _db.SaveData(sql, mimbox);
