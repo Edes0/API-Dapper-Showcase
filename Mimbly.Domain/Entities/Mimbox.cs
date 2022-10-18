@@ -44,6 +44,7 @@ public class Mimbox
     public Location? Location { get; set; }
 
     //Navigation property
+    [ForeignKey("CompanyId")]
     public virtual Company? Company { get; set; }
 
 
