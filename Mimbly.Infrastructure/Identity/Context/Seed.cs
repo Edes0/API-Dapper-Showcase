@@ -156,7 +156,7 @@ public static class Seed
                 new()
                 {
                     StatusId = statusEntites[0].Id,
-                    ModelId = modelEntites[0].Id,
+                    ModelId = modelEntites[0].Id
                 },
 
                 new ()
@@ -164,7 +164,23 @@ public static class Seed
                     CompanyId = companyEntites[0].Id,
                     StatusId = statusEntites[0].Id,
                     ModelId = modelEntites[0].Id,
-                    LocationId = locationEntites[0].Id,
+                    LocationId = locationEntites[0].Id
+                },
+
+                new ()
+                {
+                    CompanyId = companyEntites[0].Id,
+                    StatusId = statusEntites[0].Id,
+                    ModelId = modelEntites[0].Id,
+                    LocationId = locationEntites[0].Id
+                },
+
+                new ()
+                {
+                    CompanyId = companyEntites[0].Id,
+                    StatusId = statusEntites[1].Id,
+                    ModelId = modelEntites[0].Id,
+                    LocationId = locationEntites[1].Id
                 }
         };
 

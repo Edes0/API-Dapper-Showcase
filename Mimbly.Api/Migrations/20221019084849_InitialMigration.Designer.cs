@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221019065253_InitialMigration")]
+    [Migration("20221019084849_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
