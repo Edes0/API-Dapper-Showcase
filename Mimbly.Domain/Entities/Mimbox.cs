@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Mimbox
 {
     [Key] //TODO: Check if needed
-    [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
+    [Column("Id", TypeName = "uniqueidentifier", Order = 1)] //Create observers for properties so that logs can be updated everytime something change
     public Guid Id { get; set; }
 
     [Column("Water", TypeName = "float")]
@@ -24,7 +24,7 @@ public class Mimbox
     public float Economy { get; set; } = 0;
 
     [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
-    public Guid StatusId { get; set; }
+    public Guid StatusId { get; set; } //TODO: Create observer. Create new log when status change.
 
     [Column("Mimbox_Model_Id", TypeName = "uniqueidentifier")]
     public Guid ModelId { get; set; }

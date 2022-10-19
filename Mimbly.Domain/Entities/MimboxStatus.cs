@@ -16,9 +16,6 @@ public class MimboxStatus
     [Column("Name", TypeName = "Nvarchar(50)")]
     public StatusType Name { get; set; }
 
-    [Column("Updated", TypeName = "Date")]
-    public DateTime Updated { get; set; } = DateTime.Now;
-
     // Navigation property
     public virtual ICollection<Mimbox> Mimboxes { get; set; }
 
