@@ -10,7 +10,7 @@
   },
   "profiles": {
     "Mimbly.Api": {
-      "commandName": "Project",
+      "commandName": "Project",https://localhost:64275/
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",

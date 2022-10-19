@@ -3,7 +3,7 @@ namespace Mimbly.Application.Commands.Mimbox.CreateMimbox;
 using AutoMapper;
 using Common.Interfaces;
 using MediatR;
-using Mimbly.Domain.Enitites;
+using Mimbly.Domain.Entities;
 
 public class CreateMimblyCommandHandler : IRequestHandler<CreateMimboxCommand>
 {

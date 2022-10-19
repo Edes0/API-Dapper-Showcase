@@ -18,8 +18,11 @@ public static class ServiceExtensions
     public static void ConfigureDataAccessManager(this IServiceCollection services) =>
           services.AddScoped<ISqlDataAccess, SqlDataAccess>();
 
-    public static void ConfigureRepositories(this IServiceCollection services) =>
-          services.AddScoped<IMimboxRepository, MimboxRepository>();
+    public static void ConfigureRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IMimboxRepository, MimboxRepository>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
+    }
 
     public static void ConfigureCors(this IServiceCollection services) => //TODO: Add allowed SpecificOrigins?
     services.AddCors(opts => opts.AddPolicy("CorsPolicy", builder =>

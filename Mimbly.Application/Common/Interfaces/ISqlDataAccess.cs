@@ -10,6 +10,4 @@ public interface ISqlDataAccess
     Task<IEnumerable<T>> LoadData<T, U>(string sql, U parameters);
     Task SaveData<T>(string sql, T parameters);
     Task Transaction(params string[] sqlArray);
-    Task SaveDataQuery(string sql);
-    Task<T> LoadOneObject<T, U>(string sql, U parameter);
 }

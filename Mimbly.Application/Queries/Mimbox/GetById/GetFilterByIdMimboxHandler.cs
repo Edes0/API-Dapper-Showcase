@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using global::Mimbly.Application.Common.Interfaces;
-using global::Mimbly.Application.Contracts.Dtos.Mimbox;
+using Mimbly.Application.Common.Interfaces;
+using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.CoreServices.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 

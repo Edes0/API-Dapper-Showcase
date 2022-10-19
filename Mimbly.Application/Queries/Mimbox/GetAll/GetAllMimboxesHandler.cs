@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Mimbly.CoreServices.Exceptions;
-using global::Mimbly.Application.Common.Interfaces;
-using global::Mimbly.Application.Contracts.Dtos.Mimbox;
+using Mimbly.Application.Common.Interfaces;
+using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Microsoft.IdentityModel.Tokens;
 
 public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, MimboxesNotFiltered>
