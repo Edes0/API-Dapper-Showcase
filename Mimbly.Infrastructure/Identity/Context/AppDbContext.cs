@@ -30,6 +30,6 @@ public class AppDbContext : DbContext
         }
 
         // Configure entities
-        MimboxStatus.Configure(modelBuilder);
+        MimboxLog.Configure(modelBuilder);
     }
 }

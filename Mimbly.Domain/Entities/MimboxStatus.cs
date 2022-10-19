@@ -29,10 +29,4 @@ public class MimboxStatus
     public MimboxStatus()
     {
     }
-
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<MimboxStatus>(entity => entity.Property(x => x.Updated)
-            .ValueGeneratedOnUpdate());
-    }
 }
