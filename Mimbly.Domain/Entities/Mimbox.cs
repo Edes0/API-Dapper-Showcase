@@ -1,34 +1,55 @@
-namespace Mimbly.Domain.Enitites;
+namespace Mimbly.Domain.Entities;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 [Table("Mimbox")]
 public class Mimbox
 {
-    [Key]
-    [Column("id", TypeName = "uniqueidentifier", Order = 1)]
+    [Key] //TODO: Check if needed
+    [Column("Id", TypeName = "uniqueidentifier", Order = 1)] //Create observers for properties so that logs can be updated everytime something change
     public Guid Id { get; set; }
 
-    [Column("first_name", TypeName = "Char(108)")]
-    public string? FirstName { get; set; }
+    [Column("Water", TypeName = "float")]
+    public float Water { get; set; } = 0;
 
-    [Column("last_name", TypeName = "Char(108)")]
-    public string? LastName { get; set; }
+    [Column("Co2", TypeName = "float")]
+    public float Co2 { get; set; } = 0;
 
-    [Column("age", TypeName = "TINYINT")]
-    public int Age { get; set; }
+    [Column("Plastic", TypeName = "float")]
+    public float Plastic { get; set; } = 0;
 
-    /**
-    * Model configurations.
-    *
-    * @Param {ModelBuilder} modelBuilder - Used for entity configurations in database.
-    */
-    public static void Configure(ModelBuilder modelBuilder)
+    [Column("Economy", TypeName = "float")]
+    public float Economy { get; set; } = 0;
+
+    [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
+    public Guid StatusId { get; set; } //TODO: Create observer. Create new log when status change.
+
+    [Column("Mimbox_Model_Id", TypeName = "uniqueidentifier")]
+    public Guid ModelId { get; set; }
+
+    [Column("Mimbox_Location_Id", TypeName = "uniqueidentifier")]
+    public Guid? LocationId { get; set; }
+
+    [Column("Company_Id", TypeName = "uniqueidentifier")]
+    public Guid? CompanyId { get; set; }
+
+    public ICollection<MimboxLog> MimboxLogList { get; set; } = new List<MimboxLog>();
+
+    public MimboxStatus Status { get; set; }
+
+    public MimboxModel Model { get; set; }
+
+    public Location? Location { get; set; }
+
+    //Navigation property
+    [ForeignKey("CompanyId")]
+    public virtual Company? Company { get; set; }
+
+
+    public Mimbox()
     {
-        modelBuilder.Entity<Mimbox>()
-            .HasIndex(x => x.Age);
+        Id = Guid.NewGuid();
     }
 }
