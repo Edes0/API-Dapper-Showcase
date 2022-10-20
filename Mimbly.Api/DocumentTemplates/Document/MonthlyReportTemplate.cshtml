@@ -1,0 +1,51 @@
+﻿@model Mimbly.Domain.DocumentModels.ReportModel
+
+<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>@Model.Month Report for @Model.Company.Name</title>
+  
+   <style>
+   h1, h2, h3, h4, b {
+       font-family: Montserrat;
+   }
+   .report-box {
+       max-width: 800px;
+       padding: 30px;
+       font-size: 16px;
+       line-height: 24px;
+       font-family: 'Source Serif 4 SmText';
+       color: #555;
+       background-color: #edf1f7;
+       min-height: 100vh;
+   }
+  
+   .report-box header {
+       display: flex;
+       flex-direction: row;
+       justify-content: space-between;
+   }
+   </style>
+</head>
+
+<body>
+   <div class="report-box">
+       <header>
+           <img src="https://images.squarespace-cdn.com/content/v1/622ee2acbd4eda175bef683f/73a0070e-1eec-4ad0-afdc-1959d5e06fb3/Group.png?format=2500w" style="max-height: 40px;">
+           <span>
+               <b>Report #</b> @Model.Company.Id<br>
+               <b>Created</b> @Model.Created<br>
+           </span>
+       </header>
+
+       <div class="content-box">
+           <h1>Månadsrapport för @Model.Company.Name</h1>
+       </div>
+
+       <footer>
+           <h3>Kontakt</h3>
+       </footer>
+   </div>
+</body>
+</html>

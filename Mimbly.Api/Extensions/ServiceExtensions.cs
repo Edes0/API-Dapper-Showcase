@@ -2,6 +2,7 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -9,6 +10,7 @@ using Mimbly.Application;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Common.Mappings;
 using Mimbly.CoreServices.Logger;
+using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using NLog;
@@ -54,6 +56,7 @@ public static class ServiceExtensions
     {
 
         var azureAd = configurationBuilder.GetSection("AzureAd");
+        Console.WriteLine("AZUREAD OBJECT SHOULD BE HERE ->>>" + azureAd.ToString());
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddMicrosoftIdentityWebApi(azureAd);
@@ -75,5 +78,13 @@ public static class ServiceExtensions
 
         // https://learn.microsoft.com/en-us/azure/active-directory/develop/scenario-protected-web-api-app-configuration
         // https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-web-api?tabs=csharpclient
+    }
+
+    public static void ConfigurePuppeteer(this IServiceCollection services, IWebHostEnvironment environment)
+    {
+        services.AddControllersWithViews();
+        services.AddScoped<ITemplateService, ViewTemplateService>();
+        services.PreparePuppeteerAsync(environment).GetAwaiter().GetResult();
+        services.Configure<RazorViewEngineOptions>(opt => opt.ViewLocationExpanders.Add(new ViewLocationExpander()));
     }
 }
