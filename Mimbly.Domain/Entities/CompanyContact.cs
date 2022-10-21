@@ -27,10 +27,6 @@ public class CompanyContact
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid CompanyId { get; set; }
 
-    // Navigation property
-    [ForeignKey("CompanyId")]
-    public virtual Company Company { get; set; }
-
 
     public CompanyContact(string firstName, string lastName, string email, string phoneNumber)
     {

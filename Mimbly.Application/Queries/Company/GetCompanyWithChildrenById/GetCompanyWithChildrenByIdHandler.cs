@@ -1,11 +1,12 @@
 namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Mimbly.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
+using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 using Mimbly.Domain.Entities;
@@ -30,8 +31,8 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
         if (parentWithChildren.IsNullOrEmpty()) throw new NotFoundException($"Can't find company with id: {request.Id}");
 
         var companyIds =
-            from company in parentWithChildren
-            select company.Id;
+          from company in parentWithChildren
+          select company.Id;
 
         var companies = await _companyRepository.GetCompanyDataById(companyIds);
 
@@ -43,14 +44,12 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
                 return c;
             });
 
-            List<Company> childCompanyList = new();
-            childCompanyList.AddRange(childCompanies);
-            company.ChildCompanyList = childCompanyList;
+            company.ChildCompanyList = childCompanies.ToList();
         }
 
-        var queriedCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
+        var parentCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
 
-        var companyDto = _mapper.Map<CompanyDto>(queriedCompany);
+        var companyDto = _mapper.Map<CompanyDto>(parentCompany);
 
         return new CompanyWithChildrenFilteredById
         {

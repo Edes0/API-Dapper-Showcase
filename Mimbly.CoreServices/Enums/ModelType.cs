@@ -1,7 +1,8 @@
-﻿namespace Mimbly.Domain.Enums;
+﻿namespace Mimbly.CoreServices.Enums;
 
 public enum ModelType
 {
     LaundryRoom,
     HeavyDuty
 }
+

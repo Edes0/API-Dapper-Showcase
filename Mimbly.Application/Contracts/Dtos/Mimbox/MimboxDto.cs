@@ -29,7 +29,7 @@ public record MimboxDto
 
     public MimboxModel Model { get; init; }
 
-    public Location? Location { get; init; }
+    public MimboxLocation? Location { get; init; }
 
     public Company? Company { get; init; }
 }
