@@ -17,7 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<MimboxStatus> Status { get; set; } = null!;
     public DbSet<Company> Companies { get; set; } = null!;
     public DbSet<CompanyContact> CompanyContacts { get; set; } = null!;
-    public DbSet<Location> Locations { get; set; } = null!;
+    public DbSet<MimboxLocation> Locations { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

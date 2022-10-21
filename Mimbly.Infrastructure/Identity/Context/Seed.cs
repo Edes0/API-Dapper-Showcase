@@ -3,8 +3,8 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Mimbly.CoreServices.Enums;
 using Mimbly.Domain.Entities;
-using Mimbly.Domain.Enums;
 
 public static class Seed
 {
@@ -86,7 +86,7 @@ public static class Seed
         ///         SEED LOCATIONS     ///
         //////////////////////////////////
 
-        var locationEntites = new List<Location>
+        var locationEntites = new List<MimboxLocation>
         {
                 new()
                 {
@@ -109,7 +109,7 @@ public static class Seed
                 }
         };
 
-        modelBuilder.Entity<Location>().HasData(locationEntites);
+        modelBuilder.Entity<MimboxLocation>().HasData(locationEntites);
 
         //////////////////////////////////
         ///         SEED MODELS        ///
