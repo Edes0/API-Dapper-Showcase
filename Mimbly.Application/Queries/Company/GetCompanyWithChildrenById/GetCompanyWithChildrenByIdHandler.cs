@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
+using Mimbly.Domain.Entities;
 
 public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterWithChildrenByIdCompanyQuery, CompanyWithChildrenFilteredById>
 {
@@ -24,15 +25,36 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
 
     public async Task<CompanyWithChildrenFilteredById> Handle(GetFilterWithChildrenByIdCompanyQuery request, CancellationToken cancellationToken)
     {
-        var companies = await _companyRepository.GetCompanyWithChildrenById(request.Id);
+        var parentWithChildren = await _companyRepository.GetParentWithChildrenById(request.Id);
 
-        if (companies.IsNullOrEmpty()) throw new NotFoundException($"Can't find company with id: {request.Id}");
+        if (parentWithChildren.IsNullOrEmpty()) throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+        var companyIds =
+            from company in parentWithChildren
+            select company.Id;
+
+        var companies = await _companyRepository.GetCompanyDataById(companyIds);
+
+        foreach (var company in companies)
+        {
+            var childCompanies = companies.Where(c => c.ParentId == company.Id).Select(c =>
+            {
+                c.ChildCompanyList = c.ChildCompanyList.ToList();
+                return c;
+            });
+
+            List<Company> childCompanyList = new();
+            childCompanyList.AddRange(childCompanies);
+            company.ChildCompanyList = childCompanyList;
+        }
+
+        var queriedCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
+
+        var companyDto = _mapper.Map<CompanyDto>(queriedCompany);
 
         return new CompanyWithChildrenFilteredById
         {
-            Companies = companyDtos
+            Company = companyDto
         };
     }
 }
