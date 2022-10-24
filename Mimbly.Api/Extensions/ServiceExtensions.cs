@@ -52,7 +52,6 @@ public static class ServiceExtensions
 
     public static void ConfigureAuthentication(this IServiceCollection services, IConfigurationRoot configurationBuilder)
     {
-
         var azureAd = configurationBuilder.GetSection("AzureAd");
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
