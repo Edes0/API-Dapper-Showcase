@@ -10,7 +10,6 @@ public class AuthTestController : BaseController
 {
     public AuthTestController(IMediator mediator) : base(mediator)
     {
-
     }
 
     [HttpGet]
