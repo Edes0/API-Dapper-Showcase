@@ -16,6 +16,6 @@ public class AuthTestController : BaseController
     [Authorize]
     public IActionResult Index()
     {
-        return Ok(new {message = "Your token gave you authorization!" });
+        return Ok(new { message = "Your token gave you authorization!" });
     }
 }
