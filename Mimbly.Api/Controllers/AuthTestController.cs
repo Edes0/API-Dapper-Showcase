@@ -4,8 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
-
 [ApiController]
 [Route("api/v1/authtest")]
 public class AuthTestController : BaseController

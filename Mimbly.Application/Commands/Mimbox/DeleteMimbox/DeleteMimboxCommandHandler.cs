@@ -18,7 +18,8 @@ public class DeleteMimblyCommandHandler : IRequestHandler<DeleteMimboxCommand>
     {
         var mimbox = await _mimboxRepository.GetMimboxById(request.Id);
 
-        if (mimbox.IsNullOrEmpty()) throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
+        if (mimbox.IsNullOrEmpty())
+            throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
 
         await _mimboxRepository.DeleteMimbox(mimbox.First()); //TODO: Snygga till?
 

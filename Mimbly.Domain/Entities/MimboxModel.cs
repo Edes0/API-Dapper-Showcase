@@ -17,10 +17,6 @@ public class MimboxModel
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ModelType Name { get; set; }
 
-    //// Navigation property
-    //public virtual ICollection<Mimbox> Mimboxes { get; set; } VARFÖR BEHÖVER JAG INTE?
-
-
     public MimboxModel(ModelType name)
     {
         Id = Guid.NewGuid();

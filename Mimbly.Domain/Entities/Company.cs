@@ -17,6 +17,7 @@ public class Company
     public string Name { get; set; }
 
     [Column("Parent_Id", TypeName = "uniqueidentifier")]
+
     public Guid? ParentId { get; set; }
 
     public ICollection<Company> ChildCompanyList { get; set; } = new List<Company>(); //TODO: Check if needed
@@ -28,7 +29,6 @@ public class Company
     // Navigation property
     [ForeignKey("ParentId")]
     public virtual Company? ParentCompany { get; set; }
-
 
     public Company(string name)
     {

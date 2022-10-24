@@ -9,12 +9,12 @@ using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.CoreServices.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 
-public class GetFilterByIdMimboxHandler : IRequestHandler<GetFilterByIdMimboxQuery, MimboxFilteredById>
+public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxByIdVm>
 {
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
-    public GetFilterByIdMimboxHandler(
+    public GetByIdMimboxHandler(
         IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
@@ -22,17 +22,15 @@ public class GetFilterByIdMimboxHandler : IRequestHandler<GetFilterByIdMimboxQue
         _mapper = mapper;
     }
 
-    public async Task<MimboxFilteredById> Handle(GetFilterByIdMimboxQuery request, CancellationToken cancellationToken)
+    public async Task<MimboxByIdVm> Handle(GetByIdMimboxQuery request, CancellationToken cancellationToken)
     {
         var mimbox = await _mimboxRepository.GetMimboxById(request.Id);
 
-        if (mimbox.IsNullOrEmpty()) throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
+        if (mimbox.IsNullOrEmpty())
+            throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
 
         var mimboxDto = _mapper.Map<MimboxDto>(mimbox.First());
 
-        return new MimboxFilteredById
-        {
-            Mimbox = mimboxDto
-        };
+        return new MimboxByIdVm { Mimbox = mimboxDto };
     }
 }

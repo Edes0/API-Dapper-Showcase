@@ -10,7 +10,6 @@ public class MimboxRepository : IMimboxRepository
     private readonly ISqlDataAccess _db;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
-
     public MimboxRepository(ISqlDataAccess db)
     {
         _db = db;

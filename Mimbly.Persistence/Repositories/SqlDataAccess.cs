@@ -12,7 +12,6 @@ public class SqlDataAccess : ISqlDataAccess
 
     public SqlDataAccess(IConfiguration config) => _config = config;
 
-
     public async Task<IEnumerable<T>> LoadData<T, U>(string sql, U parameters)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
@@ -44,6 +43,5 @@ public class SqlDataAccess : ISqlDataAccess
             await connection.ExecuteAsync(sql, transaction);
         }
         await transaction.CommitAsync();
-        //connection.Close();
     }
 }

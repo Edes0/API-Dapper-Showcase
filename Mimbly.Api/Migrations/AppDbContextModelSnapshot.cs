@@ -264,7 +264,7 @@ namespace Mimbly.Api.Migrations
                         .HasForeignKey("CompanyId");
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxLocation", "Location")
-                        .WithMany("Mimboxes")
+                        .WithMany()
                         .HasForeignKey("LocationId");
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxModel", "Model")
@@ -307,11 +307,6 @@ namespace Mimbly.Api.Migrations
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
                     b.Navigation("MimboxLogList");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLocation", b =>
-                {
-                    b.Navigation("Mimboxes");
                 });
 #pragma warning restore 612, 618
         }

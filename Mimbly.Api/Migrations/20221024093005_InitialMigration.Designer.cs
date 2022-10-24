@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221020124203_InitialMigration")]
+    [Migration("20221024093005_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,7 +266,7 @@ namespace Mimbly.Api.Migrations
                         .HasForeignKey("CompanyId");
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxLocation", "Location")
-                        .WithMany("Mimboxes")
+                        .WithMany()
                         .HasForeignKey("LocationId");
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxModel", "Model")
@@ -309,11 +309,6 @@ namespace Mimbly.Api.Migrations
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
                     b.Navigation("MimboxLogList");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLocation", b =>
-                {
-                    b.Navigation("Mimboxes");
                 });
 #pragma warning restore 612, 618
         }

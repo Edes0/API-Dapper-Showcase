@@ -13,7 +13,6 @@ public class CompanyRepository : ICompanyRepository
     private readonly IConfiguration _config;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
-
     public CompanyRepository(ISqlDataAccess db, IConfiguration config)
     {
         _db = db;
@@ -36,7 +35,8 @@ public class CompanyRepository : ICompanyRepository
     {
         var sql =
         @"
-
+            SELECT *
+            FROM Company
             WHERE Id = @id
         ";
 
@@ -88,7 +88,8 @@ public class CompanyRepository : ICompanyRepository
            {
                Company companyRef;
 
-               if (!lookup.TryGetValue(company.Id, out companyRef)) lookup.Add(company.Id, companyRef = company);
+               if (!lookup.TryGetValue(company.Id, out companyRef))
+                   lookup.Add(company.Id, companyRef = company);
 
                if (mimbox != null && !companyRef.MimboxList.Select(x => x.Id).Contains(mimbox.Id))
                {
@@ -102,7 +103,8 @@ public class CompanyRepository : ICompanyRepository
                    companyRef.MimboxList.Add(mimbox);
                }
 
-               if (companyContact != null && !companyRef.ContactList.Select(x => x.Id).Contains(companyContact.Id)) companyRef.ContactList.Add(companyContact);
+               if (companyContact != null && !companyRef.ContactList.Select(x => x.Id).Contains(companyContact.Id))
+                   companyRef.ContactList.Add(companyContact);
 
                return companyRef;
            },

@@ -27,7 +27,6 @@ public class CompanyContact
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid CompanyId { get; set; }
 
-
     public CompanyContact(string firstName, string lastName, string email, string phoneNumber)
     {
         Id = Guid.NewGuid();

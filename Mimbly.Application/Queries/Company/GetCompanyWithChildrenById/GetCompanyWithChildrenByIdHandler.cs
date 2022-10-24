@@ -9,9 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
-using Mimbly.Domain.Entities;
 
-public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterWithChildrenByIdCompanyQuery, CompanyWithChildrenFilteredById>
+public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompanyWithChildrenByIdQuery, CompanyWithChildrenByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -24,11 +23,12 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
         _mapper = mapper;
     }
 
-    public async Task<CompanyWithChildrenFilteredById> Handle(GetFilterWithChildrenByIdCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<CompanyWithChildrenByIdVm> Handle(GetCompanyWithChildrenByIdQuery request, CancellationToken cancellationToken)
     {
         var parentWithChildren = await _companyRepository.GetParentWithChildrenById(request.Id);
 
-        if (parentWithChildren.IsNullOrEmpty()) throw new NotFoundException($"Can't find company with id: {request.Id}");
+        if (parentWithChildren.IsNullOrEmpty())
+            throw new NotFoundException($"Can't find company with id: {request.Id}");
 
         var companyIds =
           from company in parentWithChildren
@@ -51,9 +51,6 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
 
         var companyDto = _mapper.Map<CompanyDto>(parentCompany);
 
-        return new CompanyWithChildrenFilteredById
-        {
-            Company = companyDto
-        };
+        return new CompanyWithChildrenByIdVm { Company = companyDto };
     }
 }

@@ -17,10 +17,6 @@ public class MimboxStatus
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public StatusType Name { get; set; }
 
-    //// Navigation property
-    //public virtual ICollection<Mimbox> Mimboxes { get; set; } VARFÖR BEHÖVER JAG INTE?
-
-
     public MimboxStatus(StatusType name)
     {
         Id = Guid.NewGuid();

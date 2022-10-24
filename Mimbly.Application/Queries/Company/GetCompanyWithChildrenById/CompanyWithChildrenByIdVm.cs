@@ -2,7 +2,7 @@ namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
 
 using Mimbly.Application.Contracts.Dtos.Company;
 
-public class CompanyWithChildrenFilteredById
+public class CompanyWithChildrenByIdVm
 {
     public CompanyDto Company { get; set; }
 }

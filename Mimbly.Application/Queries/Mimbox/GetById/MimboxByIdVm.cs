@@ -2,9 +2,9 @@ namespace Mimbly.Application.Queries.Mimbox.GetById;
 
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 
-public class MimboxFilteredById
+public class MimboxByIdVm
 {
     public MimboxDto Mimbox { get; set; }
 
-    public MimboxFilteredById() => Mimbox = new MimboxDto();
+    public MimboxByIdVm() => Mimbox = new MimboxDto();
 }
