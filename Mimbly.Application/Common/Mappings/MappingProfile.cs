@@ -16,7 +16,5 @@ public class MappingProfile : Profile
 
         //Company mapping
         CreateMap<Company, CompanyDto>();
-
-        //CreateMap<CreateCompanyRequestDto, Company>();
     }
 }
