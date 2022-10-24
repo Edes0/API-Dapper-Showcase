@@ -19,7 +19,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = "St‰d Ab",
+                   Name = "St√§d Ab",
                 },
                 new ()
                 {
@@ -43,7 +43,7 @@ public static class Seed
                 }
         };
 
-        //Setting ParentId for St‰d AB.
+        //Setting ParentId for St√§d AB.
 
         for (int i = 0, u = 1; i < companyEntites.Count - 1; i++, u++)
         {
@@ -62,11 +62,10 @@ public static class Seed
                 {
                    Id = Guid.NewGuid(),
                    FirstName = "Andreas",
-                   LastName = "Sjˆgren",
+                   LastName = "Sj√∂gren",
                    Email = "sjogrenandreas@live.se",
                    PhoneNumber = "0733143465",
                    CompanyId = companyEntites[0].Id
-
                 },
 
                 new ()
@@ -92,20 +91,20 @@ public static class Seed
                 {
                    Id = Guid.NewGuid(),
                    Country = "Sweden",
-                   Region = "V‰stra gˆtaland",
+                   Region = "V√§stra g√∂taland",
                    PostalCode = "41729",
-                   City = "Gˆteborg",
-                   StreetAddress = "Gamla v‰gen 18"
+                   City = "G√∂teborg",
+                   StreetAddress = "Gamla v√§gen 18"
                 },
 
                 new ()
                 {
                    Id = Guid.NewGuid(),
                    Country = "Sweden",
-                   Region = "V‰stra gˆtaland",
+                   Region = "V√§stra g√∂taland",
                    PostalCode = "41729",
-                   City = "Gˆteborg",
-                   StreetAddress = "Nya v‰gen 2"
+                   City = "G√∂teborg",
+                   StreetAddress = "Nya v√§gen 2"
                 }
         };
 
