@@ -25,7 +25,7 @@ public class CompanyController : BaseController
 
     [Route("ById")]
     [HttpGet]
-    public async Task<ActionResult<CompanyByIdVm>> FilterComapniesById([BindRequired, FromQuery] Guid id)
+    public async Task<ActionResult<CompanyByIdVm>> FilterCompaniesById([BindRequired, FromQuery] Guid id)
     {
         return Ok(await _mediator.Send(new GetByIdCompanyQuery { Id = id }));
     }

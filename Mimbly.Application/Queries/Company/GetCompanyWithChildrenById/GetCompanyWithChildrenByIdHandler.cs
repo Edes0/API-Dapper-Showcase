@@ -30,9 +30,7 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
         if (parentWithChildren.IsNullOrEmpty())
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyIds =
-          from company in parentWithChildren
-          select company.Id;
+        var companyIds = parentWithChildren.Select(x => x.Id);
 
         var companies = await _companyRepository.GetCompanyDataById(companyIds);
 
@@ -40,7 +38,7 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
         {
             var childCompanies = companies.Where(c => c.ParentId == company.Id).Select(c =>
             {
-                c.ChildCompanyList = c.ChildCompanyList.ToList();
+                c.ChildCompanyList = c.ChildCompanyList;
                 return c;
             });
 

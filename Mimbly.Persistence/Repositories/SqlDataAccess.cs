@@ -6,8 +6,8 @@ using Mimbly.Application.Common.Interfaces;
 
 public class SqlDataAccess : ISqlDataAccess
 {
-
     private readonly IConfiguration _config;
+
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
     public SqlDataAccess(IConfiguration config) => _config = config;
@@ -19,7 +19,7 @@ public class SqlDataAccess : ISqlDataAccess
         await using var connection = new SqlConnection(connectionString);
         var data = await connection.QueryAsync<T>(sql, parameters);
 
-        return data.ToList();
+        return data;
     }
 
     public async Task SaveData<T>(string sql, T parameters)
@@ -42,6 +42,7 @@ public class SqlDataAccess : ISqlDataAccess
         {
             await connection.ExecuteAsync(sql, transaction);
         }
+
         await transaction.CommitAsync();
     }
 }
