@@ -1,4 +1,5 @@
 namespace Mimbly.Api.Controllers;
+
 using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
