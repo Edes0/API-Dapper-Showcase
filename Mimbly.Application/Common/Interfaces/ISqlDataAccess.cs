@@ -7,7 +7,8 @@ public interface ISqlDataAccess
 {
     string ConnectionStringName { get; set; }
 
-    Task<IEnumerable<T>> LoadData<T, U>(string sql, U parameters);
-    Task SaveData<T>(string sql, T parameters);
+    Task<T> LoadEntity<T, U>(string sql, U parameter);
+    Task<IEnumerable<T>> LoadEntities<T, U>(string sql, U parameters);
+    Task SaveChanges<T>(string sql, T parameters);
     Task Transaction(params string[] sqlArray);
 }

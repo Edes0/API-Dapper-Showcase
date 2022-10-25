@@ -28,10 +28,10 @@ public class CompanyRepository : ICompanyRepository
             FROM Company
         ";
 
-        return await _db.LoadData<Company, dynamic>(sql, new { });
+        return await _db.LoadEntities<Company, dynamic>(sql, new { });
     }
 
-    public async Task<IEnumerable<Company>> GetCompanyById(Guid id)
+    public async Task<Company> GetCompanyById(Guid id)
     {
         var sql =
         @"
@@ -40,7 +40,7 @@ public class CompanyRepository : ICompanyRepository
             WHERE Id = @id
         ";
 
-        return await _db.LoadData<Company, dynamic>(sql, new { Id = id });
+        return await _db.LoadEntity<Company, dynamic>(sql, new { Id = id });
     }
 
     public async Task<IEnumerable<Company>> GetParentWithChildrenById(Guid id)
@@ -60,7 +60,7 @@ public class CompanyRepository : ICompanyRepository
                     OPTION(MAXRECURSION 32767)
           ";
 
-        return await _db.LoadData<Company, dynamic>(sql, new { Id = id });
+        return await _db.LoadEntities<Company, dynamic>(sql, new { Id = id });
     }
 
     public async Task<IEnumerable<Company>> GetCompanyDataById(IEnumerable<Guid> ids)
@@ -126,7 +126,7 @@ public class CompanyRepository : ICompanyRepository
                 (@Id, @FirstName, @LastName, @Age)
         ";
 
-        await _db.SaveData(sql, company);
+        await _db.SaveChanges(sql, company);
     }
 
     public async Task DeleteCompany(Company company)
@@ -138,6 +138,6 @@ public class CompanyRepository : ICompanyRepository
             WHERE id = @Id
         ";
 
-        await _db.SaveData(sql, company);
+        await _db.SaveChanges(sql, company);
     }
 }

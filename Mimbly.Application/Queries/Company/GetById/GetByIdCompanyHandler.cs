@@ -26,10 +26,10 @@ public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, Compan
     {
         var company = await _companyRepository.GetCompanyById(request.Id);
 
-        if (company.IsNullOrEmpty())
+        if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDto = _mapper.Map<CompanyDto>(company.First());
+        var companyDto = _mapper.Map<CompanyDto>(company);
 
         return new CompanyByIdVm { Company = companyDto };
     }

@@ -26,10 +26,10 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
     {
         var mimbox = await _mimboxRepository.GetMimboxById(request.Id);
 
-        if (mimbox.IsNullOrEmpty())
+        if (mimbox == null)
             throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
 
-        var mimboxDto = _mapper.Map<MimboxDto>(mimbox.First());
+        var mimboxDto = _mapper.Map<MimboxDto>(mimbox);
 
         return new MimboxByIdVm { Mimbox = mimboxDto };
     }
