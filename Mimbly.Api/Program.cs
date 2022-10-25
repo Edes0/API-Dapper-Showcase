@@ -1,15 +1,6 @@
-using System.Reflection;
-using System.Text;
-using Mimbly.Api.DependencyInjection;
+using Mimbly.Api.Extensions;
 using Mimbly.CoreServices.Middlewares;
-using Mimbly.Infrastructure.Identity;
-using Mimbly.Infrastructure.Security.Configurations;
-using Mimbly.Infrastructure.Security.Tokens;
-using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Mimbly.Infrastructure.Identity.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,48 +13,22 @@ var configurationBuilder = builder.Configuration.SetBasePath(AppDomain.CurrentDo
 // Add services to the container.
 var services = builder.Services;
 
-const string allowedSpecificOrigins = "AllowedSpecificOrigins";
+// DataAccessLayer
+services.ConfigureDataAccessManager();
 
+// Repositories
+services.ConfigureRepositories();
+
+// Services
+services.ConfigureCors();
 services.AddControllers();
-services.AddMediatR(Assembly.GetExecutingAssembly());
+services.ConfigureAppDbContext(builder.Configuration);
+services.ConfigureNugetPackages();
 
-services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mimbly.Api", Version = "v1" }));
+// Authentication
+services.ConfigureAuthentication(builder.Configuration);
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
-
-// When copying the project make sure to change name of the migration assembly to the correct name.
-services.AddDbContext<AppDbContext>(opt =>
-    opt.UseMySql(builder.Configuration.GetConnectionString("DbConnectionString"), serverVersion, b => b.MigrationsAssembly("Mimbly.Api")));
-
-// Specify specific cors options here later.
-services.AddCors(options => options.AddPolicy(allowedSpecificOrigins, policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
-
-var tokenConfig = configurationBuilder.GetSection("TokenConfig");
-
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = tokenConfig.Get<TokenConfig>().Issuer,
-        ValidAudience = tokenConfig.Get<TokenConfig>().Audience,
-        IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig
-                    .Get<TokenConfig>()
-                    .SecretKey))
-    });
-
-// Add secret key to signin configurations.
-var signingConfigurations = new SigningConfigurations(tokenConfig
-    .Get<TokenConfig>()
-    .SecretKey);
-services.AddSingleton(signingConfigurations);
-
-// Dependency injection
-DependencyInjection.AddDependencyInjection(services, builder, tokenConfig);
-
+// Build
 var app = builder.Build();
 
 // This ensure that the database is created with seed when in development mode if it does not already exist.
@@ -73,17 +38,18 @@ if (app.Environment.IsDevelopment())
     using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
     var context = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
     context?.Database.EnsureCreated();
-}
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
 }
 
-app.UseCors(allowedSpecificOrigins);
-app.UseHttpsRedirection();
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+    app.UseHsts();
+}
+
+app.UseCors("WhatToAdd"); //TODO Add specific origin to cors. also have in config in ServiceExtensions "CorsPolicy"
 app.UseMiddleware(typeof(ExceptionMiddleware));
 app.Use(async (context, next) => await ControllerExceptionMiddleware.HandleControllerExceptions(context, next));
 app.UseAuthentication();
