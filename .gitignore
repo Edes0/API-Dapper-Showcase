@@ -144,4 +144,4 @@ msbuild.wrn
 .vs/
 
 
-*/appsettings.Development.json
+*/appsettings.*.json
