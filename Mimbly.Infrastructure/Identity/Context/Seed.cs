@@ -44,7 +44,6 @@ public static class Seed
         };
 
         //Setting ParentId for Städ AB.
-
         for (int i = 0, u = 1; i < companyEntites.Count - 1; i++, u++)
         {
             companyEntites[i].ParentId = companyEntites[u].Id;
