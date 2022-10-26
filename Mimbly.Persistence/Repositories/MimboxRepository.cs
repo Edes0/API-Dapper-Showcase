@@ -3,9 +3,6 @@ namespace Mimbly.Persistence.Repositories;
 using System;
 using Application.Common.Interfaces;
 using Dapper;
-using MediatR;
-using Microsoft.IdentityModel.Tokens;
-using Mimbly.CoreServices.Exceptions;
 using Mimbly.Domain.Entities;
 
 public class MimboxRepository : IMimboxRepository
