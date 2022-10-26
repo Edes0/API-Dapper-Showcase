@@ -85,6 +85,10 @@ public static class ServiceExtensions
         services.AddControllersWithViews();
         services.AddScoped<ITemplateService, ViewTemplateService>();
         services.PreparePuppeteerAsync(environment).GetAwaiter().GetResult();
-        services.Configure<RazorViewEngineOptions>(opt => opt.ViewLocationExpanders.Add(new ViewLocationExpander()));
+        services.Configure<RazorViewEngineOptions>(opt =>
+        {
+            opt.ViewLocationExpanders.Add(new ViewLocationExpander());
+            opt.ViewLocationFormats.Add("/DocumentTemplates/{0}.cshtml");
+        });
     }
 }
