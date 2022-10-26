@@ -25,23 +25,37 @@ public class DocumentController : Controller
         var model = new ReportModel
         {
             Company = new Company {
-                Name = "E CORP",
-                Address = new Address
-                {
-                    Country = "United States",
-                    City = "Chicago",
-                    StreetAddress = "McKinley key dough street 144",
-                    PostCode = "LS3 88L",
-                },
+                Name = "E CORP"
             },
             Stats = new Stats
             {
-                CarbonSaved = 12,
-                CarbonSavedLastMonth = 11,
-                PlasticSaved = 44,
-                PlasticSavedLastMonth = 62,
-                WaterSaved = 4580,
-                WaterSavedLastMonth = 4493
+                MoneySaved = "10 203",
+                PlasticSaved = 132,
+                WaterSaved = 44,
+            },
+            BestMimboxes = new List<Address>
+            {
+                new Address
+                {
+                    Country = "Sweden",
+                    City = "Borås",
+                    StreetAddress = "Helvetesgatan 1",
+                    PostCode = "465 54",
+                },
+                new Address
+                {
+                    Country = "Sweden",
+                    City = "Stockholm",
+                    StreetAddress = "Kalkstensgatan 55",
+                    PostCode = "123 11",
+                },
+                new Address
+                {
+                    Country = "Sweden",
+                    City = "Göteborg",
+                    StreetAddress = "Doktor Eggs Gata 1",
+                    PostCode = "414 42",
+                },
             }
         };
 
@@ -68,27 +82,40 @@ public class DocumentController : Controller
 
     public async Task<IActionResult> Preview(string templateName)
     {
-        var model = new ReportModel
+         var model = new ReportModel
         {
-            Company = new Company
-            {
-                Name = "E CORPO",
-                Address = new Address
-                {
-                    Country = "United States",
-                    City = "Chicago",
-                    StreetAddress = "McKinley key dough street 144",
-                    PostCode = "LS3 88L",
-                },
+            Company = new Company {
+                Name = "E CORP"
             },
             Stats = new Stats
             {
-                CarbonSaved = 12,
-                CarbonSavedLastMonth = 11,
-                PlasticSaved = 44,
-                PlasticSavedLastMonth = 62,
-                WaterSaved = 4580,
-                WaterSavedLastMonth = 4493
+                MoneySaved = "10 203",
+                PlasticSaved = 132,
+                WaterSaved = 44,
+            },
+            BestMimboxes = new List<Address>
+            {
+                new Address
+                {
+                    Country = "Sweden",
+                    City = "Borås",
+                    StreetAddress = "Helvetesgatan 1",
+                    PostCode = "465 54",
+                },
+                new Address
+                {
+                    Country = "Sweden",
+                    City = "Stockholm",
+                    StreetAddress = "Kalkstensgatan 55",
+                    PostCode = "123 11",
+                },
+                new Address
+                {
+                    Country = "Sweden",
+                    City = "Göteborg",
+                    StreetAddress = "Doktor Eggs Gata 1",
+                    PostCode = "414 42",
+                },
             }
         };
 
