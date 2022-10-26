@@ -18,7 +18,7 @@ public class CompanyController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<AllCompaniesVm>> GetAllComapnies()
+    public async Task<ActionResult<AllCompaniesVm>> GetAllCompanies()
     {
         return Ok(await _mediator.Send(new GetAllCompaniesQuery { }));
     }
