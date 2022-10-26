@@ -7,6 +7,10 @@
     <title>@Model.Month Report for @Model.Company.Name</title>
 
     <style>
+      body {
+          margin: 0;
+          padding: 0;
+      }
       h1,
       h2,
       h3,
@@ -24,7 +28,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         width: 21cm;
-        height: 29.7cm;
+        height: 30cm;
         padding: 30px;
         font-size: 16px;
         line-height: 24px;
@@ -42,7 +46,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-top: 170px;
+        margin-top: 150px;
+        margin-bottom: 60px;
       }
       .island {
         text-align: center;
@@ -64,10 +69,19 @@
         font-size: 16px;
         font-weight: 400;
       }
+      footer {
+        position: absolute;
+        bottom: 0;
+        background-color: #4a4a4a;
+        height: 60px;
+      }
     </style>
   </head>
 
   <body>
+    <head>
+        <title>Report</title>
+    </head>
     <div class="report-box">
       <header>
         <h1>@Model.Company.Name, här kommer den senaste statistiken från era mimboxar!</h1>
@@ -96,16 +110,15 @@
             {
                 <li><p>@mimbox.StreetAddress, @mimbox.PostCode @mimbox.City</p></li>
             }
-            <li><p>Helvetesgatan 1, 465 54 Borås</p></li>
-            <li><p>Kalkstensgatan 55, 121 55 Stockholm</p></li>
-            <li><p>Doktor Eggs Gata 54, 411 23 Göteborg</p></li>
           </ol>
         </div>
         <div class="island">
           <h2>Ni har totalt sparat in @Model.Stats.MoneySaved Kr 💵</h2>
         </div>
       </div>
-      <footer></footer>
+      <footer>
+
+      </footer>
     </div>
   </body>
 </html>

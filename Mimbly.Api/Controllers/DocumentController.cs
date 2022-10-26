@@ -1,4 +1,6 @@
 ﻿namespace Mimbly.Api.Controllers;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mimbly.Api.Extensions;
 using Mimbly.CoreServices.PuppeteerServices;
@@ -8,6 +10,7 @@ using PuppeteerSharp.Media;
 
 [ApiController]
 [Route("api/v1/[controller]")]
+[Authorize]
 public class DocumentController : Controller
 {
     private readonly ITemplateService _templateService;
@@ -19,7 +22,8 @@ public class DocumentController : Controller
 
     [HttpGet]
     [Route("GetMonthlyReport")]
-    public async Task<IActionResult> GetMonthlyReport()
+    // Make it generic with template and model as input from request?
+    public async Task<IActionResult> GetMonthlyReport(bool download)
     {
         // TODO: Remake once entities are solid & checked out
         var model = new ReportModel
@@ -77,9 +81,15 @@ public class DocumentController : Controller
             PrintBackground = true
         });
 
-        return File(pdfContent, "application/pdf", $"Report-{model.Company.Name}-{model.Created}.pdf");
+        if (download)
+            return File(pdfContent, "application/pdf", $"Report-{model.Company.Name}-{model.Created}.pdf");
+        else
+            return File(pdfContent, "application/pdf");
     }
 
+
+    [HttpGet]
+    [Route("Preview")]
     public async Task<IActionResult> Preview(string templateName)
     {
          var model = new ReportModel
