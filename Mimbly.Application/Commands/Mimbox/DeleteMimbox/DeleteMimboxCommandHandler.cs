@@ -2,7 +2,6 @@ namespace Mimbly.Application.Commands.Mimbox.DeleteMimbox;
 
 using Common.Interfaces;
 using MediatR;
-using Microsoft.IdentityModel.Tokens;
 using Mimbly.CoreServices.Exceptions;
 
 public class DeleteMimblyCommandHandler : IRequestHandler<DeleteMimboxCommand>
@@ -18,9 +17,10 @@ public class DeleteMimblyCommandHandler : IRequestHandler<DeleteMimboxCommand>
     {
         var mimbox = await _mimboxRepository.GetMimboxById(request.Id);
 
-        if (mimbox.IsNullOrEmpty()) throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
+        if (mimbox == null)
+            throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
 
-        await _mimboxRepository.DeleteMimbox(mimbox.First()); //TODO: Snygga till?
+        await _mimboxRepository.DeleteMimbox(mimbox);
 
         return Unit.Value;
     }

@@ -18,23 +18,23 @@ public class CompanyController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<CompaniesNotFiltered>> GetAllComapnies()
+    public async Task<ActionResult<AllCompaniesVm>> GetAllCompanies()
     {
         return Ok(await _mediator.Send(new GetAllCompaniesQuery { }));
     }
 
     [Route("ById")]
     [HttpGet]
-    public async Task<ActionResult<CompanyFilteredById>> FilterComapniesById([BindRequired, FromQuery] Guid id)
+    public async Task<ActionResult<CompanyByIdVm>> FilterCompaniesById([BindRequired, FromQuery] Guid id)
     {
-        return Ok(await _mediator.Send(new GetFilterByIdCompanyQuery { Id = id }));
+        return Ok(await _mediator.Send(new GetByIdCompanyQuery { Id = id }));
     }
 
     [Route("WithChildren")]
     [HttpGet]
-    public async Task<ActionResult<CompanyFilteredById>> CompanyWithChildrenById([BindRequired, FromQuery] Guid id)
+    public async Task<ActionResult<CompanyByIdVm>> CompanyWithChildrenById([BindRequired, FromQuery] Guid id)
     {
-        return Ok(await _mediator.Send(new GetFilterWithChildrenByIdCompanyQuery { Id = id }));
+        return Ok(await _mediator.Send(new GetCompanyWithChildrenByIdQuery { Id = id }));
     }
 
     //    [HttpPost]

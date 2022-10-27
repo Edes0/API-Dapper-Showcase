@@ -21,11 +21,6 @@ public class MimboxLog
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
 
-    // Navigation property
-    [ForeignKey("MimboxId")]
-    public virtual Mimbox Mimbox { get; set; }
-
-
     public MimboxLog(string log)
     {
         Id = Guid.NewGuid();

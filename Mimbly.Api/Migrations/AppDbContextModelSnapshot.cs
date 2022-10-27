@@ -85,42 +85,6 @@ namespace Mimbly.Api.Migrations
                     b.ToTable("Company_Contact");
                 });
 
-            modelBuilder.Entity("Mimbly.Domain.Entities.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Id")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("Nvarchar(100)")
-                        .HasColumnName("City");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("Nvarchar(100)")
-                        .HasColumnName("Country");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("Varchar(5)")
-                        .HasColumnName("Postal_code");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("Nvarchar(100)")
-                        .HasColumnName("Region");
-
-                    b.Property<string>("StreetAddress")
-                        .IsRequired()
-                        .HasColumnType("Nvarchar(100)")
-                        .HasColumnName("Street_Address");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Mimbox_Location");
-                });
-
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
                     b.Property<Guid>("Id")
@@ -172,6 +136,42 @@ namespace Mimbly.Api.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Mimbox");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("Nvarchar(100)")
+                        .HasColumnName("City");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("Nvarchar(100)")
+                        .HasColumnName("Country");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("Varchar(5)")
+                        .HasColumnName("Postal_code");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("Nvarchar(100)")
+                        .HasColumnName("Region");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("Nvarchar(100)")
+                        .HasColumnName("Street_Address");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Mimbox_Location");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLog", b =>
@@ -250,38 +250,34 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Entities.CompanyContact", b =>
                 {
-                    b.HasOne("Mimbly.Domain.Entities.Company", "Company")
+                    b.HasOne("Mimbly.Domain.Entities.Company", null)
                         .WithMany("ContactList")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
-                    b.HasOne("Mimbly.Domain.Entities.Company", "Company")
+                    b.HasOne("Mimbly.Domain.Entities.Company", null)
                         .WithMany("MimboxList")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("Mimbly.Domain.Entities.Location", "Location")
-                        .WithMany("Mimboxes")
+                    b.HasOne("Mimbly.Domain.Entities.MimboxLocation", "Location")
+                        .WithMany()
                         .HasForeignKey("LocationId");
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxModel", "Model")
-                        .WithMany("Mimboxes")
+                        .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Mimbly.Domain.Entities.MimboxStatus", "Status")
-                        .WithMany("Mimboxes")
+                        .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Company");
 
                     b.Navigation("Location");
 
@@ -292,13 +288,11 @@ namespace Mimbly.Api.Migrations
 
             modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLog", b =>
                 {
-                    b.HasOne("Mimbly.Domain.Entities.Mimbox", "Mimbox")
+                    b.HasOne("Mimbly.Domain.Entities.Mimbox", null)
                         .WithMany("MimboxLogList")
                         .HasForeignKey("MimboxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Mimbox");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.Company", b =>
@@ -310,24 +304,9 @@ namespace Mimbly.Api.Migrations
                     b.Navigation("MimboxList");
                 });
 
-            modelBuilder.Entity("Mimbly.Domain.Entities.Location", b =>
-                {
-                    b.Navigation("Mimboxes");
-                });
-
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
                     b.Navigation("MimboxLogList");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxModel", b =>
-                {
-                    b.Navigation("Mimboxes");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxStatus", b =>
-                {
-                    b.Navigation("Mimboxes");
                 });
 #pragma warning restore 612, 618
         }

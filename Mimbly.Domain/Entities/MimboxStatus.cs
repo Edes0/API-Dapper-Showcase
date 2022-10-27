@@ -2,9 +2,9 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Mimbly.Domain.Enums;
+using Mimbly.CoreServices.Enums;
 
 [Table("Mimbox_Status")]
 public class MimboxStatus
@@ -14,11 +14,8 @@ public class MimboxStatus
     public Guid Id { get; init; }
 
     [Column("Name", TypeName = "Nvarchar(50)")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public StatusType Name { get; set; }
-
-    // Navigation property
-    public virtual ICollection<Mimbox> Mimboxes { get; set; }
-
 
     public MimboxStatus(StatusType name)
     {

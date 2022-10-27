@@ -16,6 +16,6 @@ public class PingController : BaseController
     [Route("")]
     public ActionResult Ping()
     {
-        return Ok("Welcome to Mimbly api service.");
+        return Ok(new { message = "Welcome to Mimbly api service.", sent = DateTime.Now });
     }
 }

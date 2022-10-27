@@ -54,7 +54,6 @@ public static class ServiceExtensions
 
     public static void ConfigureAuthentication(this IServiceCollection services, IConfigurationRoot configurationBuilder)
     {
-
         var azureAd = configurationBuilder.GetSection("AzureAd");
         Console.WriteLine("AZUREAD OBJECT SHOULD BE HERE ->>>" + azureAd.ToString());
 
@@ -92,3 +91,4 @@ public static class ServiceExtensions
         });
     }
 }
+

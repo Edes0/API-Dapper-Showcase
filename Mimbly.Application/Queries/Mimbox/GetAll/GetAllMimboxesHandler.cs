@@ -9,8 +9,9 @@ using Mimbly.CoreServices.Exceptions;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Microsoft.IdentityModel.Tokens;
+using Mimbly.Domain.Entities;
 
-public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, MimboxesNotFiltered>
+public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, AllMimboxesVm>
 {
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
@@ -23,17 +24,12 @@ public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, Mimbox
         _mapper = mapper;
     }
 
-    public async Task<MimboxesNotFiltered> Handle(GetAllMimboxesQuery request, CancellationToken cancellationToken)
+    public async Task<AllMimboxesVm> Handle(GetAllMimboxesQuery request, CancellationToken cancellationToken)
     {
         var mimboxes = await _mimboxRepository.GetAllMimboxes();
 
-        if (mimboxes.IsNullOrEmpty()) throw new NotFoundException("No mimboxes found in database");
-
         var mimboxDtos = _mapper.Map<IEnumerable<MimboxDto>>(mimboxes);
 
-        return new MimboxesNotFiltered
-        {
-            Mimboxes = mimboxDtos
-        };
+        return new AllMimboxesVm { Mimboxes = mimboxDtos };
     }
 }

@@ -2,6 +2,6 @@ namespace Mimbly.Application.Queries.Company.GetAll;
 
 using MediatR;
 
-public record GetAllCompaniesQuery : IRequest<CompaniesNotFiltered>
+public record GetAllCompaniesQuery : IRequest<AllCompaniesVm>
 {
 }

@@ -20,16 +20,16 @@ public class MimboxController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<MimboxesNotFiltered>> GetAllMimboxes()
+    public async Task<ActionResult<AllMimboxesVm>> GetAllMimboxes()
     {
         return Ok(await _mediator.Send(new GetAllMimboxesQuery { }));
     }
 
     [Route("ById")]
     [HttpGet]
-    public async Task<ActionResult<MimboxFilteredById>> FilterMimboxesById([BindRequired, FromQuery] Guid id)
+    public async Task<ActionResult<MimboxByIdVm>> FilterMimboxesById([BindRequired, FromQuery] Guid id)
     {
-        return Ok(await _mediator.Send(new GetFilterByIdMimboxQuery { Id = id }));
+        return Ok(await _mediator.Send(new GetByIdMimboxQuery { Id = id }));
     }
 
     [HttpPost]

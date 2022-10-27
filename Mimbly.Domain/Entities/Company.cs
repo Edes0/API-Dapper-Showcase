@@ -17,18 +17,18 @@ public class Company
     public string Name { get; set; }
 
     [Column("Parent_Id", TypeName = "uniqueidentifier")]
+
     public Guid? ParentId { get; set; }
 
-    public ICollection<Company> ChildCompanyList { get; } = new List<Company>();
+    public ICollection<Company> ChildCompanyList { get; set; } = new List<Company>(); //TODO: Check if needed
 
-    public ICollection<CompanyContact> ContactList { get; } = new List<CompanyContact>();
+    public ICollection<CompanyContact> ContactList { get; set; } = new List<CompanyContact>();
 
-    public ICollection<Mimbox> MimboxList { get; } = new List<Mimbox>();
+    public ICollection<Mimbox> MimboxList { get; set; } = new List<Mimbox>();
 
     // Navigation property
     [ForeignKey("ParentId")]
-    public virtual Company ParentCompany { get; set; }
-
+    public virtual Company? ParentCompany { get; set; }
 
     public Company(string name)
     {

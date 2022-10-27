@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Table("Mimbox_Location")]
-public class Location
+public class MimboxLocation
 {
     [Key]
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
@@ -27,11 +27,7 @@ public class Location
     [Column("Street_Address", TypeName = "Nvarchar(100)")]
     public string StreetAddress { get; set; }
 
-    // Navigation property
-    public virtual ICollection<Mimbox> Mimboxes { get; set; }
-
-
-    public Location(string country, string city, string streetAddress)
+    public MimboxLocation(string country, string city, string streetAddress)
     {
         Id = Guid.NewGuid();
         Country = country;
@@ -39,7 +35,7 @@ public class Location
         StreetAddress = streetAddress;
     }
 
-    public Location()
+    public MimboxLocation()
     {
     }
 }

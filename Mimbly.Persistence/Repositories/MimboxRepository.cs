@@ -10,7 +10,6 @@ public class MimboxRepository : IMimboxRepository
     private readonly ISqlDataAccess _db;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
 
-
     public MimboxRepository(ISqlDataAccess db)
     {
         _db = db;
@@ -25,10 +24,10 @@ public class MimboxRepository : IMimboxRepository
             FROM Mimbox
         ";
 
-        return await _db.LoadData<Mimbox, dynamic>(sql, new { });
+        return await _db.LoadEntities<Mimbox, dynamic>(sql, new { });
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimboxById(Guid id)
+    public async Task<Mimbox> GetMimboxById(Guid id)
     {
         var sql =
         @"
@@ -37,7 +36,7 @@ public class MimboxRepository : IMimboxRepository
             WHERE Id = @id
         ";
 
-        return await _db.LoadData<Mimbox, dynamic>(sql, new { Id = id });
+        return await _db.LoadEntity<Mimbox, dynamic>(sql, new { Id = id });
     }
 
     public async Task CreateMimbox(Mimbox mimbox)
@@ -50,7 +49,7 @@ public class MimboxRepository : IMimboxRepository
                 (@Id, @FirstName, @LastName, @Age)
         ";
 
-        await _db.SaveData(sql, mimbox);
+        await _db.SaveChanges(sql, mimbox);
     }
 
     public async Task DeleteMimbox(Mimbox mimbox)
@@ -62,6 +61,6 @@ public class MimboxRepository : IMimboxRepository
             WHERE Id = @Id
         ";
 
-        await _db.SaveData(sql, mimbox);
+        await _db.SaveChanges(sql, mimbox);
     }
 }

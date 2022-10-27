@@ -9,12 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 
-public class GetFilterByIdCompanyHandler : IRequestHandler<GetFilterByIdCompanyQuery, CompanyFilteredById>
+public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, CompanyByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
 
-    public GetFilterByIdCompanyHandler(
+    public GetByIdCompanyHandler(
         ICompanyRepository companyRepository,
         IMapper mapper)
     {
@@ -22,18 +22,15 @@ public class GetFilterByIdCompanyHandler : IRequestHandler<GetFilterByIdCompanyQ
         _mapper = mapper;
     }
 
-    public async Task<CompanyFilteredById> Handle(GetFilterByIdCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<CompanyByIdVm> Handle(GetByIdCompanyQuery request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetCompanyById(request.Id);
 
-        if (company.IsNullOrEmpty())
+        if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDto = _mapper.Map<CompanyDto>(company.First());
+        var companyDto = _mapper.Map<CompanyDto>(company);
 
-        return new CompanyFilteredById
-        {
-            Company = companyDto
-        };
+        return new CompanyByIdVm { Company = companyDto };
     }
 }

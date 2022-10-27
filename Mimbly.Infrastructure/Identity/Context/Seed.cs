@@ -3,8 +3,8 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Mimbly.CoreServices.Enums;
 using Mimbly.Domain.Entities;
-using Mimbly.Domain.Enums;
 
 public static class Seed
 {
@@ -19,7 +19,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = "Städ Ab",
+                   Name = "StÃ¤d Ab",
                 },
                 new ()
                 {
@@ -43,8 +43,7 @@ public static class Seed
                 }
         };
 
-        //Setting ParentId for Städ AB.
-
+        //Setting ParentId for StÃ¤d AB.
         for (int i = 0, u = 1; i < companyEntites.Count - 1; i++, u++)
         {
             companyEntites[i].ParentId = companyEntites[u].Id;
@@ -62,11 +61,10 @@ public static class Seed
                 {
                    Id = Guid.NewGuid(),
                    FirstName = "Andreas",
-                   LastName = "Sjögren",
+                   LastName = "SjÃ¶gren",
                    Email = "sjogrenandreas@live.se",
                    PhoneNumber = "0733143465",
                    CompanyId = companyEntites[0].Id
-
                 },
 
                 new ()
@@ -86,30 +84,30 @@ public static class Seed
         ///         SEED LOCATIONS     ///
         //////////////////////////////////
 
-        var locationEntites = new List<Location>
+        var locationEntites = new List<MimboxLocation>
         {
                 new()
                 {
                    Id = Guid.NewGuid(),
                    Country = "Sweden",
-                   Region = "Västra götaland",
+                   Region = "VÃ¤stra gÃ¶taland",
                    PostalCode = "41729",
-                   City = "Göteborg",
-                   StreetAddress = "Gamla vägen 18"
+                   City = "GÃ¶teborg",
+                   StreetAddress = "Gamla vÃ¤gen 18"
                 },
 
                 new ()
                 {
                    Id = Guid.NewGuid(),
                    Country = "Sweden",
-                   Region = "Västra götaland",
+                   Region = "VÃ¤stra gÃ¶taland",
                    PostalCode = "41729",
-                   City = "Göteborg",
-                   StreetAddress = "Nya vägen 2"
+                   City = "GÃ¶teborg",
+                   StreetAddress = "Nya vÃ¤gen 2"
                 }
         };
 
-        modelBuilder.Entity<Location>().HasData(locationEntites);
+        modelBuilder.Entity<MimboxLocation>().HasData(locationEntites);
 
         //////////////////////////////////
         ///         SEED MODELS        ///
@@ -156,7 +154,7 @@ public static class Seed
                 new()
                 {
                     StatusId = statusEntites[0].Id,
-                    ModelId = modelEntites[0].Id,
+                    ModelId = modelEntites[0].Id
                 },
 
                 new ()
@@ -164,7 +162,23 @@ public static class Seed
                     CompanyId = companyEntites[0].Id,
                     StatusId = statusEntites[0].Id,
                     ModelId = modelEntites[0].Id,
-                    LocationId = locationEntites[0].Id,
+                    LocationId = locationEntites[0].Id
+                },
+
+                new ()
+                {
+                    CompanyId = companyEntites[0].Id,
+                    StatusId = statusEntites[0].Id,
+                    ModelId = modelEntites[0].Id,
+                    LocationId = locationEntites[0].Id
+                },
+
+                new ()
+                {
+                    CompanyId = companyEntites[0].Id,
+                    StatusId = statusEntites[1].Id,
+                    ModelId = modelEntites[0].Id,
+                    LocationId = locationEntites[1].Id
                 }
         };
 

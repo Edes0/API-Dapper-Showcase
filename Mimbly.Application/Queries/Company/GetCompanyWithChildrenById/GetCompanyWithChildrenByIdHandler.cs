@@ -1,15 +1,16 @@
 namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Mimbly.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
+using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 
-public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterWithChildrenByIdCompanyQuery, CompanyWithChildrenFilteredById>
+public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompanyWithChildrenByIdQuery, CompanyWithChildrenByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
@@ -22,17 +23,32 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetFilterW
         _mapper = mapper;
     }
 
-    public async Task<CompanyWithChildrenFilteredById> Handle(GetFilterWithChildrenByIdCompanyQuery request, CancellationToken cancellationToken)
+    public async Task<CompanyWithChildrenByIdVm> Handle(GetCompanyWithChildrenByIdQuery request, CancellationToken cancellationToken)
     {
-        var companies = await _companyRepository.GetCompanyWithChildrenById(request.Id);
+        var parentWithChildren = await _companyRepository.GetParentWithChildrenById(request.Id);
 
-        if (companies.IsNullOrEmpty()) throw new NotFoundException($"Can't find company with id: {request.Id}");
+        if (parentWithChildren.IsNullOrEmpty())
+            throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
+        var companyIds = parentWithChildren.Select(x => x.Id);
 
-        return new CompanyWithChildrenFilteredById
+        var companies = await _companyRepository.GetCompanyDataById(companyIds);
+
+        foreach (var company in companies)
         {
-            Companies = companyDtos
-        };
+            var childCompanies = companies.Where(c => c.ParentId == company.Id).Select(c =>
+            {
+                c.ChildCompanyList = c.ChildCompanyList;
+                return c;
+            });
+
+            company.ChildCompanyList = childCompanies.ToList();
+        }
+
+        var parentCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
+
+        var companyDto = _mapper.Map<CompanyDto>(parentCompany);
+
+        return new CompanyWithChildrenByIdVm { Company = companyDto };
     }
 }
