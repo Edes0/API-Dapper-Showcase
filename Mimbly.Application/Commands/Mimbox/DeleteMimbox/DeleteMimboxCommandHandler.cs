@@ -8,7 +8,8 @@ public class DeleteMimblyCommandHandler : IRequestHandler<DeleteMimboxCommand>
 {
     private readonly IMimboxRepository _mimboxRepository;
 
-    public DeleteMimblyCommandHandler(IMimboxRepository mimboxRepository)
+    public DeleteMimblyCommandHandler(
+        IMimboxRepository mimboxRepository)
     {
         _mimboxRepository = mimboxRepository;
     }

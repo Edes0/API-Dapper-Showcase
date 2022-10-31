@@ -14,6 +14,8 @@ public class MappingProfile : Profile
 
         CreateMap<CreateMimboxRequestDto, Mimbox>();
 
+        CreateMap<UpdateMimboxRequestDto, Mimbox>();
+
         //Company mapping
         CreateMap<Company, CompanyDto>();
     }

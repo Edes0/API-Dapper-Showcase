@@ -64,7 +64,8 @@ public static class Seed
                    LastName = "Sjögren",
                    Email = "sjogrenandreas@live.se",
                    PhoneNumber = "0733143465",
-                   CompanyId = companyEntites[0].Id
+                   CompanyId = companyEntites[0].Id,
+                   Title = "Company VD"
                 },
 
                 new ()
@@ -74,7 +75,8 @@ public static class Seed
                    LastName = "Sheike",
                    Email = "fdsfsdff@live.se",
                    PhoneNumber = "0739543467",
-                   CompanyId = companyEntites[0].Id
+                   CompanyId = companyEntites[0].Id,
+                   Title = "Company VD"
                 }
         };
 
@@ -118,7 +120,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = ModelType.LaundryRoom
+                   Name = ModelType.Laundry
                 }
         };
 
@@ -183,6 +185,37 @@ public static class Seed
         };
 
         modelBuilder.Entity<Mimbox>().HasData(mimboxEntites);
+
+        //////////////////////////////////
+        ///     SEED MIMBOX CONTACTS  ///
+        //////////////////////////////////
+
+        var mimboxContactEntites = new List<MimboxContact>
+        {
+                new()
+                {
+                   Id = Guid.NewGuid(),
+                   FirstName = "Edwin",
+                   LastName = "Andersson",
+                   Email = "sjfdsfeas@live.se",
+                   PhoneNumber = "0733143465",
+                   MimboxId = mimboxEntites[1].Id,
+                   Title = "Company VD"
+                },
+
+                new ()
+                {
+                   Id = Guid.NewGuid(),
+                   FirstName = "Kristoffer",
+                   LastName = "Karlsson",
+                   Email = "fdsfsdff@live.se",
+                   PhoneNumber = "0739543467",
+                   MimboxId = mimboxEntites[1].Id,
+                   Title = "Company VD"
+                }
+        };
+
+        modelBuilder.Entity<MimboxContact>().HasData(mimboxContactEntites);
 
         //////////////////////////////////
         ///         SEED LOGS          ///

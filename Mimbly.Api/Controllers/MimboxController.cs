@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Commands.Mimbox.DeleteMimbox;
+using Mimbly.Application.Commands.Mimbox.UpdateMimbox;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.Application.Queries.Mimbox.GetAll;
 using Mimbly.Application.Queries.Mimbox.GetById;
@@ -40,11 +41,20 @@ public class MimboxController : BaseController
         return Ok("Mimbox created successfully");
     }
 
-    [HttpDelete]//("{id:guid}")]
+    [HttpDelete]
     public async Task<ActionResult> DeleteMimbox([BindRequired, FromQuery] Guid id)
     {
         await _mediator.Send(new DeleteMimboxCommand { Id = id });
 
         return Ok("Mimbox removed successfully");
+    }
+
+    [HttpPatch]
+    public async Task<ActionResult> UpdateMimbox(Guid id, [FromBody] UpdateMimboxRequestDto updateMimboxRequestDto)
+    {
+        updateMimboxRequestDto.Id = id;
+        await _mediator.Send(new UpdateMimboxCommand { UpdateMimboxRequest = updateMimboxRequestDto });
+
+        return Ok("Mimbox updated successfully");
     }
 }

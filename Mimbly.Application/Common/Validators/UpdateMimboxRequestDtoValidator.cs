@@ -1,11 +1,11 @@
-namespace Mimbly.Application.Common.Validators;
+﻿namespace Mimbly.Application.Common.Validators;
 
 using FluentValidation;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 
-public class CreateMimboxRequestDtoValidator : AbstractValidator<CreateMimboxRequestDto>
+public class UpdateMimboxRequestDtoValidator : AbstractValidator<UpdateMimboxRequestDto>
 {
-    public CreateMimboxRequestDtoValidator()
+    public UpdateMimboxRequestDtoValidator()
     {
         RuleFor(x => x.Water)
             .NotNull().WithMessage("Water is required");

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Queries.Company.GetAll;
 using Mimbly.Application.Queries.Company.GetById;
-using Mimbly.Application.Queries.Company.GetWithAllDataById;
+using Mimbly.Application.Queries.Company.GetCompanyWithChildrenById;
 
 [ApiController]
 //[Authorize] //TODO: LIsta ur hur man använder authorization
@@ -37,13 +37,13 @@ public class CompanyController : BaseController
         return Ok(await _mediator.Send(new GetCompanyWithChildrenByIdQuery { Id = id }));
     }
 
-    //    [HttpPost]
-    //    public async Task<ActionResult> CreateCompany([FromBody] CreateCompanyRequestDto createCompanyRequestDto)
-    //    {
-    //        await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
+    //[HttpPost]
+    //public async Task<ActionResult> CreateCompany([FromBody] CreateCompanyRequestDto createCompanyRequestDto)
+    //{
+    //    await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
 
-    //        return Ok("Company created successfully");
-    //    }
+    //    return Ok("Company created successfully");
+    //}
 
     //    [HttpDelete]
     //    public async Task<ActionResult> DeleteCompany([BindRequired, FromQuery] Guid id)

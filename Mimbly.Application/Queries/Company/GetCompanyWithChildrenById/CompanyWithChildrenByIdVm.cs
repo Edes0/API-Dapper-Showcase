@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
+namespace Mimbly.Application.Queries.Company.GetCompanyWithChildrenById;
 
 using Mimbly.Application.Contracts.Dtos.Company;
 

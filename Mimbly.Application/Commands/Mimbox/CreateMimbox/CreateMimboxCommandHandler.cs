@@ -10,7 +10,9 @@ public class CreateMimblyCommandHandler : IRequestHandler<CreateMimboxCommand>
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
-    public CreateMimblyCommandHandler(IMimboxRepository mimboxRepository, IMapper mapper)
+    public CreateMimblyCommandHandler(
+        IMimboxRepository mimboxRepository,
+        IMapper mapper)
     {
         _mimboxRepository = mimboxRepository;
         _mapper = mapper;
@@ -18,11 +20,9 @@ public class CreateMimblyCommandHandler : IRequestHandler<CreateMimboxCommand>
 
     public async Task<Unit> Handle(CreateMimboxCommand request, CancellationToken cancellationToken)
     {
-        // Might not be required. Call this before calling the api.
         await request.CreateMimboxRequest.Validate();
 
         var mimboxEntity = _mapper.Map<Mimbox>(request.CreateMimboxRequest);
-        mimboxEntity.Id = Guid.NewGuid(); //TODO: Make prettier?
 
         await _mimboxRepository.CreateMimbox(mimboxEntity);
 

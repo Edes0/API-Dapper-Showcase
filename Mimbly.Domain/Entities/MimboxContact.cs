@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-[Table("Company_Contact")]
-public class CompanyContact
+[Table("Mimbox_Contact")]
+public class MimboxContact
 {
     [Key]
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
@@ -26,10 +26,10 @@ public class CompanyContact
     [Column("Phone_number", TypeName = "Varchar(15)")]
     public string PhoneNumber { get; set; }
 
-    [Column("Company_Id", TypeName = "uniqueidentifier")]
-    public Guid CompanyId { get; set; }
+    [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
+    public Guid MimboxId { get; set; }
 
-    public CompanyContact(string firstName, string lastName, string email, string phoneNumber, string title)
+    public MimboxContact(string firstName, string lastName, string email, string phoneNumber, string title)
     {
         Id = Guid.NewGuid();
         FirstName = firstName;
@@ -39,7 +39,7 @@ public class CompanyContact
         Title = title;
     }
 
-    public CompanyContact()
+    public MimboxContact()
     {
     }
 }

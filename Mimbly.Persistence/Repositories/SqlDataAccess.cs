@@ -37,7 +37,7 @@ public class SqlDataAccess : ISqlDataAccess
         var connectionString = _config.GetConnectionString(ConnectionStringName);
 
         await using var connection = new SqlConnection(connectionString);
-        await connection.ExecuteAsync(sql, parameters);
+        await connection.ExecuteScalarAsync<int>(sql, parameters);
     }
 
     public async Task Transaction(params string[] sqlArray)
