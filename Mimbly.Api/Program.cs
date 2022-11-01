@@ -10,6 +10,8 @@ var configurationBuilder = builder.Configuration.SetBasePath(AppDomain.CurrentDo
     .AddEnvironmentVariables()
     .Build();
 
+const string AllowedOrigins = "_allowedOrigins";
+
 // Add services to the container.
 var services = builder.Services;
 
@@ -20,7 +22,7 @@ services.ConfigureDataAccessManager();
 services.ConfigureRepositories();
 
 // Services
-services.ConfigureCors();
+services.ConfigureCors(AllowedOrigins);
 services.AddControllers();
 services.ConfigureAppDbContext(builder.Configuration);
 services.ConfigureNugetPackages();
@@ -52,7 +54,7 @@ if (app.Environment.IsProduction())
     app.UseHsts();
 }
 
-app.UseCors("WhatToAdd"); //TODO Add specific origin to cors. also have in config in ServiceExtensions "CorsPolicy"
+app.UseCors(AllowedOrigins);
 app.UseMiddleware(typeof(ExceptionMiddleware));
 app.Use(async (context, next) => await ControllerExceptionMiddleware.HandleControllerExceptions(context, next));
 app.UseAuthentication();

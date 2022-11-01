@@ -45,12 +45,13 @@ public static class ServiceExtensions
         services.AddScoped<ICompanyRepository, CompanyRepository>();
     }
 
-    public static void ConfigureCors(this IServiceCollection services) => //TODO: Add allowed SpecificOrigins?
-    services.AddCors(opts => opts.AddPolicy("CorsPolicy", builder =>
-               builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowAnyOrigin()));
+    public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
+    services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "https://mimbly-frontend.azurewebsites.net/"); // TODO: TA BORT LOCALHOST VID SKARP RELEASE
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    }));
 
     public static void ConfigureAppDbContext(this IServiceCollection services,
             IConfiguration configuration) =>
