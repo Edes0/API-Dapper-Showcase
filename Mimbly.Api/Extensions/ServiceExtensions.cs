@@ -1,6 +1,7 @@
 ﻿namespace Mimbly.Api.Extensions;
 
 using MediatR;
+using PuppeteerSharp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,24 @@ using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using NLog;
+
+public static class PuppeteerExtensions
+{
+    private static string _executablePath;
+    public static async Task PreparePuppeteerAsync(this IServiceCollection service,
+        IWebHostEnvironment hostingEnvironment)
+    {
+        // Downloads & Installs a chromium browser.
+        var downloadPath = Path.Join(hostingEnvironment.ContentRootPath, "./puppeteer");
+        var browserOptions = new BrowserFetcherOptions { Path = downloadPath };
+        var browserFetcher = new BrowserFetcher(browserOptions);
+        _executablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
+        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+    }
+
+    public static string ExecutablePath => _executablePath;
+}
+
 
 public static class ServiceExtensions
 {
@@ -91,4 +110,3 @@ public static class ServiceExtensions
         });
     }
 }
-
