@@ -25,6 +25,9 @@ services.AddControllers();
 services.ConfigureAppDbContext(builder.Configuration);
 services.ConfigureNugetPackages();
 
+// Puppeteer
+services.ConfigurePuppeteer(builder.Environment);
+
 // Authentication
 services.ConfigureAuthentication(builder.Configuration);
 

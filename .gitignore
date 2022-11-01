@@ -144,4 +144,9 @@ msbuild.wrn
 .vs/
 
 
+*/appsettings.Development.json
+
+# Puppeteer directory
+/Mimbly.Api/puppeteer/Win64-970485/chrome-win
+
 */appsettings.*.json

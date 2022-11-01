@@ -1,7 +1,9 @@
 ﻿namespace Mimbly.Api.Extensions;
 
 using MediatR;
+using PuppeteerSharp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -9,9 +11,28 @@ using Mimbly.Application;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Common.Mappings;
 using Mimbly.CoreServices.Logger;
+using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using NLog;
+
+public static class PuppeteerExtensions
+{
+    private static string _executablePath;
+    public static async Task PreparePuppeteerAsync(this IServiceCollection service,
+        IWebHostEnvironment hostingEnvironment)
+    {
+        // Downloads & Installs a chromium browser.
+        var downloadPath = Path.Join(hostingEnvironment.ContentRootPath, "./puppeteer");
+        var browserOptions = new BrowserFetcherOptions { Path = downloadPath };
+        var browserFetcher = new BrowserFetcher(browserOptions);
+        _executablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
+        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+    }
+
+    public static string ExecutablePath => _executablePath;
+}
+
 
 public static class ServiceExtensions
 {
@@ -53,6 +74,7 @@ public static class ServiceExtensions
     public static void ConfigureAuthentication(this IServiceCollection services, IConfigurationRoot configurationBuilder)
     {
         var azureAd = configurationBuilder.GetSection("AzureAd");
+        Console.WriteLine("AZUREAD OBJECT SHOULD BE HERE ->>>" + azureAd.ToString());
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddMicrosoftIdentityWebApi(azureAd);
@@ -74,5 +96,17 @@ public static class ServiceExtensions
 
         // https://learn.microsoft.com/en-us/azure/active-directory/develop/scenario-protected-web-api-app-configuration
         // https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-web-api?tabs=csharpclient
+    }
+
+    public static void ConfigurePuppeteer(this IServiceCollection services, IWebHostEnvironment environment)
+    {
+        services.AddControllersWithViews();
+        services.AddScoped<ITemplateService, ViewTemplateService>();
+        services.PreparePuppeteerAsync(environment).GetAwaiter().GetResult();
+        services.Configure<RazorViewEngineOptions>(opt =>
+        {
+            opt.ViewLocationExpanders.Add(new ViewLocationExpander());
+            opt.ViewLocationFormats.Add("/DocumentTemplates/{0}.cshtml");
+        });
     }
 }
