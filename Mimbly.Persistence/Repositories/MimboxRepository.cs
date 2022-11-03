@@ -75,7 +75,7 @@ public class MimboxRepository : IMimboxRepository
         var sql =
         @"
             UPDATE Mimbox
-                Water = @Water,
+            SET Water = @Water,
                 Co2 = @Co2,
                 Plastic = @Plastic,
                 Economy = @Economy,
@@ -118,8 +118,12 @@ public class MimboxRepository : IMimboxRepository
 
                if (mimbox != null && !companyRef.MimboxList.Select(x => x.Id).Contains(mimbox.Id))
                {
-                   mimbox.Location = mimboxLocation;
-                   mimbox.LocationId = mimboxLocation.Id;
+                   if (mimboxLocation != null)
+                   {
+                       mimbox.Location = mimboxLocation;
+                       mimbox.LocationId = mimboxLocation.Id;
+                   }
+
                    mimbox.Model = mimboxModel;
                    mimbox.ModelId = mimboxModel.Id;
                    mimbox.Status = mimboxStatus;
@@ -128,8 +132,7 @@ public class MimboxRepository : IMimboxRepository
 
                    companyRef.MimboxList.Add(mimbox);
                }
-
-               return companyRef;
+               return null;
            },
            new
            {

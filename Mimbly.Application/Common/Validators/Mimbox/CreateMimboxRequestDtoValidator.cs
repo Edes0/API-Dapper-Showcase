@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Common.Validators;
+namespace Mimbly.Application.Common.Validators.Mimbox;
 
 using FluentValidation;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
@@ -7,9 +7,6 @@ public class CreateMimboxRequestDtoValidator : AbstractValidator<CreateMimboxReq
 {
     public CreateMimboxRequestDtoValidator()
     {
-        RuleFor(x => x.Water)
-            .NotNull().WithMessage("Water is required");
-
         RuleFor(x => x.Water)
             .NotNull().WithMessage("Water is required");
 
@@ -22,16 +19,10 @@ public class CreateMimboxRequestDtoValidator : AbstractValidator<CreateMimboxReq
         RuleFor(x => x.Economy)
             .NotNull().WithMessage("Economy is required");
 
-        RuleFor(x => x.Status)
+        RuleFor(x => x.StatusId)
             .NotNull().WithMessage("Status is required");
 
-        RuleFor(x => x.Model.Name)
-            .IsInEnum().WithMessage("Valid status type is required");
-
-        RuleFor(x => x.Model)
+        RuleFor(x => x.ModelId)
             .NotNull().WithMessage("Model is required");
-
-        RuleFor(x => x.Model.Name)
-            .IsInEnum().WithMessage("Valid model type is required");
     }
 }

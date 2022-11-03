@@ -107,9 +107,9 @@ public class CompanyRepository : ICompanyRepository
         var sql =
         @"
             INSERT INTO Company
-                (id, first_name, last_name, age)
+                (Id, Name, Parent_Id)
             VALUES
-                (@Id, @FirstName, @LastName, @Age)
+                (@Id, @Name, @ParentId)
         ";
 
         await _db.SaveChanges(sql, company);
@@ -121,6 +121,19 @@ public class CompanyRepository : ICompanyRepository
         @"
             DELETE
             FROM Company
+            WHERE id = @Id
+        ";
+
+        await _db.SaveChanges(sql, company);
+    }
+
+    public async Task UpdateCompany(Company company)
+    {
+        var sql =
+        @"
+            UPDATE Company
+            SET Name = @Name
+                Parent_Id = @ParentId
             WHERE id = @Id
         ";
 
