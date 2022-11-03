@@ -92,7 +92,7 @@ public class CompanyRepository : ICompanyRepository
                if (companyContact != null && !companyRef.ContactList.Select(x => x.Id).Contains(companyContact.Id))
                    companyRef.ContactList.Add(companyContact);
 
-               return companyRef; //TODO: maybe null?
+               return null;
            },
            new
            {
