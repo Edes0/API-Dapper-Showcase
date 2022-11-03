@@ -20,8 +20,6 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
 
     public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateCompanyRequest.Validate();
-
         var companyEntity = _mapper.Map<Company>(request.UpdateCompanyRequest);
 
         companyEntity.Id = request.Id;
