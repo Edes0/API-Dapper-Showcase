@@ -1,9 +1,8 @@
 namespace Mimbly.Application.Contracts.Dtos.Mimbox;
 
 using System.Threading.Tasks;
-using Common.Validators;
 using CoreServices.Validation;
-using Mimbly.Domain.Entities;
+using Mimbly.Application.Common.Validators.Mimbox;
 
 public record CreateMimboxRequestDto
 {
@@ -15,13 +14,13 @@ public record CreateMimboxRequestDto
 
     public float Economy { get; init; }
 
-    public MimboxStatus Status { get; init; }
+    public Guid StatusId { get; init; }
 
-    public MimboxModel Model { get; init; }
+    public Guid ModelId { get; init; }
 
-    public MimboxLocation? Location { get; init; }
+    public Guid? LocationId { get; init; }
 
-    public Company? Company { get; set; }
+    public Guid? CompanyId { get; set; }
 
     public async Task Validate()
     {

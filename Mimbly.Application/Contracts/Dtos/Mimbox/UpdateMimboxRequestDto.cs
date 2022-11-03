@@ -1,13 +1,11 @@
 ﻿namespace Mimbly.Application.Contracts.Dtos.Mimbox;
+
 using System.Threading.Tasks;
-using Mimbly.Application.Common.Validators;
+using Mimbly.Application.Common.Validators.Mimbox;
 using Mimbly.CoreServices.Validation;
-using Mimbly.Domain.Entities;
 
 public record UpdateMimboxRequestDto
 {
-    public Guid Id { get; set; }
-
     public float Water { get; set; }
 
     public float Co2 { get; set; }
@@ -16,13 +14,13 @@ public record UpdateMimboxRequestDto
 
     public float Economy { get; set; }
 
-    public MimboxStatus Status { get; set; }
+    public Guid StatusId { get; set; }
 
-    public MimboxModel Model { get; set; }
+    public Guid ModelId { get; set; }
 
-    public MimboxLocation? Location { get; set; }
+    public Guid? LocationId { get; set; }
 
-    public Company? Company { get; set; }
+    public Guid? CompanyId { get; set; }
 
     public async Task Validate()
     {

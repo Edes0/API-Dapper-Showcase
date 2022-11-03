@@ -5,12 +5,12 @@ using Common.Interfaces;
 using MediatR;
 using Mimbly.Domain.Entities;
 
-public class CreateMimblyCommandHandler : IRequestHandler<CreateMimboxCommand>
+public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand>
 {
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
-    public CreateMimblyCommandHandler(
+    public CreateMimboxCommandHandler(
         IMimboxRepository mimboxRepository,
         IMapper mapper)
     {

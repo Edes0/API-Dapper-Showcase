@@ -6,12 +6,12 @@ using MediatR;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Domain.Entities;
 
-public class UpdateMimblyCommandHandler : IRequestHandler<UpdateMimboxCommand>
+public class UpdateMimboxCommandHandler : IRequestHandler<UpdateMimboxCommand>
 {
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
-    public UpdateMimblyCommandHandler(
+    public UpdateMimboxCommandHandler(
         IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
@@ -21,9 +21,9 @@ public class UpdateMimblyCommandHandler : IRequestHandler<UpdateMimboxCommand>
 
     public async Task<Unit> Handle(UpdateMimboxCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateMimboxRequest.Validate();
-
         var mimboxEntity = _mapper.Map<Mimbox>(request.UpdateMimboxRequest);
+
+        mimboxEntity.Id = request.Id;
 
         await _mimboxRepository.UpdateMimbox(mimboxEntity);
 
