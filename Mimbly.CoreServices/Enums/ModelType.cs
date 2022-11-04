@@ -2,7 +2,7 @@
 
 public enum ModelType
 {
-    LaundryRoom,
-    HeavyDuty
+    Laundry,
+    Heavy
 }
 

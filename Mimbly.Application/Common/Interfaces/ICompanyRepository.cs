@@ -15,4 +15,6 @@ public interface ICompanyRepository
     Task CreateCompany(Company company);
 
     Task DeleteCompany(Company company);
+
+    Task UpdateCompany(Company company);
  }

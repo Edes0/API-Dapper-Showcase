@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
+namespace Mimbly.Application.Queries.Company.GetCompanyWithChildrenById;
 
 using System.Linq;
 using System.Threading;
@@ -13,13 +13,16 @@ using Mimbly.CoreServices.Exceptions;
 public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompanyWithChildrenByIdQuery, CompanyWithChildrenByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
+    private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
     public GetFilterWithAllDataByIdCompanyHandler(
         ICompanyRepository companyRepository,
+        IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
         _companyRepository = companyRepository;
+        _mimboxRepository = mimboxRepository;
         _mapper = mapper;
     }
 
@@ -33,9 +36,14 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
         var companyIds = parentWithChildren.Select(x => x.Id);
 
         var companies = await _companyRepository.GetCompanyDataById(companyIds);
+        var companiesMimboxData = await _mimboxRepository.GetMimboxDataByCompanyId(companyIds);
 
         foreach (var company in companies)
         {
+            var currentCompanyMimboxData = companiesMimboxData.First(x => x.Id == company.Id);
+
+            company.MimboxList = currentCompanyMimboxData.MimboxList;
+
             var childCompanies = companies.Where(c => c.ParentId == company.Id).Select(c =>
             {
                 c.ChildCompanyList = c.ChildCompanyList;
