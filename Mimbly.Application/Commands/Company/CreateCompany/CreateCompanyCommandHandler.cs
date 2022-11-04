@@ -18,14 +18,13 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateCompanyCommand request)
     {
+        await request.CreateCompanyRequest.Validate();
+
         var companyEntity = _mapper.Map<Company>(request.CreateCompanyRequest);
 
         await _companyRepository.CreateCompany(companyEntity);
-
-        // This runs a single task. If several entities use Task.WhenAll
-        await Task.Run(() => request.CreateCompanyRequest.Validate(), cancellationToken);
 
         return Unit.Value;
     }

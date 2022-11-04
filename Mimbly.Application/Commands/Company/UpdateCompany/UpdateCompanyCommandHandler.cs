@@ -18,16 +18,15 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateCompanyCommand request)
     {
+        await request.UpdateCompanyRequest.Validate();
+
         var companyEntity = _mapper.Map<Company>(request.UpdateCompanyRequest);
 
         companyEntity.Id = request.Id;
 
         await _companyRepository.UpdateCompany(companyEntity);
-
-        // This runs a single task. If several entities use Task.WhenAll
-        await Task.Run(() => request.UpdateCompanyRequest.Validate(), cancellationToken);
 
         return Unit.Value;
     }

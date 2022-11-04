@@ -18,16 +18,13 @@ public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(CreateMimboxCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateMimboxCommand request)
     {
         await request.CreateMimboxRequest.Validate();
 
         var mimboxEntity = _mapper.Map<Mimbox>(request.CreateMimboxRequest);
 
         await _mimboxRepository.CreateMimbox(mimboxEntity);
-
-        // This runs a single task. If several entities use Task.WhenAll
-        await Task.Run(() => request.CreateMimboxRequest.Validate(), cancellationToken);
 
         return Unit.Value;
     }

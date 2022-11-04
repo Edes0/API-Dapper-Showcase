@@ -19,16 +19,15 @@ public class UpdateMimboxCommandHandler : IRequestHandler<UpdateMimboxCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateMimboxCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateMimboxCommand request)
     {
+        await request.UpdateMimboxRequest.Validate();
+
         var mimboxEntity = _mapper.Map<Mimbox>(request.UpdateMimboxRequest);
 
         mimboxEntity.Id = request.Id;
 
         await _mimboxRepository.UpdateMimbox(mimboxEntity);
-
-        // This runs a single task. If several entities use Task.WhenAll
-        await Task.Run(() => request.UpdateMimboxRequest.Validate(), cancellationToken);
 
         return Unit.Value;
     }
