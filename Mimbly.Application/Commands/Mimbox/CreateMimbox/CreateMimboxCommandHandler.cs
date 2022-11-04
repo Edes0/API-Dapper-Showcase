@@ -18,7 +18,7 @@ public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(CreateMimboxCommand request)
+    public async Task<Unit> Handle(CreateMimboxCommand request, CancellationToken cancellationToken)
     {
         await request.CreateMimboxRequest.Validate();
 

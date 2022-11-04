@@ -19,7 +19,7 @@ public class UpdateMimboxCommandHandler : IRequestHandler<UpdateMimboxCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateMimboxCommand request)
+    public async Task<Unit> Handle(UpdateMimboxCommand request, CancellationToken cancellationToken)
     {
         await request.UpdateMimboxRequest.Validate();
 

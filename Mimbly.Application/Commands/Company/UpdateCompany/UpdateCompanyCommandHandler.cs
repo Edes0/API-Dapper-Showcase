@@ -18,7 +18,7 @@ public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateCompanyCommand request)
+    public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
         await request.UpdateCompanyRequest.Validate();
 
