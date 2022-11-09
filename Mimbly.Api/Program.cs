@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.Options;
 using Mimbly.Api.Extensions;
 using Mimbly.CoreServices.Middlewares;
 using Mimbly.Infrastructure.Identity.Context;
@@ -47,8 +49,16 @@ if (app.Environment.IsDevelopment())
     var context = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
     context?.Database.EnsureCreated();
 
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
+    app.UseSwaggerUI(opt => {
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
+        {
+            opt.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
 }
 
 if (app.Environment.IsProduction())

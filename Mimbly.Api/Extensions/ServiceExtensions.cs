@@ -71,7 +71,6 @@ public static class ServiceExtensions
     {
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
-        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mimbly.Api", Version = "v1" }));
     }
 
     public static void ConfigureAuthentication(this IServiceCollection services, IConfigurationRoot configurationBuilder)
@@ -125,5 +124,14 @@ public static class ServiceExtensions
                 new HeaderApiVersionReader("x-api-version"),
                 new MediaTypeApiVersionReader("x-api-version"));
         });
+
+        services.AddVersionedApiExplorer(setup =>
+        {
+            setup.GroupNameFormat = "'v'VVV";
+            setup.SubstituteApiVersionInUrl = true;
+        });
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.ConfigureOptions<SwaggerExtension>();
     }
 }
