@@ -30,6 +30,9 @@ services.ConfigureNugetPackages();
 // Puppeteer
 services.ConfigurePuppeteer(builder.Environment);
 
+// Versioning
+services.ConfigureVersioning();
+
 // Authentication
 services.ConfigureAuthentication(builder.Configuration);
 
