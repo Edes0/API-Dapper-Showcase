@@ -15,6 +15,8 @@ using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using NLog;
+using Microsoft.AspNetCore.Authorization;
+using Mimbly.CoreServices.Authorization;
 
 public static class PuppeteerExtensions
 {
@@ -109,5 +111,11 @@ public static class ServiceExtensions
             opt.ViewLocationExpanders.Add(new ViewLocationExpander());
             opt.ViewLocationFormats.Add("/DocumentTemplates/{0}.cshtml");
         });
+    }
+
+    public static void ConfigureAuthAttribute(this IServiceCollection services)
+    {
+        services.AddSingleton<IAuthorizationPolicyProvider, GroupsPolicyProvider>();
+        services.AddSingleton<IAuthorizationHandler, GroupsHandler>();
     }
 }
