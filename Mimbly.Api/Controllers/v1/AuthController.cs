@@ -1,13 +1,13 @@
-namespace Mimbly.Api.Controllers;
+namespace Mimbly.Api.Controllers.v1;
 
 using System.Security.Claims;
-using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/v1/auth")]
+[Route("api/v{version:apiVersion}/auth")]
+[ApiVersion("1.0")]
 [Authorize]
 public class AuthController : BaseController
 {
@@ -24,9 +24,9 @@ public class AuthController : BaseController
         var Email = Claims.FindFirstValue(ClaimTypes.Email);
         var FirstName = Claims.FindFirstValue(ClaimTypes.GivenName);
         var LastName = Claims.FindFirstValue(ClaimTypes.Surname);
-        List<string> Roles = Claims.FindAll(ClaimTypes.Role).Select((rc) => rc.Value).ToList();
+        var Roles = Claims.FindAll(ClaimTypes.Role).Select((rc) => rc.Value).ToList();
 
-        return Ok(new {Email = Email, FirstName = FirstName, LastName = LastName, Roles = Roles});
+        return Ok(new { Email, FirstName, LastName, Roles });
     }
 
     [HttpGet]

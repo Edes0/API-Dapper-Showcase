@@ -1,7 +1,6 @@
-namespace Mimbly.Api.Controllers;
+namespace Mimbly.Api.Controllers.v1;
 
 using Application.Commands.Mimbox.CreateMimbox;
-using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,8 @@ using Mimbly.Application.Queries.Mimbox.GetById;
 
 [ApiController]
 //[Authorize]
-[Route("api/v1/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class MimboxController : BaseController
 {
     public MimboxController(IMediator mediator) : base(mediator)

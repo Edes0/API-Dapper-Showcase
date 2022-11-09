@@ -1,4 +1,4 @@
-namespace FollowUp.Api.Controllers;
+namespace Mimbly.Api.Controllers.v1;
 
 using System;
 using MediatR;
