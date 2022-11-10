@@ -4,5 +4,5 @@ using Mimbly.Application.Contracts.Dtos.Company;
 
 public class CompanyWithChildrenByIdVm
 {
-    public CompanyContactDto Company { get; set; }
+    public CompanyDto Company { get; set; }
 }
