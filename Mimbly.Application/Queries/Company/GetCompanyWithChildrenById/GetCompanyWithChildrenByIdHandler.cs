@@ -28,23 +28,23 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
 
     public async Task<CompanyWithChildrenByIdVm> Handle(GetCompanyWithChildrenByIdQuery request, CancellationToken cancellationToken)
     {
-        var parentWithChildren = await _companyRepository.GetParentWithChildrenById(request.Id);
+        var companies = await _companyRepository.GetParentWithChildrenById(request.Id);
 
-        if (parentWithChildren.IsNullOrEmpty())
+        if (companies.IsNullOrEmpty())
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyIds = parentWithChildren.Select(x => x.Id);
+        var companyIds = companies.Select(x => x.Id);
 
-        var companies = await _companyRepository.GetCompanyDataById(companyIds);
-        var companiesMimboxData = await _mimboxRepository.GetMimboxDataByCompanyId(companyIds);
+        var companiesWithData = await _companyRepository.GetCompanyDataById(companyIds);
+        var companiesWithMimboxData = await _mimboxRepository.GetMimboxDataByCompanyId(companyIds);
 
-        foreach (var company in companies)
+        foreach (var company in companiesWithData)
         {
-            var currentCompanyMimboxData = companiesMimboxData.First(x => x.Id == company.Id);
+            var currentCompanyMimboxData = companiesWithMimboxData.First(x => x.Id == company.Id);
 
             company.MimboxList = currentCompanyMimboxData.MimboxList;
 
-            var childCompanies = companies.Where(c => c.ParentId == company.Id).Select(c =>
+            var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c =>
             {
                 c.ChildCompanyList = c.ChildCompanyList;
                 return c;
@@ -53,7 +53,7 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
             company.ChildCompanyList = childCompanies.ToList();
         }
 
-        var parentCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
+        var parentCompany = companiesWithData.Where(c => c.Id == request.Id).Select(c => c).First();
 
         var companyDto = _mapper.Map<CompanyDto>(parentCompany);
 
