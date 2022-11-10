@@ -121,7 +121,7 @@ public class CompanyRepository : ICompanyRepository
         @"
             DELETE
             FROM Company
-            WHERE id = @Id
+            WHERE Id = @Id
         ";
 
         await _db.SaveChanges(sql, company);
@@ -132,9 +132,9 @@ public class CompanyRepository : ICompanyRepository
         var sql =
         @"
             UPDATE Company
-            SET Name = @Name
+            SET Name = @Name,
                 Parent_Id = @ParentId
-            WHERE id = @Id
+            WHERE Id = @Id
         ";
 
         await _db.SaveChanges(sql, company);
