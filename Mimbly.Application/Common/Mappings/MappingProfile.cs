@@ -17,10 +17,10 @@ public class MappingProfile : Profile
         CreateMap<UpdateMimboxRequestDto, Mimbox>();
 
         //Company mapping
-        CreateMap<Company, CompanyDto>();
+        CreateMap<Company, CompanyContactDto>();
 
         CreateMap<CreateCompanyRequestDto, Company>();
 
-        CreateMap<UpdateCompanyRequestDto, Company>();
+        CreateMap<UpdateCompanyContactRequestDto, Company>();
     }
 }

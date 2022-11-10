@@ -29,7 +29,7 @@ public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, Compan
         if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyDto = _mapper.Map<CompanyDto>(company);
+        var companyDto = _mapper.Map<CompanyContactDto>(company);
 
         return new CompanyByIdVm { Company = companyDto };
     }

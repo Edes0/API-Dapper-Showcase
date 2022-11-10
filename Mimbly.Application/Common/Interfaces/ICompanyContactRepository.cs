@@ -7,6 +7,6 @@ public interface ICompanyContactRepository
     Task<IEnumerable<CompanyContact>> GetAllCompanyContacts();
     Task<CompanyContact> GetCompanyContactById(Guid id);
     Task CreateCompanyContact(CompanyContact companyContact);
-    Task DeleteCompanyContact(Guid id);
+    Task DeleteCompanyContact(CompanyContact companyContact)
     Task UpdateCompanyContact(CompanyContact companyContact);
 }

@@ -55,7 +55,7 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
 
         var parentCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
 
-        var companyDto = _mapper.Map<CompanyDto>(parentCompany);
+        var companyDto = _mapper.Map<CompanyContactDto>(parentCompany);
 
         return new CompanyWithChildrenByIdVm { Company = companyDto };
     }
