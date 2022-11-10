@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Application.Commands.Company.CreateCompany;
+﻿namespace Mimbly.Application.Commands.CompanyContact.CreateCompany;
 
 using AutoMapper;
 using Common.Interfaces;

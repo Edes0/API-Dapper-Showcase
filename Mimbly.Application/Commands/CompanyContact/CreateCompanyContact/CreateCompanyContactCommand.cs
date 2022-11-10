@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Application.Commands.Company.CreateCompanyContact;
+﻿namespace Mimbly.Application.Commands.CompanyContact.CreateCompanyContact;
 
 using MediatR;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;

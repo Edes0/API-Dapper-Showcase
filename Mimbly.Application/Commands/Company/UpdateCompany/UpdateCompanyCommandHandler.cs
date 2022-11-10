@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Application.Commands.Company.UpdateCompany;
+﻿namespace Mimbly.Application.Commands.CompanyContact.UpdateCompany;
 
 using AutoMapper;
 using MediatR;

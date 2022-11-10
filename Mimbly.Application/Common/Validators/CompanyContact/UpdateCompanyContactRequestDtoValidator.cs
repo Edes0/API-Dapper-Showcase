@@ -18,7 +18,7 @@ public class UpdateCompanyContactRequestDtoValidator : AbstractValidator<UpdateC
 
         RuleFor(x => x.Email)
                .NotNull().WithMessage("Email is required")
-               .EmailAddress();
+               .EmailAddress().WithMessage("Enter in the format: name@example.com");
 
         RuleFor(x => x.PhoneNumber)
                .NotNull().WithMessage("Phone number is required");

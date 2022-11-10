@@ -4,7 +4,7 @@ using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Mimbly.Application.Commands.Company.CreateCompanyContact;
+using Mimbly.Application.Commands.CompanyContact.CreateCompanyContact;
 using Mimbly.Application.Commands.CompanyContact.DeleteCompanyContact;
 using Mimbly.Application.Commands.CompanyContact.UpdateCompanyContact;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;
@@ -35,7 +35,7 @@ public class CompanyContactController : BaseController
     {
         await _mediator.Send(new CreateCompanyContactCommand { CreateCompanyContactRequest = createCompanyContactRequestDto });
 
-        return Ok("Company created successfully");
+        return Ok("Company contact created successfully");
     }
 
     [HttpDelete("{id:guid}")]

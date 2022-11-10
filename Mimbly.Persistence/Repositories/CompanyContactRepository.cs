@@ -67,7 +67,7 @@ public class CompanyContactRepository : ICompanyContactRepository
     {
         var sql =
         @"
-            UPDATE Company
+            UPDATE Company_Contact
             SET Title = @Title,
                 First_name = @FirstName,
                 Last_name = @LastName,

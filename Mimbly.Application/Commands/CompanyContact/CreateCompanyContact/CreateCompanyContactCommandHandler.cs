@@ -3,7 +3,6 @@
 using AutoMapper;
 using Common.Interfaces;
 using MediatR;
-using Mimbly.Application.Commands.Company.CreateCompanyContact;
 using Mimbly.Domain.Entities;
 
 public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyContactCommand>

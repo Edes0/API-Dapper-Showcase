@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Application.Commands.Company.DeleteCompany;
+﻿namespace Mimbly.Application.Commands.CompanyContact.DeleteCompany;
 
 using Common.Interfaces;
 using MediatR;
