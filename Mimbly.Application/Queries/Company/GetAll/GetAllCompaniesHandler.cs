@@ -25,7 +25,7 @@ public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, AllC
     {
         var companies = await _companyRepository.GetAllCompanies();
 
-        var companyDtos = _mapper.Map<IEnumerable<CompanyContactDto>>(companies);
+        var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
         return new AllCompaniesVm { Companies = companyDtos };
     }

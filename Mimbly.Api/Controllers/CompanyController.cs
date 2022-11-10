@@ -44,7 +44,7 @@ public class CompanyController : BaseController
     [HttpPost]
     public async Task<ActionResult> CreateCompany([FromBody] CreateCompanyRequestDto createCompanyRequestDto)
     {
-        await _mediator.Send(new CreateCompanyContactCommand { CreateCompanyRequest = createCompanyRequestDto });
+        await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
 
         return Ok("Company created successfully");
     }
@@ -58,7 +58,7 @@ public class CompanyController : BaseController
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateCompany(Guid id, [FromBody] UpdateCompanyContactRequestDto updateCompanyRequestDto)
+    public async Task<ActionResult> UpdateCompany(Guid id, [FromBody] UpdateCompanyRequestDto updateCompanyRequestDto)
     {
         await _mediator.Send(new UpdateCompanyCommand { UpdateCompanyRequest = updateCompanyRequestDto, Id = id });
 

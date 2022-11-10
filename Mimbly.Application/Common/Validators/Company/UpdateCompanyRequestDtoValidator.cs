@@ -3,7 +3,7 @@
 using FluentValidation;
 using Mimbly.Application.Contracts.Dtos.Company;
 
-public class UpdateCompanyRequestDtoValidator : AbstractValidator<UpdateCompanyContactRequestDto>
+public class UpdateCompanyRequestDtoValidator : AbstractValidator<UpdateCompanyRequestDto>
 {
     public UpdateCompanyRequestDtoValidator()
     {

@@ -2,6 +2,7 @@ namespace Mimbly.Application.Common.Mappings;
 
 using AutoMapper;
 using Mimbly.Application.Contracts.Dtos.Company;
+using Mimbly.Application.Contracts.Dtos.CompanyContact;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.Domain.Entities;
 
@@ -17,10 +18,18 @@ public class MappingProfile : Profile
         CreateMap<UpdateMimboxRequestDto, Mimbox>();
 
         //Company mapping
-        CreateMap<Company, CompanyContactDto>();
+        CreateMap<Company, CompanyDto>();
 
         CreateMap<CreateCompanyRequestDto, Company>();
 
-        CreateMap<UpdateCompanyContactRequestDto, Company>();
+        CreateMap<UpdateCompanyRequestDto, Company>();
+
+        //CompanyContact mapping
+        CreateMap<CompanyContact, CompanyContactDto>();
+
+        CreateMap<CreateCompanyContactRequestDto, CompanyContact>();
+
+        CreateMap<UpdateCompanyContactRequestDto, CompanyContact>();
     }
 }
+
