@@ -1,4 +1,6 @@
 ﻿namespace Mimbly.Application.Contracts.Dtos.CompanyContact;
+
+using Mimbly.Application.Common.Validators.CompanyContact;
 using Mimbly.CoreServices.Validation;
 
 public class UpdateCompanyContactRequestDto
