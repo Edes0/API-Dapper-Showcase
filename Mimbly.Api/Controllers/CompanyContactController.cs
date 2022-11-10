@@ -8,6 +8,8 @@ using Mimbly.Application.Commands.CompanyContact.CreateCompanyContact;
 using Mimbly.Application.Commands.CompanyContact.DeleteCompanyContact;
 using Mimbly.Application.Commands.CompanyContact.UpdateCompanyContact;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;
+using Mimbly.Application.Queries.CompanyContact.GetAll;
+using Mimbly.Application.Queries.CompanyContact.GetById;
 
 [ApiController]
 //[Authorize]
@@ -18,17 +20,17 @@ public class CompanyContactController : BaseController
     {
     }
 
-    //[HttpGet] Next commit
-    //public async Task<ActionResult<AllCompaniesVm>> GetAllCompanyContacts()
-    //{
-    //    return Ok(await _mediator.Send(new GetAllCompanyContactQuery { }));
-    //}
+    [HttpGet]
+    public async Task<ActionResult<AllCompanyContactsVm>> GetAllCompanyContacts()
+    {
+        return Ok(await _mediator.Send(new GetAllCompanyContactsQuery { }));
+    }
 
-    //[HttpGet("{id:guid}")] Next commit
-    //public async Task<ActionResult<CompanyByIdVm>> FilterCompaniesById([BindRequired] Guid id)
-    //{
-    //    return Ok(await _mediator.Send(new GetByIdCompanyQuery { Id = id }));
-    //}
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<CompanyContactByIdVm>> FilterCompaniesById([BindRequired] Guid id)
+    {
+        return Ok(await _mediator.Send(new GetByIdCompanyContactQuery { Id = id }));
+    }
 
     [HttpPost]
     public async Task<ActionResult> CreateCompanyContact([FromBody] CreateCompanyContactRequestDto createCompanyContactRequestDto)
