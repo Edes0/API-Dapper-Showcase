@@ -6,5 +6,5 @@ using Mimbly.Application.Contracts.Dtos.Company;
 public class UpdateCompanyCommand : IRequest
 {
     public Guid Id { get; set; }
-    public UpdateCompanyContactRequestDto UpdateCompanyRequest { get; set; } = null!;
+    public UpdateCompanyRequestDto UpdateCompanyRequest { get; set; } = null!;
 }
