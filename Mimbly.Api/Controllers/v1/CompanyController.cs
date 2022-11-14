@@ -1,6 +1,5 @@
-namespace Mimbly.Api.Controllers;
+namespace Mimbly.Api.Controllers.v1;
 
-using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +14,8 @@ using Mimbly.Application.Queries.Company.GetCompanyWithChildrenById;
 
 [ApiController]
 //[Authorize]
-[Route("api/v1/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class CompanyController : BaseController
 {
     public CompanyController(IMediator mediator) : base(mediator)

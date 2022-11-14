@@ -1,11 +1,11 @@
-namespace Mimbly.Api.Controllers;
+namespace Mimbly.Api.Controllers.v1;
 
-using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/v1/ping")]
+[Route("api/v{version:apiVersion}/ping")]
+[ApiVersion("1.0")]
 public class PingController : BaseController
 {
     public PingController(IMediator mediator) : base(mediator)

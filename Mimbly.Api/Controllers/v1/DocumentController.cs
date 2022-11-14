@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Api.Controllers;
+﻿namespace Mimbly.Api.Controllers.v1;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,8 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 [Authorize]
 public class DocumentController : Controller
 {
@@ -28,7 +29,8 @@ public class DocumentController : Controller
         // TODO: Remake once entities are solid & checked out
         var model = new ReportModel
         {
-            Company = new Company {
+            Company = new Company
+            {
                 Name = "E CORP"
             },
             Stats = new Stats
@@ -92,9 +94,10 @@ public class DocumentController : Controller
     [Route("Preview")]
     public async Task<IActionResult> Preview(string templateName)
     {
-         var model = new ReportModel
+        var model = new ReportModel
         {
-            Company = new Company {
+            Company = new Company
+            {
                 Name = "E CORP"
             },
             Stats = new Stats

@@ -1,9 +1,10 @@
 ﻿namespace Mimbly.Api.Extensions;
 
 using MediatR;
-using PuppeteerSharp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
@@ -15,6 +16,7 @@ using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using NLog;
+using PuppeteerSharp;
 using Microsoft.AspNetCore.Authorization;
 using Mimbly.CoreServices.Authorization;
 
@@ -71,7 +73,6 @@ public static class ServiceExtensions
     {
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
-        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mimbly.Api", Version = "v1" }));
     }
 
     public static void ConfigureAuthentication(this IServiceCollection services, IConfigurationRoot configurationBuilder)
@@ -113,6 +114,28 @@ public static class ServiceExtensions
         });
     }
 
+    public static void ConfigureVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(opt =>
+        {
+            opt.DefaultApiVersion = new ApiVersion(1, 0);
+            opt.AssumeDefaultVersionWhenUnspecified = true;
+            opt.ReportApiVersions = true;
+            opt.ApiVersionReader = ApiVersionReader.Combine(
+                new UrlSegmentApiVersionReader(),
+                new HeaderApiVersionReader("x-api-version"),
+                new MediaTypeApiVersionReader("x-api-version"));
+        });
+
+        services.AddVersionedApiExplorer(setup =>
+        {
+            setup.GroupNameFormat = "'v'VVV";
+            setup.SubstituteApiVersionInUrl = true;
+        });
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.ConfigureOptions<SwaggerExtension>();
+        
     public static void ConfigureAuthAttribute(this IServiceCollection services)
     {
         services.AddSingleton<IAuthorizationPolicyProvider, GroupsPolicyProvider>();
