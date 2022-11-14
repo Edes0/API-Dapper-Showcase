@@ -17,6 +17,8 @@ using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using NLog;
 using PuppeteerSharp;
+using Microsoft.AspNetCore.Authorization;
+using Mimbly.CoreServices.Authorization;
 
 public static class PuppeteerExtensions
 {
@@ -133,5 +135,10 @@ public static class ServiceExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.ConfigureOptions<SwaggerExtension>();
+        
+    public static void ConfigureAuthAttribute(this IServiceCollection services)
+    {
+        services.AddSingleton<IAuthorizationPolicyProvider, GroupsPolicyProvider>();
+        services.AddSingleton<IAuthorizationHandler, GroupsHandler>();
     }
 }

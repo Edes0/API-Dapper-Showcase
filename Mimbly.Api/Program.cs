@@ -35,8 +35,9 @@ services.ConfigurePuppeteer(builder.Environment);
 // Versioning
 services.ConfigureVersioning();
 
-// Authentication
+// Authentication & Authorization
 services.ConfigureAuthentication(builder.Configuration);
+services.ConfigureAuthAttribute();
 
 // Build
 var app = builder.Build();
