@@ -3,9 +3,8 @@ namespace Mimbly.Application.Queries.Company.GetById;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Mimbly.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.IdentityModel.Tokens;
+using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 

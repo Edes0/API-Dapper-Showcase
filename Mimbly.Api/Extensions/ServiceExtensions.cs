@@ -11,7 +11,6 @@ using Microsoft.OpenApi.Models;
 using Mimbly.Application;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Common.Mappings;
-using Mimbly.CoreServices.Logger;
 using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
@@ -61,13 +60,6 @@ public static class ServiceExtensions
             IConfiguration configuration) =>
             services.AddDbContext<AppDbContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("DbConnectionString"), b => b.MigrationsAssembly("Mimbly.Api")));
-
-    public static void ConfigureLogger(this IServiceCollection services)
-    {
-        services.AddSingleton<ILoggerManager, LoggerManager>();
-
-        LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
-    }
 
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
