@@ -30,8 +30,9 @@ services.ConfigureNugetPackages();
 // Puppeteer
 services.ConfigurePuppeteer(builder.Environment);
 
-// Authentication
+// Authentication & Authorization
 services.ConfigureAuthentication(builder.Configuration);
+services.ConfigureAuthAttribute();
 
 // Build
 var app = builder.Build();
