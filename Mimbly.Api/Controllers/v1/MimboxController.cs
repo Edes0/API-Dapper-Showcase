@@ -27,7 +27,7 @@ public class MimboxController : BaseController
         return Ok(await _mediator.Send(new GetAllMimboxesQuery { }));
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "MimboxById")]
     public async Task<ActionResult<MimboxByIdVm>> FilterMimboxesById([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetByIdMimboxQuery { Id = id }));
@@ -38,7 +38,7 @@ public class MimboxController : BaseController
     {
         await _mediator.Send(new CreateMimboxCommand { CreateMimboxRequest = createMimboxRequestDto });
 
-        return Ok("Mimbox created successfully");
+        return CreatedAtRoute("MimboxById", createMimboxRequestDto);
     }
 
     [HttpDelete("{id:guid}")]
@@ -46,7 +46,7 @@ public class MimboxController : BaseController
     {
         await _mediator.Send(new DeleteMimboxCommand { Id = id });
 
-        return Ok("Mimbox removed successfully");
+        return NoContent();
     }
 
     [HttpPut("{id:guid}")]

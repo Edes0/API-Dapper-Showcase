@@ -128,7 +128,8 @@ public static class ServiceExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.ConfigureOptions<SwaggerExtension>();
-        
+    }
+
     public static void ConfigureAuthAttribute(this IServiceCollection services)
     {
         services.AddSingleton<IAuthorizationPolicyProvider, GroupsPolicyProvider>();
