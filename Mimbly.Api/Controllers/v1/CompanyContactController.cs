@@ -26,7 +26,7 @@ public class CompanyContactController : BaseController
         return Ok(await _mediator.Send(new GetAllCompanyContactsQuery { }));
     }
 
-    [HttpGet("{id:guid}", Name = "MimboxById")]
+    [HttpGet("{id:guid}", Name = "CompanyContactById")]
     public async Task<ActionResult<CompanyContactByIdVm>> FilterCompaniesById([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetByIdCompanyContactQuery { Id = id }));
@@ -37,7 +37,7 @@ public class CompanyContactController : BaseController
     {
         var createdCompanyContact = await _mediator.Send(new CreateCompanyContactCommand { CreateCompanyContactRequest = createCompanyContactRequestDto });
 
-        return CreatedAtRoute("MimboxById", createdCompanyContact);
+        return CreatedAtRoute("CompanyContactById", createdCompanyContact);
     }
 
     [HttpDelete("{id:guid}")]
