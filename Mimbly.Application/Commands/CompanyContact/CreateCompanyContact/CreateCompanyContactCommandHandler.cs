@@ -5,7 +5,7 @@ using Common.Interfaces;
 using MediatR;
 using Mimbly.Domain.Entities;
 
-public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyContactCommand>
+public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyContactCommand, CompanyContact>
 {
     private readonly ICompanyContactRepository _companyContactRepository;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyContactC
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(CreateCompanyContactCommand request, CancellationToken cancellationToken)
+    public async Task<CompanyContact> Handle(CreateCompanyContactCommand request, CancellationToken cancellationToken)
     {
         await request.CreateCompanyContactRequest.Validate();
 
@@ -26,6 +26,6 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyContactC
 
         await _companyContactRepository.CreateCompanyContact(companyContactEntity);
 
-        return Unit.Value;
+        return companyContactEntity;
     }
 }

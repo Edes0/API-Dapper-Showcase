@@ -28,7 +28,7 @@ public class CompanyController : BaseController
         return Ok(await _mediator.Send(new GetAllCompaniesQuery { }));
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "CompanyById")]
     public async Task<ActionResult<CompanyByIdVm>> FilterCompaniesById([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetByIdCompanyQuery { Id = id }));
@@ -44,9 +44,9 @@ public class CompanyController : BaseController
     [HttpPost]
     public async Task<ActionResult> CreateCompany([FromBody] CreateCompanyRequestDto createCompanyRequestDto)
     {
-        await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
+        var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
 
-        return Ok("Company created successfully");
+        return CreatedAtRoute("CompanyById", new { createdCompany.Id }, createdCompany);
     }
 
     [HttpDelete("{id:guid}")]
@@ -54,7 +54,7 @@ public class CompanyController : BaseController
     {
         await _mediator.Send(new DeleteCompanyCommand { Id = id });
 
-        return Ok("Company removed successfully");
+        return NoContent();
     }
 
     [HttpPut("{id:guid}")]

@@ -1,6 +1,5 @@
 ﻿namespace Mimbly.Api.Controllers;
 
-using FollowUp.Api.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -10,10 +9,12 @@ using Mimbly.Application.Commands.CompanyContact.UpdateCompanyContact;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;
 using Mimbly.Application.Queries.CompanyContact.GetAll;
 using Mimbly.Application.Queries.CompanyContact.GetById;
+using v1;
 
 [ApiController]
 //[Authorize]
-[Route("api/v1/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class CompanyContactController : BaseController
 {
     public CompanyContactController(IMediator mediator) : base(mediator)
@@ -26,7 +27,7 @@ public class CompanyContactController : BaseController
         return Ok(await _mediator.Send(new GetAllCompanyContactsQuery { }));
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "CompanyContactById")]
     public async Task<ActionResult<CompanyContactByIdVm>> FilterCompaniesById([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetByIdCompanyContactQuery { Id = id }));
@@ -35,9 +36,9 @@ public class CompanyContactController : BaseController
     [HttpPost]
     public async Task<ActionResult> CreateCompanyContact([FromBody] CreateCompanyContactRequestDto createCompanyContactRequestDto)
     {
-        await _mediator.Send(new CreateCompanyContactCommand { CreateCompanyContactRequest = createCompanyContactRequestDto });
+        var createdCompanyContact = await _mediator.Send(new CreateCompanyContactCommand { CreateCompanyContactRequest = createCompanyContactRequestDto });
 
-        return Ok("Company contact created successfully");
+        return CreatedAtRoute("CompanyContactById", new { createdCompanyContact.Id }, createdCompanyContact);
     }
 
     [HttpDelete("{id:guid}")]
@@ -45,7 +46,7 @@ public class CompanyContactController : BaseController
     {
         await _mediator.Send(new DeleteCompanyContactCommand { Id = id });
 
-        return Ok("Company contact removed successfully");
+        return NoContent();
     }
 
     [HttpPut("{id:guid}")]
