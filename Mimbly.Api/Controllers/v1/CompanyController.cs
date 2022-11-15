@@ -46,7 +46,7 @@ public class CompanyController : BaseController
     {
         var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
 
-        return CreatedAtRoute("CompanyById", createdCompany);
+        return CreatedAtRoute("CompanyById", new { createdCompany.Id }, createdCompany);
     }
 
     [HttpDelete("{id:guid}")]

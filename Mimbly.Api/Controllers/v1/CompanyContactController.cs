@@ -13,7 +13,8 @@ using v1;
 
 [ApiController]
 //[Authorize]
-[Route("api/v1/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
 public class CompanyContactController : BaseController
 {
     public CompanyContactController(IMediator mediator) : base(mediator)
@@ -37,7 +38,7 @@ public class CompanyContactController : BaseController
     {
         var createdCompanyContact = await _mediator.Send(new CreateCompanyContactCommand { CreateCompanyContactRequest = createCompanyContactRequestDto });
 
-        return CreatedAtRoute("CompanyContactById", createdCompanyContact);
+        return CreatedAtRoute("CompanyContactById", new { createdCompanyContact.Id }, createdCompanyContact);
     }
 
     [HttpDelete("{id:guid}")]

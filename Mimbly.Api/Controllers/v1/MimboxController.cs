@@ -36,9 +36,9 @@ public class MimboxController : BaseController
     [HttpPost]
     public async Task<ActionResult> CreateMimbox([FromBody] CreateMimboxRequestDto createMimboxRequestDto)
     {
-        await _mediator.Send(new CreateMimboxCommand { CreateMimboxRequest = createMimboxRequestDto });
+        var createdMimbox = await _mediator.Send(new CreateMimboxCommand { CreateMimboxRequest = createMimboxRequestDto });
 
-        return CreatedAtRoute("MimboxById", createMimboxRequestDto);
+        return CreatedAtRoute("MimboxById", new { createdMimbox.Id }, createdMimbox);
     }
 
     [HttpDelete("{id:guid}")]

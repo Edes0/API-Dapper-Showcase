@@ -5,7 +5,7 @@ using Common.Interfaces;
 using MediatR;
 using Mimbly.Domain.Entities;
 
-public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand>
+public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand, Mimbox>
 {
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(CreateMimboxCommand request, CancellationToken cancellationToken)
+    public async Task<Mimbox> Handle(CreateMimboxCommand request, CancellationToken cancellationToken)
     {
         await request.CreateMimboxRequest.Validate();
 
@@ -26,6 +26,6 @@ public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand>
 
         await _mimboxRepository.CreateMimbox(mimboxEntity);
 
-        return Unit.Value;
+        return mimboxEntity;
     }
 }
