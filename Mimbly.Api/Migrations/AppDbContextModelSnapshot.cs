@@ -90,6 +90,74 @@ namespace Mimbly.Api.Migrations
                     b.ToTable("Company_Contact");
                 });
 
+            modelBuilder.Entity("Mimbly.Domain.Entities.ErrorLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(1);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("Created");
+
+                    b.Property<bool>("Discarded")
+                        .HasColumnType("bit")
+                        .HasColumnName("Discarded");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Message");
+
+                    b.Property<Guid>("MimboxId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Mimbox_Id");
+
+                    b.Property<string>("Severity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Severity");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Error_Log");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.EventLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(1);
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("Created");
+
+                    b.Property<string>("Log")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Log");
+
+                    b.Property<Guid>("MimboxId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Mimbox_Id");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Event_Log");
+                });
+
             modelBuilder.Entity("Mimbly.Domain.Entities.Mimbox", b =>
                 {
                     b.Property<Guid>("Id")
@@ -98,7 +166,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<double>("Co2")
+                    b.Property<double>("Co2Saved")
                         .HasColumnType("float")
                         .HasColumnName("Co2");
 
@@ -106,7 +174,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Company_Id");
 
-                    b.Property<double>("Economy")
+                    b.Property<double>("EconomySaved")
                         .HasColumnType("float")
                         .HasColumnName("Economy");
 
@@ -118,7 +186,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Mimbox_Model_Id");
 
-                    b.Property<double>("Plastic")
+                    b.Property<double>("PlasticSaved")
                         .HasColumnType("float")
                         .HasColumnName("Plastic");
 
@@ -126,7 +194,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Mimbox_Status_Id");
 
-                    b.Property<double>("Water")
+                    b.Property<double>("WaterSaved")
                         .HasColumnType("float")
                         .HasColumnName("Water");
 
@@ -233,7 +301,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("Date")
+                        .HasColumnType("datetime")
                         .HasColumnName("Created");
 
                     b.Property<string>("Log")
@@ -286,6 +354,52 @@ namespace Mimbly.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Mimbox_Status");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.WashStats", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(1);
+
+                    b.Property<double>("Co2Saved")
+                        .HasColumnType("float")
+                        .HasColumnName("co2_saved");
+
+                    b.Property<double>("EconomySaved")
+                        .HasColumnType("float")
+                        .HasColumnName("Economy_saved");
+
+                    b.Property<DateTime>("EndedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("Ended_At");
+
+                    b.Property<Guid>("MimboxId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Mimbox_Id");
+
+                    b.Property<double>("PlasticSaved")
+                        .HasColumnType("float")
+                        .HasColumnName("plastic_saved");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("Started_At");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Type");
+
+                    b.Property<double>("WaterSaved")
+                        .HasColumnType("float")
+                        .HasColumnName("water_saved");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wash_Stats");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.Company", b =>

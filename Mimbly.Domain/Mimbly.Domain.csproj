@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <Folder Include="ApplicationModels\" />
+    <Folder Include="Entities\Mimbox\" />
+    <Folder Include="Entities\Company\" />
   </ItemGroup>
 
   <ItemGroup>
