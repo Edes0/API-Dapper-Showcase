@@ -21,7 +21,6 @@ using Mimbly.CoreServices.Authorization;
 
 public static class PuppeteerExtensions
 {
-    private static string _executablePath;
     public static async Task PreparePuppeteerAsync(this IServiceCollection service,
         IWebHostEnvironment hostingEnvironment)
     {
@@ -29,11 +28,11 @@ public static class PuppeteerExtensions
         var downloadPath = Path.Join(hostingEnvironment.ContentRootPath, "./puppeteer");
         var browserOptions = new BrowserFetcherOptions { Path = downloadPath };
         var browserFetcher = new BrowserFetcher(browserOptions);
-        _executablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
+        ExecutablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
         await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
     }
 
-    public static string ExecutablePath => _executablePath;
+    public static string? ExecutablePath { get; private set; }
 }
 
 
