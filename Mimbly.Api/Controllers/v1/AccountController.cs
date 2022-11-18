@@ -27,7 +27,7 @@ public class AccountController : ControllerBase
     {
         try
         {
-            _accountService.InviteUserToCompany(email, companyId, displayName);
+            _accountService.InviteUser(email, companyId, displayName);
         }
         catch (Exception ex)
         {
