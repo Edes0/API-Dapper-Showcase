@@ -3,6 +3,7 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using Microsoft.EntityFrameworkCore;
 using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AzureEvents;
 
 public class AppDbContext : DbContext
 {
