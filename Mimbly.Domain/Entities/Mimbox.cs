@@ -13,16 +13,16 @@ public class Mimbox
     public Guid Id { get; set; }
 
     [Column("Water", TypeName = "float")]
-    public float WaterSaved { get; set; } = 0;
+    public float WaterSaved { get; set; }
 
     [Column("Co2", TypeName = "float")]
-    public float Co2Saved { get; set; } = 0;
+    public float Co2Saved { get; set; }
 
     [Column("Plastic", TypeName = "float")]
-    public float PlasticSaved { get; set; } = 0;
+    public float PlasticSaved { get; set; }
 
     [Column("Economy", TypeName = "float")]
-    public float EconomySaved { get; set; } = 0;
+    public float EconomySaved { get; set; }
 
     [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
     public Guid StatusId { get; set; }
@@ -60,5 +60,8 @@ public class Mimbox
     {
         Id = Guid.NewGuid();
         WaterSaved = 0;
+        Co2Saved = 0;
+        PlasticSaved = 0;
+        EconomySaved = 0;
     }
 }
