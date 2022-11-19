@@ -1,9 +1,8 @@
-﻿namespace Mimbly.Domain.Entities;
+﻿namespace Mimbly.Domain.Entities.AzureEvents;
 
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Table("Event_Log")]
@@ -24,13 +23,6 @@ public class EventLog
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
-
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<EventLog>(entity => entity
-        .Property(x => x.Created)
-        .ValueGeneratedOnAdd());
-    }
 }
 
 

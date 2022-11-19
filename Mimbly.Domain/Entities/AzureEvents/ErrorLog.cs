@@ -1,8 +1,8 @@
-﻿namespace Mimbly.Domain.Entities;
+﻿namespace Mimbly.Domain.Entities.AzureEvents;
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 [Table("Error_Log")]
 public class ErrorLog
@@ -18,18 +18,11 @@ public class ErrorLog
     public string Message { get; set; }
 
     [Column("Discarded", TypeName = "bit")]
-    public  bool Discarded { get; set; }
+    public bool Discarded { get; set; }
 
     [Column("Created", TypeName = "datetime")]
     public DateTime Created { get; set; }
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
-
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<ErrorLog>(entity => entity
-        .Property(x => x.Created)
-        .ValueGeneratedOnAdd());
-    }
 }

@@ -39,11 +39,20 @@ public class Mimbox
 
     public ICollection<MimboxContact> ContactList { get; set; } = new List<MimboxContact>();
 
+    public ICollection<ErrorLog> ErrorLogList { get; set; } = new List<ErrorLog>();
+
     public MimboxStatus Status { get; set; }
 
     public MimboxModel Model { get; set; }
 
     public MimboxLocation? Location { get; set; }
+
+    // Navigation property
+    public virtual ICollection<EventLog> EventLogList { get; set; }
+
+    public virtual ICollection<WaterToWashingMachineEvent> WaterToWashingMachineEventList { get; set; }
+
+    public virtual ICollection<WaterToMimboxEvent> WaterToMimboxEventList { get; set; }
 
 
     public Mimbox()

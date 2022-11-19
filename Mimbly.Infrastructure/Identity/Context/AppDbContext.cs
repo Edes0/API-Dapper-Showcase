@@ -19,7 +19,8 @@ public class AppDbContext : DbContext
     public DbSet<MimboxLocation> Locations { get; set; } = null!;
     public DbSet<ErrorLog> ErrorLogs { get; set; } = null!;
     public DbSet<EventLog> EventLogs { get; set; } = null!;
-    public DbSet<WashStats> WashStats { get; set; } = null!;
+    public DbSet<WaterToWashingMachineEvent> WaterToWashingMachineEvents { get; set; } = null!;
+    public DbSet<WaterToMimboxEvent> WaterToMimboxEvents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,7 +34,5 @@ public class AppDbContext : DbContext
 
         // Configure entities
         MimboxLog.Configure(modelBuilder);
-        EventLog.Configure(modelBuilder);
-        ErrorLog.Configure(modelBuilder);
     }
 }
