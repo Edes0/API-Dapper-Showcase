@@ -49,13 +49,13 @@ public class AccountService
         var client = _graphService.GetClient();
 
         var userInvitation = GetInvitation(technician, _redirectUrl.ToString());
-        var technicianInfo = GetUserInfo(technician);
+        var userInfo = GetUserInfo(technician);
 
         try
         {
             var invitedUserId = await InviteAndGetUserId(userInvitation);
 
-            var invitedUserId = invite.InvitedUser.Id;
+            await client.Users[invitedUserId].Request().UpdateAsync(userInfo);
 
             await client.Users[invitedUserId].Request().UpdateAsync(technicianInfo);
 
@@ -73,7 +73,7 @@ public class AccountService
         var client = _graphService.GetClient();
 
         var userInvitation = GetInvitation(admin, _redirectUrl.ToString());
-        var adminInfo = GetUserInfo(admin);
+        var userInfo = GetUserInfo(admin);
 
         try
         {
@@ -82,7 +82,7 @@ public class AccountService
             var invitedUserId = resp.InvitedUser.Id;
 
             // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
-            await client.Users[invitedUserId].Request().UpdateAsync(adminInfo);
+            await client.Users[invitedUserId].Request().UpdateAsync(userInfo);
             await client.Groups["Insert admin id here"].Members.References.Request().AddAsync(new DirectoryObject { Id = invitedUserId });
         }
         catch (Exception ex)
@@ -100,15 +100,7 @@ public class AccountService
         var redirectUrl = _redirectUrl.Path = "dashboard/" + owner.GroupId;
 
         var userInvitation = GetInvitation(owner, redirectUrl);
-
-        var userInfo = new User
-        {
-            JobTitle = owner.Contact?.JobTitle,
-            MobilePhone = owner.Contact?.MobilePhone,
-            StreetAddress = owner.Contact?.StreetAddress,
-            City = owner.Contact?.StreetAddress,
-            Country = owner.Contact?.Country
-        };
+        var userInfo = GetUserInfo(owner);
 
         var group = new Group
         {
