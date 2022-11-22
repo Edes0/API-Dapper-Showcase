@@ -5,7 +5,6 @@ using Microsoft.Graph;
 public class UserInviteModel
 {
     public string? UserType { get; set; }
-    public bool IsGroupAdmin { get; set; }
     public string? EmailAddress { get; set; }
     public string? DisplayName { get; set; }
     public string? GroupId { get; set; }
