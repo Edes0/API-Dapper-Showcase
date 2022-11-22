@@ -25,12 +25,12 @@ public class AccountService
         var client = _graphService.GetClient();
         var redirectUrl = _redirectUrl.Path = "dashboard/" + user.GroupId;
 
-        var invite = GetInvitation(user, redirectUrl);
+        var userInvitation = GetInvitation(user, redirectUrl);
         var userInfo = GetUserInfo(user);
 
         try
         {
-            var resp = await client.Invitations.Request().AddAsync(invite);
+            var invitedUserId = await InviteAndGetUserId(userInvitation);
 
             var invitedUserId = resp.InvitedUser.Id;
 
@@ -48,12 +48,12 @@ public class AccountService
     {
         var client = _graphService.GetClient();
 
-        var invite = GetInvitation(technician, _redirectUrl.ToString());
+        var userInvitation = GetInvitation(technician, _redirectUrl.ToString());
         var technicianInfo = GetUserInfo(technician);
 
         try
         {
-            var resp = await client.Invitations.Request().AddAsync(invite);
+            var invitedUserId = await InviteAndGetUserId(userInvitation);
 
             var invitedUserId = invite.InvitedUser.Id;
 
@@ -72,12 +72,12 @@ public class AccountService
     {
         var client = _graphService.GetClient();
 
-        var invite = GetInvitation(admin, _redirectUrl.ToString());
+        var userInvitation = GetInvitation(admin, _redirectUrl.ToString());
         var adminInfo = GetUserInfo(admin);
 
         try
         {
-            var resp = await client.Invitations.Request().AddAsync(invite);
+            var invitedUserId = await InviteAndGetUserId(userInvitation);
 
             var invitedUserId = resp.InvitedUser.Id;
 
@@ -97,12 +97,9 @@ public class AccountService
         // TODO: Handle parentCompanyConnection, Create company instance in Db
         var client = _graphService.GetClient();
 
-        var invitation = new Invitation
-        {
-            InvitedUserDisplayName = owner.DisplayName,
-            InvitedUserEmailAddress = owner.EmailAddress,
-            InviteRedirectUrl = $"{_redirectUrl}/dashboard/{owner.GroupId}",
-        };
+        var redirectUrl = _redirectUrl.Path = "dashboard/" + owner.GroupId;
+
+        var userInvitation = GetInvitation(owner, redirectUrl);
 
         var userInfo = new User
         {
@@ -125,7 +122,7 @@ public class AccountService
             var invite = await client.Invitations.Request().AddAsync(invitation);
 
             var groupId = resp.Id;
-            var invitedUserId = invite.InvitedUser.Id;
+            var invitedUserId = await InviteAndGetUserId(userInvitation);
 
             await client.Users[invitedUserId].Request().UpdateAsync(userInfo);
             await client.Groups[groupId].Owners.References.Request().AddAsync(new DirectoryObject { Id = invitedUserId });
@@ -190,4 +187,25 @@ public class AccountService
 
         return userInfo;
     }
+
+    public async Task<string>? InviteAndGetUserId(Invitation invite)
+    {
+        var client = _graphService.GetClient();
+
+        try
+        {
+            var resp = await client.Invitations.Request().AddAsync(invite);
+            var userId = resp.InvitedUser.Id;
+
+            return userId;
+        }
+        catch (Exception ex)
+        {
+            // TODO: create a LoggerMessage Extension 
+            _logger.LogInformation("Something went wrong inviting a user: ", ex);
+            return null;
+        }
+    }
+    }
+
 }
