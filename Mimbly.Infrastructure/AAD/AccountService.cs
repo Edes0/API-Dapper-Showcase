@@ -26,9 +26,9 @@ public class AccountService
 
         var invitation = new Invitation
         {
-            InvitedUserDisplayName = displayName,
-            InvitedUserEmailAddress = email,
-            InviteRedirectUrl = $"{_redirectUrl}/dashboard/{companyId}"
+            InvitedUserDisplayName = user.DisplayName,
+            InvitedUserEmailAddress = user.EmailAddress,
+            InviteRedirectUrl = $"{_redirectUrl}/dashboard/{user.GroupId}",
         };
 
         var invite = await client.Invitations.Request().AddAsync(invitation);
