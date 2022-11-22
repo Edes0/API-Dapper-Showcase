@@ -94,22 +94,36 @@ public class AccountService
         }
     }
 
-    public async void InviteAdmin(string displayName, string email)
+    public async void InviteAdmin(UserInviteModel admin)
     {
         var client = _graphService.GetClient();
 
         var invite = new Invitation
         {
-            InvitedUserDisplayName = displayName,
-            InvitedUserEmailAddress = email,
-            InviteRedirectUrl = $"{_redirectUrl}/dashboard"
+            InvitedUserDisplayName = admin.DisplayName,
+            InvitedUserEmailAddress = admin.EmailAddress,
+            InviteRedirectUrl = _redirectUrl
         };
 
-        try {
-            var resp = await client.Invitations.Request().AddAsync(invite);
-        }
-        catch(Exception ex)
+        var adminInfo = new User
         {
+            JobTitle = admin.Contact?.JobTitle,
+            MobilePhone = admin.Contact?.MobilePhone
+        };
+
+        try
+        {
+            var resp = await client.Invitations.Request().AddAsync(invite);
+
+            var invitedUserId = resp.InvitedUser.Id;
+
+            // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
+            await client.Users[invitedUserId].Request().UpdateAsync(adminInfo);
+            await client.Groups["Insert admin id here"].Members.References.Request().AddAsync(new DirectoryObject { Id = invitedUserId });
+        }
+        catch (Exception ex)
+        {
+            // TODO: create a LoggerMessage Extension 
             _logger.LogInformation("Something went wrong creating an admin", ex);
         }
     }
