@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mimbly.Api.Migrations
 {
-    public partial class AddErrorLog_EventLog_MimboxEvents : Migration
+    public partial class AddEntitiesForFunctions : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,23 +61,17 @@ namespace Mimbly.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Water_To_Mimbox_Event",
+                name: "Water_Color",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Started_At = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Ended_At = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Mimbox_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Red = table.Column<double>(type: "float", nullable: false),
+                    Green = table.Column<double>(type: "float", nullable: false),
+                    Blue = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Water_To_Mimbox_Event", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Water_To_Mimbox_Event_Mimbox_Mimbox_Id",
-                        column: x => x.Mimbox_Id,
-                        principalTable: "Mimbox",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Water_Color", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,7 +84,7 @@ namespace Mimbly.Api.Migrations
                     plastic_saved = table.Column<double>(type: "float", nullable: false),
                     Economy_saved = table.Column<double>(type: "float", nullable: false),
                     Started_At = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Ended_At = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Ended_At = table.Column<DateTime>(type: "datetime", nullable: true),
                     Mimbox_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Washing_Machine_Id = table.Column<byte>(type: "tinyint", nullable: false)
                 },
@@ -103,6 +97,36 @@ namespace Mimbly.Api.Migrations
                         principalTable: "Mimbox",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Water_To_Mimbox_Event",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Started_At = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Ended_At = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Mimbox_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Water_Condition = table.Column<double>(type: "float", nullable: true),
+                    Pressure_From_Washing_Machine = table.Column<double>(type: "float", nullable: true),
+                    Filter_Clean = table.Column<int>(type: "int", nullable: true),
+                    Water_Temp_In = table.Column<double>(type: "float", nullable: true),
+                    WaterColorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Water_To_Mimbox_Event", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Water_To_Mimbox_Event_Mimbox_Mimbox_Id",
+                        column: x => x.Mimbox_Id,
+                        principalTable: "Mimbox",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Water_To_Mimbox_Event_Water_Color_WaterColorId",
+                        column: x => x.WaterColorId,
+                        principalTable: "Water_Color",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -119,6 +143,11 @@ namespace Mimbly.Api.Migrations
                 name: "IX_Water_To_Mimbox_Event_Mimbox_Id",
                 table: "Water_To_Mimbox_Event",
                 column: "Mimbox_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Water_To_Mimbox_Event_WaterColorId",
+                table: "Water_To_Mimbox_Event",
+                column: "WaterColorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Water_To_Washing_Machine_Event_Mimbox_Id",
@@ -139,6 +168,9 @@ namespace Mimbly.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Water_To_Washing_Machine_Event");
+
+            migrationBuilder.DropTable(
+                name: "Water_Color");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "Created",

@@ -12,8 +12,8 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221119215223_AddErrorLog_EventLog_MimboxEvents")]
-    partial class AddErrorLog_EventLog_MimboxEvents
+    [Migration("20221122134016_AddEntitiesForFunctions")]
+    partial class AddEntitiesForFunctions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,6 +94,31 @@ namespace Mimbly.Api.Migrations
                     b.ToTable("Event_Log");
                 });
 
+            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterColor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(1);
+
+                    b.Property<double>("Blue")
+                        .HasColumnType("float")
+                        .HasColumnName("Blue");
+
+                    b.Property<double>("Green")
+                        .HasColumnType("float")
+                        .HasColumnName("Green");
+
+                    b.Property<double>("Red")
+                        .HasColumnType("float")
+                        .HasColumnName("Red");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Water_Color");
+                });
+
             modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterToMimboxEvent", b =>
                 {
                     b.Property<Guid>("Id")
@@ -102,21 +127,42 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<DateTime>("EndedAt")
+                    b.Property<DateTime?>("EndedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Ended_At");
+
+                    b.Property<int?>("FilterClean")
+                        .HasColumnType("int")
+                        .HasColumnName("Filter_Clean");
 
                     b.Property<Guid>("MimboxId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Mimbox_Id");
 
+                    b.Property<double?>("PressureFromWashingMachine")
+                        .HasColumnType("float")
+                        .HasColumnName("Pressure_From_Washing_Machine");
+
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Started_At");
 
+                    b.Property<Guid?>("WaterColorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("WaterCondition")
+                        .HasColumnType("float")
+                        .HasColumnName("Water_Condition");
+
+                    b.Property<double?>("WaterTempIn")
+                        .HasColumnType("float")
+                        .HasColumnName("Water_Temp_In");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MimboxId");
+
+                    b.HasIndex("WaterColorId");
 
                     b.ToTable("Water_To_Mimbox_Event");
                 });
@@ -137,7 +183,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("float")
                         .HasColumnName("Economy_saved");
 
-                    b.Property<DateTime>("EndedAt")
+                    b.Property<DateTime?>("EndedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Ended_At");
 
@@ -459,6 +505,12 @@ namespace Mimbly.Api.Migrations
                         .HasForeignKey("MimboxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Mimbly.Domain.Entities.AzureEvents.WaterColor", "WaterColor")
+                        .WithMany()
+                        .HasForeignKey("WaterColorId");
+
+                    b.Navigation("WaterColor");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterToWashingMachineEvent", b =>
