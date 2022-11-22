@@ -2,7 +2,6 @@
 
 using Common.Interfaces;
 using MediatR;
-using Mimbly.Application.Commands.Mimbox.DeleteMimbox;
 using Mimbly.CoreServices.Exceptions;
 
 public class DeleteMimboxLocationCommandHandler : IRequestHandler<DeleteMimboxLocationCommand>
@@ -15,7 +14,7 @@ public class DeleteMimboxLocationCommandHandler : IRequestHandler<DeleteMimboxLo
         _mimboxLocationRepository = mimboxLocationRepository;
     }
 
-    public async Task<Unit> Handle(DeleteMimboxCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteMimboxLocationCommand request, CancellationToken cancellationToken)
     {
         var mimboxLocation = await _mimboxLocationRepository.GetMimboxLocationById(request.Id);
 

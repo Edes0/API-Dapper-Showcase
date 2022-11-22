@@ -49,7 +49,7 @@ public class MimboxLocationRepository : IMimboxLocationRepository
             INSERT INTO Mimbox_Location
                 (Id, Country, Region, Postal_code, City, Street_Address)
             VALUES
-                (@Id, @Country, @Region, @PostalCode, @Cíty, @StreetAddress)
+                (@Id, @Country, @Region, @PostalCode, @City, @StreetAddress)
         ";
 
         await _db.SaveChanges(sql, location);
