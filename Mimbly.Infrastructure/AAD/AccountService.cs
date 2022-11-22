@@ -1,8 +1,8 @@
 ﻿namespace Mimbly.Infrastructure.AAD;
 
+using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using Mimbly.CoreServices.AADServices;
-using Microsoft.Extensions.Logging;
 
 
 public class AccountService
@@ -42,19 +42,18 @@ public class AccountService
 
         try
         {
-        var invite = await client.Invitations.Request().AddAsync(invitation);
+            var invite = await client.Invitations.Request().AddAsync(invitation);
 
             var invitedUserId = invite.InvitedUser.Id;
 
             await client.Users[invitedUserId].Request().UpdateAsync(userInfo);
             await client.Groups[user.GroupId].Members.References.Request().AddAsync(new DirectoryObject { Id = invitedUserId });
-    }
+        }
         catch (Exception ex)
         {
             // TODO: create a LoggerMessage Extension 
             _logger.LogInformation("Something went wrong inviting a user.", ex);
         }
-
     }
 
     public async void InviteTechnician(UserInviteModel technician)
@@ -176,20 +175,26 @@ public class AccountService
     public async Task<bool> AssignRole(string email, string groupId)
     {
         var client = _graphService.GetClient();
-        try {
+        try
+        {
             var resp = await client.Users.Request().Filter($"mail eq '{email}'").GetAsync();
             var user = resp.FirstOrDefault();
-            if(user != null) return false;
+            if (user != null)
+            {
+                return false;
+            }
 
-            var directoryObject = new DirectoryObject {
+            var directoryObject = new DirectoryObject
+            {
                 Id = user.Id
             };
 
-            await client.Groups["groupId"].Members.References.Request().AddAsync(directoryObject);
+            await client.Groups[groupId].Members.References.Request().AddAsync(directoryObject);
             return true;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
+            // TODO: create a LoggerMessage Extension 
             _logger.LogInformation("Something went wrong creating an admin", ex);
             return false;
         }
