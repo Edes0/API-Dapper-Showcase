@@ -55,25 +55,42 @@ public class AccountService
             _logger.LogInformation("Something went wrong inviting a user.", ex);
         }
 
-    public async void InviteTechnician(string displayName, string email, string phoneNumber, string companyName, string Location)
+    }
+
+    public async void InviteTechnician(UserInviteModel technician)
     {
         var client = _graphService.GetClient();
 
         var invite = new Invitation
         {
-            InvitedUserDisplayName = displayName,
-            InvitedUserEmailAddress = email,
-            InviteRedirectUrl = $"{_redirectUrl}/dashboard"
-
-
+            InvitedUserDisplayName = technician.DisplayName,
+            InvitedUserEmailAddress = technician.EmailAddress,
+            InviteRedirectUrl = _redirectUrl
         };
 
-        try {
-            var resp = await client.Invitations.Request().AddAsync(invite);
-        }
-        catch(Exception ex)
+        var technicianInfo = new User
         {
-            _logger.LogInformation("Something went wrong creating an admin", ex);
+            JobTitle = technician.Contact?.JobTitle,
+            MobilePhone = technician.Contact?.MobilePhone,
+            StreetAddress = technician.Contact?.StreetAddress,
+            City = technician.Contact?.StreetAddress,
+            Country = technician.Contact?.Country
+        };
+
+        try
+        {
+            var resp = await client.Invitations.Request().AddAsync(invite);
+
+            var invitedUserId = invite.InvitedUser.Id;
+
+            await client.Users[invitedUserId].Request().UpdateAsync(technicianInfo);
+
+            // TODO: Add technician to database, once entity is created
+        }
+        catch (Exception ex)
+        {
+            // TODO: create a LoggerMessage Extension 
+            _logger.LogInformation("Something went wrong inviting a technician.", ex);
         }
     }
 
