@@ -128,16 +128,49 @@ public class AccountService
         }
     }
 
-    public async void CreateCompany(string displayName, string description, string ownerEmail, string parentCompany)
+    public async void CreateCompany(UserInviteModel owner, string displayName, string description, Guid parentCompanyId)
     {
+        // TODO: Handle parentCompanyConnection, Create company instance in Db
         var client = _graphService.GetClient();
+
+        var invitation = new Invitation
+        {
+            InvitedUserDisplayName = owner.DisplayName,
+            InvitedUserEmailAddress = owner.EmailAddress,
+            InviteRedirectUrl = $"{_redirectUrl}/dashboard/{owner.GroupId}",
+        };
+
+        var userInfo = new User
+        {
+            JobTitle = owner.Contact?.JobTitle,
+            MobilePhone = owner.Contact?.MobilePhone,
+            StreetAddress = owner.Contact?.StreetAddress,
+            City = owner.Contact?.StreetAddress,
+            Country = owner.Contact?.Country
+        };
 
         var group = new Group
         {
-
+            DisplayName = displayName,
+            Description = description,
         };
 
-        await client.Groups.Request().AddAsync(group);
+        try
+        {
+            var resp = await client.Groups.Request().AddAsync(group);
+            var invite = await client.Invitations.Request().AddAsync(invitation);
+
+            var groupId = resp.Id;
+            var invitedUserId = invite.InvitedUser.Id;
+
+            await client.Users[invitedUserId].Request().UpdateAsync(userInfo);
+            await client.Groups[groupId].Owners.References.Request().AddAsync(new DirectoryObject { Id = invitedUserId });
+        }
+        catch (Exception ex)
+        {
+            // TODO: create a LoggerMessage Extension 
+            _logger.LogInformation("Something went wrong creating an admin", ex);
+        }
     }
 
     public async Task<bool> AssignRole(string email, string groupId)
