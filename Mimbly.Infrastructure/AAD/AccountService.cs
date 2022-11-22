@@ -11,7 +11,7 @@ public class AccountService
     // TODO: Create models for functions internally??
     private readonly GraphService _graphService;
     private readonly ILogger _logger;
-    private readonly string _redirectUrl = "https://mimbly-frontend.azurewebsites.net";
+    private readonly UriBuilder _redirectUrl = new("https://mimbly-frontend.azurewebsites.net");
 
     public AccountService(GraphService graphService, ILogger logger)
     {
@@ -23,28 +23,16 @@ public class AccountService
     public async void InviteUser(UserInviteModel user)
     {
         var client = _graphService.GetClient();
+        var redirectUrl = _redirectUrl.Path = "dashboard/" + user.GroupId;
 
-        var invitation = new Invitation
-        {
-            InvitedUserDisplayName = user.DisplayName,
-            InvitedUserEmailAddress = user.EmailAddress,
-            InviteRedirectUrl = $"{_redirectUrl}/dashboard/{user.GroupId}",
-        };
-
-        var userInfo = new User
-        {
-            JobTitle = user.Contact?.JobTitle,
-            MobilePhone = user.Contact?.MobilePhone,
-            StreetAddress = user.Contact?.StreetAddress,
-            City = user.Contact?.StreetAddress,
-            Country = user.Contact?.Country
-        };
+        var invite = GetInvitation(user, redirectUrl);
+        var userInfo = GetUserInfo(user);
 
         try
         {
-            var invite = await client.Invitations.Request().AddAsync(invitation);
+            var resp = await client.Invitations.Request().AddAsync(invite);
 
-            var invitedUserId = invite.InvitedUser.Id;
+            var invitedUserId = resp.InvitedUser.Id;
 
             await client.Users[invitedUserId].Request().UpdateAsync(userInfo);
             await client.Groups[user.GroupId].Members.References.Request().AddAsync(new DirectoryObject { Id = invitedUserId });
@@ -60,21 +48,8 @@ public class AccountService
     {
         var client = _graphService.GetClient();
 
-        var invite = new Invitation
-        {
-            InvitedUserDisplayName = technician.DisplayName,
-            InvitedUserEmailAddress = technician.EmailAddress,
-            InviteRedirectUrl = _redirectUrl
-        };
-
-        var technicianInfo = new User
-        {
-            JobTitle = technician.Contact?.JobTitle,
-            MobilePhone = technician.Contact?.MobilePhone,
-            StreetAddress = technician.Contact?.StreetAddress,
-            City = technician.Contact?.StreetAddress,
-            Country = technician.Contact?.Country
-        };
+        var invite = GetInvitation(technician, _redirectUrl.ToString());
+        var technicianInfo = GetUserInfo(technician);
 
         try
         {
@@ -97,18 +72,8 @@ public class AccountService
     {
         var client = _graphService.GetClient();
 
-        var invite = new Invitation
-        {
-            InvitedUserDisplayName = admin.DisplayName,
-            InvitedUserEmailAddress = admin.EmailAddress,
-            InviteRedirectUrl = _redirectUrl
-        };
-
-        var adminInfo = new User
-        {
-            JobTitle = admin.Contact?.JobTitle,
-            MobilePhone = admin.Contact?.MobilePhone
-        };
+        var invite = GetInvitation(admin, _redirectUrl.ToString());
+        var adminInfo = GetUserInfo(admin);
 
         try
         {
@@ -198,5 +163,31 @@ public class AccountService
             _logger.LogInformation("Something went wrong creating an admin", ex);
             return false;
         }
+    }
+
+    public static Invitation GetInvitation(UserInviteModel user, string redirectUrl)
+    {
+        var invite = new Invitation
+        {
+            InvitedUserDisplayName = user.DisplayName,
+            InvitedUserEmailAddress = user.EmailAddress,
+            InviteRedirectUrl = redirectUrl
+        };
+
+        return invite;
+    }
+
+    public static User GetUserInfo(UserInviteModel user)
+    {
+        var userInfo = new User
+        {
+            JobTitle = user.Contact?.JobTitle,
+            MobilePhone = user.Contact?.MobilePhone,
+            StreetAddress = user.Contact?.StreetAddress,
+            City = user.Contact?.StreetAddress,
+            Country = user.Contact?.Country
+        };
+
+        return userInfo;
     }
 }
