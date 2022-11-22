@@ -2,14 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Domain.Entities;
 
-public class MimboxLocationRepository
+public class MimboxLocationRepository : IMimboxLocationRepository
 {
     private readonly ISqlDataAccess _db;
     public string ConnectionStringName { get; set; } = "DbConnectionString";
@@ -21,7 +19,7 @@ public class MimboxLocationRepository
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
-    public async Task<IEnumerable<MimboxLocation>> GetAllLocations()
+    public async Task<IEnumerable<MimboxLocation>> GetAllMimboxLocations()
     {
         var sql =
         @"
@@ -32,7 +30,7 @@ public class MimboxLocationRepository
         return await _db.LoadEntities<MimboxLocation, dynamic>(sql, new { });
     }
 
-    public async Task<MimboxLocation> GetLocationById(Guid id)
+    public async Task<MimboxLocation> GetMimboxLocationById(Guid id)
     {
         var sql =
         @"
@@ -44,7 +42,7 @@ public class MimboxLocationRepository
         return await _db.LoadEntity<MimboxLocation, dynamic>(sql, new { Id = id });
     }
 
-    public async Task CreateLocation(MimboxLocation location)
+    public async Task CreateMimboxLocation(MimboxLocation location)
     {
         var sql =
         @"
@@ -57,7 +55,7 @@ public class MimboxLocationRepository
         await _db.SaveChanges(sql, location);
     }
 
-    public async Task DeleteLocation(MimboxLocation location)
+    public async Task DeleteMimboxLocation(MimboxLocation location)
     {
         var sql =
         @"
@@ -69,7 +67,7 @@ public class MimboxLocationRepository
         await _db.SaveChanges(sql, location);
     }
 
-    public async Task UpdateLocation(MimboxLocation location)
+    public async Task UpdateMimboxLocation(MimboxLocation location)
     {
         var sql =
         @"

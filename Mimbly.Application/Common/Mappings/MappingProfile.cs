@@ -10,21 +10,29 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        //Mimbox mapping
+        // Mimbox mapping
         CreateMap<Mimbox, MimboxDto>();
 
         CreateMap<CreateMimboxRequestDto, Mimbox>();
 
         CreateMap<UpdateMimboxRequestDto, Mimbox>();
 
-        //Company mapping
+        // Mimbox Location
+
+        CreateMap<MimboxLocation, MimboxLocationDto>();
+
+        CreateMap<CreateMimboxLocationRequestDto, MimboxLocation>();
+
+        CreateMap<UpdateMimboxLocationRequestDto, MimboxLocation>();
+
+        // Company mapping
         CreateMap<Company, CompanyDto>();
 
         CreateMap<CreateCompanyRequestDto, Company>();
 
         CreateMap<UpdateCompanyRequestDto, Company>();
 
-        //CompanyContact mapping
+        // CompanyContact mapping
         CreateMap<CompanyContact, CompanyContactDto>();
 
         CreateMap<CreateCompanyContactRequestDto, CompanyContact>();
