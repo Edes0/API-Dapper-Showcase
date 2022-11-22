@@ -7,7 +7,6 @@ using MediatR;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.CoreServices.Exceptions;
-using Microsoft.IdentityModel.Tokens;
 
 public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxByIdVm>
 {
