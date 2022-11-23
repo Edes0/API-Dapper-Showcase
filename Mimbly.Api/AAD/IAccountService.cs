@@ -1,15 +1,18 @@
 ﻿namespace Mimbly.Api.AAD;
 
+using Mimbly.Api.AAD.DTOs;
+using Mimbly.Domain.Entities;
+
 public interface IAccountService
 {
-    Task<bool> InviteUser(UserInviteModel user);
+    Task<bool> InviteUser(UserInviteDTO user);
 
-    Task<bool> InviteTechnician(UserInviteModel technician);
+    Task<bool> InviteTechnician(UserInviteDTO technician);
 
-    Task<bool> InviteAdmin(UserInviteModel admin);
+    Task<bool> InviteAdmin(UserInviteDTO admin);
 
-    Task<bool> CreateCompany(UserInviteModel owner, string displayName, string description, Guid? parentCompanyId);
+    Task<Company> CreateCompany(UserInviteDTO owner, CreateCompanyDTO company);
 
-    Task<bool> AddUserToCompany(UserInviteModel user, Guid companyId);
+    Task<bool> AddUserToCompany(UserInviteDTO user, Guid companyId);
 
 }

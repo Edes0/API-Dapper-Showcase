@@ -3,7 +3,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mimbly.CoreServices.Authorization;
-using Mimbly.Infrastructure.AAD;
+using Mimbly.Api.AAD;
+using Mimbly.Api.AAD.DTOs;
 
 [ApiController]
 /*[Authorize]*/
@@ -24,7 +25,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteUser")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteUser(UserInviteModel user)
+    public async Task<ActionResult> InviteUser(UserInviteDTO user)
     {
         await user.Validate();
 
@@ -36,7 +37,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteTechnician")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(UserInviteModel user)
+    public async Task<ActionResult> InviteTechnician(UserInviteDTO user)
     {
         await user.Validate();
 
@@ -48,7 +49,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteAdmin")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(UserInviteModel user)
+    public async Task<ActionResult> InviteAdmin(UserInviteDTO user)
     {
         await user.Validate();
 
@@ -60,12 +61,20 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("CreateCompany")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> CreateCompany(UserInviteModel owner, string name, string desc, Guid? parent)
+    public async Task<ActionResult> CreateCompany(UserInviteDTO owner, CreateCompanyDTO company)
     {
         await owner.Validate();
+        await company.Validate();
 
-        var status = await _accountService.CreateCompany(owner, name, desc, parent);
+        var createdCompany = await _accountService.CreateCompany(owner, company);
 
-        return status ? Ok() : BadRequest();
+        if (createdCompany != null)
+        {
+            return Created($"/Company/{createdCompany.Id}", createdCompany);
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 }

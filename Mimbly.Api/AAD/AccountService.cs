@@ -3,9 +3,10 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
+using Mimbly.Api.AAD.DTOs;
 using Mimbly.Application.Commands.Company.CreateCompany;
 using Mimbly.Application.Contracts.Dtos.Company;
-
+using Mimbly.Domain.Entities;
 
 public class AccountService : IAccountService
 {
@@ -21,7 +22,7 @@ public class AccountService : IAccountService
         _mediator = mediator;
     }
 
-    public async Task<bool> InviteUser(UserInviteModel user)
+    public async Task<bool> InviteUser(UserInviteDTO user)
     {
         var redirectUrl = _redirectUrl.Path = "dashboard/" + user.GroupId;
 
@@ -41,7 +42,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<bool> InviteTechnician(UserInviteModel technician)
+    public async Task<bool> InviteTechnician(UserInviteDTO technician)
     {
         var userInvitation = GetInvitation(technician, _redirectUrl.ToString());
         var userInfo = GetUserInfo(technician);
@@ -60,7 +61,7 @@ public class AccountService : IAccountService
         // TODO: Add technician to database, once entity is created
     }
 
-    public async Task<bool> InviteAdmin(UserInviteModel admin)
+    public async Task<bool> InviteAdmin(UserInviteDTO admin)
     {
         var userInvitation = GetInvitation(admin, _redirectUrl.ToString());
         var userInfo = GetUserInfo(admin);
@@ -80,9 +81,8 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<bool> CreateCompany(UserInviteModel owner, CreateCompanyRequestDto createCompanyDto, string displayName, string description, Guid? parentCompanyId)
+    public async Task<Company?> CreateCompany(UserInviteDTO owner, CreateCompanyDTO company)
     {
-        // TODO: Create company instance in Db, Handle parentCompany relation
         var client = _graphService.GetClient();
 
         var redirectUrl = _redirectUrl.Path = "dashboard/" + owner.GroupId;
@@ -92,8 +92,8 @@ public class AccountService : IAccountService
 
         var groupInfo = new Group
         {
-            DisplayName = displayName,
-            Description = description,
+            DisplayName = company.Name,
+            Description = company.Description,
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
@@ -104,17 +104,17 @@ public class AccountService : IAccountService
             UpdateUserInfo(userInfo, invitedUserId);
             AddOwnerToGroup(group.Id, invitedUserId);
 
-            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyDto });
+            var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = company });
 
-            return true;
+            return newCompany;
         }
 
-        return false;
+        return null;
     }
 
-    public Task<bool> AddUserToCompany(UserInviteModel user, Guid companyId) => throw new NotImplementedException();
+    public Task<bool> AddUserToCompany(UserInviteDTO user, Guid companyId) => throw new NotImplementedException();
 
-    public static Invitation GetInvitation(UserInviteModel user, string redirectUrl)
+    public static Invitation GetInvitation(UserInviteDTO user, string redirectUrl)
     {
         var invite = new Invitation
         {
@@ -126,7 +126,7 @@ public class AccountService : IAccountService
         return invite;
     }
 
-    public static User GetUserInfo(UserInviteModel user)
+    public static User GetUserInfo(UserInviteDTO user)
     {
         var userInfo = new User
         {
@@ -206,5 +206,5 @@ public class AccountService : IAccountService
         }
     }
 
-    
+
 }
