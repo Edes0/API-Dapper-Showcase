@@ -7,8 +7,6 @@ using Mimbly.CoreServices.AADServices;
 
 public class AccountService
 {
-
-    // TODO: Create models for functions internally??
     private readonly GraphService _graphService;
     private readonly ILogger _logger;
     private readonly UriBuilder _redirectUrl = new("https://mimbly-frontend.azurewebsites.net");
@@ -19,9 +17,7 @@ public class AccountService
         _logger = logger;
     }
 
-    // TODO: Add nullchecks, return values if successfull.
-
-    public async void InviteUser(UserInviteModel user)
+    public async Task<bool> InviteUser(UserInviteModel user)
     {
         var redirectUrl = _redirectUrl.Path = "dashboard/" + user.GroupId;
 
@@ -29,36 +25,60 @@ public class AccountService
         var userInfo = GetUserInfo(user);
 
         var invitedUserId = await InviteAndGetUserId(userInvitation);
-        UpdateUserInfo(userInfo, invitedUserId);
-        AddMemberToGroup(user.GroupId, invitedUserId);
+
+        if (invitedUserId != null)
+        {
+            UpdateUserInfo(userInfo, invitedUserId);
+            AddMemberToGroup(user.GroupId, invitedUserId);
+
+            return true;
+        }
+
+        return false;
     }
 
-    public async void InviteTechnician(UserInviteModel technician)
+    public async Task<bool> InviteTechnician(UserInviteModel technician)
     {
         var userInvitation = GetInvitation(technician, _redirectUrl.ToString());
         var userInfo = GetUserInfo(technician);
 
         var invitedUserId = await InviteAndGetUserId(userInvitation);
-        UpdateUserInfo(userInfo, invitedUserId);
+
+        if (invitedUserId != null)
+        {
+            UpdateUserInfo(userInfo, invitedUserId);
+
+            return true;
+        }
+
+        return false;
 
         // TODO: Add technician to database, once entity is created
     }
 
-    public async void InviteAdmin(UserInviteModel admin)
+    public async Task<bool> InviteAdmin(UserInviteModel admin)
     {
         var userInvitation = GetInvitation(admin, _redirectUrl.ToString());
         var userInfo = GetUserInfo(admin);
 
         var invitedUserId = await InviteAndGetUserId(userInvitation);
-        UpdateUserInfo(userInfo, invitedUserId);
 
-        // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
-        AddMemberToGroup("Admin group Id", invitedUserId);
+        if (invitedUserId != null)
+        {
+            UpdateUserInfo(userInfo, invitedUserId);
+
+            // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
+            AddMemberToGroup("Admin group Id", invitedUserId);
+
+            return true;
+        }
+
+        return false;
     }
 
-    public async void CreateCompany(UserInviteModel owner, string displayName, string description, Guid parentCompanyId)
+    public async Task<bool> CreateCompany(UserInviteModel owner, string displayName, string description, Guid parentCompanyId)
     {
-        // TODO: Create company instance in Db, Handle parentCompany relation 
+        // TODO: Create company instance in Db, Handle parentCompany relation
         var client = _graphService.GetClient();
 
         var redirectUrl = _redirectUrl.Path = "dashboard/" + owner.GroupId;
@@ -75,8 +95,15 @@ public class AccountService
         var group = await client.Groups.Request().AddAsync(groupInfo);
         var invitedUserId = await InviteAndGetUserId(userInvitation);
 
-        UpdateUserInfo(userInfo, invitedUserId);
-        AddOwnerToGroup(group.Id, invitedUserId);
+        if (invitedUserId != null)
+        {
+            UpdateUserInfo(userInfo, invitedUserId);
+            AddOwnerToGroup(group.Id, invitedUserId);
+
+            return true;
+        }
+
+        return false;
     }
 
     public static Invitation GetInvitation(UserInviteModel user, string redirectUrl)
@@ -105,7 +132,7 @@ public class AccountService
         return userInfo;
     }
 
-    public async Task<string>? InviteAndGetUserId(Invitation invite)
+    public async Task<string?> InviteAndGetUserId(Invitation invite)
     {
         var client = _graphService.GetClient();
 
@@ -118,7 +145,7 @@ public class AccountService
         }
         catch (Exception ex)
         {
-            // TODO: create a LoggerMessage Extension 
+            // TODO: create a LoggerMessage Extension
             _logger.LogInformation("Something went wrong inviting a user: ", ex);
             return null;
         }
@@ -134,7 +161,7 @@ public class AccountService
         }
         catch (Exception ex)
         {
-            // TODO: create a LoggerMessage Extension 
+            // TODO: create a LoggerMessage Extension
             _logger.LogInformation("Something went wrong inviting a user: ", ex);
         }
     }
@@ -150,7 +177,7 @@ public class AccountService
         }
         catch (Exception ex)
         {
-            // TODO: create a LoggerMessage Extension 
+            // TODO: create a LoggerMessage Extension
             _logger.LogInformation("Something went wrong adding a member to a group: ", ex);
         }
     }
@@ -166,7 +193,7 @@ public class AccountService
         }
         catch (Exception ex)
         {
-            // TODO: create a LoggerMessage Extension 
+            // TODO: create a LoggerMessage Extension
             _logger.LogInformation("Something went wrong adding a member to a group: ", ex);
         }
     }
