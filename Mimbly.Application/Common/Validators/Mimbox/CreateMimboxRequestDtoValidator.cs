@@ -7,16 +7,16 @@ public class CreateMimboxRequestDtoValidator : AbstractValidator<CreateMimboxReq
 {
     public CreateMimboxRequestDtoValidator()
     {
-        RuleFor(x => x.Water)
+        RuleFor(x => x.WaterSaved)
             .NotNull().WithMessage("Water is required");
 
-        RuleFor(x => x.Co2)
+        RuleFor(x => x.Co2Saved)
             .NotNull().WithMessage("Co2 is required");
 
-        RuleFor(x => x.Plastic)
+        RuleFor(x => x.PlasticSaved)
             .NotNull().WithMessage("Plastic is required");
 
-        RuleFor(x => x.Economy)
+        RuleFor(x => x.EconomySaved)
             .NotNull().WithMessage("Economy is required");
 
         RuleFor(x => x.StatusId)
