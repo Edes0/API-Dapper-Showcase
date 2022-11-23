@@ -26,6 +26,8 @@ public class AccountController : ControllerBase
     [GroupsAuthorize("Admin")]
     public async Task<ActionResult> InviteUser(UserInviteModel user)
     {
+        await user.Validate();
+
         var status = await _accountService.InviteUser(user);
 
         return status ? Ok() : BadRequest();
@@ -36,6 +38,8 @@ public class AccountController : ControllerBase
     [GroupsAuthorize("Admin")]
     public async Task<ActionResult> InviteTechnician(UserInviteModel user)
     {
+        await user.Validate();
+
         var status = await _accountService.InviteTechnician(user);
 
         return status ? Ok() : BadRequest();
@@ -46,6 +50,8 @@ public class AccountController : ControllerBase
     [GroupsAuthorize("Admin")]
     public async Task<ActionResult> InviteAdmin(UserInviteModel user)
     {
+        await user.Validate();
+
         var status = await _accountService.InviteAdmin(user);
 
         return status ? Ok() : BadRequest();
@@ -56,6 +62,8 @@ public class AccountController : ControllerBase
     [GroupsAuthorize("Admin")]
     public async Task<ActionResult> CreateCompany(UserInviteModel owner, string name, string desc, Guid? parent)
     {
+        await owner.Validate();
+
         var status = await _accountService.CreateCompany(owner, name, desc, parent);
 
         return status ? Ok() : BadRequest();
