@@ -12,16 +12,16 @@ public class Mimbox
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
-    [Column("Water", TypeName = "float")]
+    [Column("Water_Saved", TypeName = "float")]
     public float WaterSaved { get; set; }
 
-    [Column("Co2", TypeName = "float")]
+    [Column("Co2_Saved", TypeName = "float")]
     public float Co2Saved { get; set; }
 
-    [Column("Plastic", TypeName = "float")]
+    [Column("Plastic_Saved", TypeName = "float")]
     public float PlasticSaved { get; set; }
 
-    [Column("Economy", TypeName = "float")]
+    [Column("Economy_Saved", TypeName = "float")]
     public float EconomySaved { get; set; }
 
     [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]

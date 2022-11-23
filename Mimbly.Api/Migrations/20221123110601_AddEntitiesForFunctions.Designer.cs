@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221122134016_AddEntitiesForFunctions")]
+    [Migration("20221123110601_AddEntitiesForFunctions")]
     partial class AddEntitiesForFunctions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -292,7 +292,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("Co2Saved")
                         .HasColumnType("float")
-                        .HasColumnName("Co2");
+                        .HasColumnName("Co2_Saved");
 
                     b.Property<Guid?>("CompanyId")
                         .HasColumnType("uniqueidentifier")
@@ -300,7 +300,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("EconomySaved")
                         .HasColumnType("float")
-                        .HasColumnName("Economy");
+                        .HasColumnName("Economy_Saved");
 
                     b.Property<Guid?>("LocationId")
                         .HasColumnType("uniqueidentifier")
@@ -312,7 +312,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("PlasticSaved")
                         .HasColumnType("float")
-                        .HasColumnName("Plastic");
+                        .HasColumnName("Plastic_Saved");
 
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uniqueidentifier")
@@ -320,7 +320,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("WaterSaved")
                         .HasColumnType("float")
-                        .HasColumnName("Water");
+                        .HasColumnName("Water_Saved");
 
                     b.HasKey("Id");
 

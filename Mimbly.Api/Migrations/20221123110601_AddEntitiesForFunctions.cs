@@ -9,6 +9,26 @@ namespace Mimbly.Api.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "Water",
+                table: "Mimbox",
+                newName: "Water_Saved");
+
+            migrationBuilder.RenameColumn(
+                name: "Plastic",
+                table: "Mimbox",
+                newName: "Plastic_Saved");
+
+            migrationBuilder.RenameColumn(
+                name: "Economy",
+                table: "Mimbox",
+                newName: "Economy_Saved");
+
+            migrationBuilder.RenameColumn(
+                name: "Co2",
+                table: "Mimbox",
+                newName: "Co2_Saved");
+
             migrationBuilder.AlterColumn<DateTime>(
                 name: "Created",
                 table: "Mimbox_Log",
@@ -171,6 +191,26 @@ namespace Mimbly.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Water_Color");
+
+            migrationBuilder.RenameColumn(
+                name: "Water_Saved",
+                table: "Mimbox",
+                newName: "Water");
+
+            migrationBuilder.RenameColumn(
+                name: "Plastic_Saved",
+                table: "Mimbox",
+                newName: "Plastic");
+
+            migrationBuilder.RenameColumn(
+                name: "Economy_Saved",
+                table: "Mimbox",
+                newName: "Economy");
+
+            migrationBuilder.RenameColumn(
+                name: "Co2_Saved",
+                table: "Mimbox",
+                newName: "Co2");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "Created",
