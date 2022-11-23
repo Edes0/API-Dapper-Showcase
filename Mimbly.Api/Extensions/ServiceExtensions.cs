@@ -19,6 +19,7 @@ using PuppeteerSharp;
 using Microsoft.AspNetCore.Authorization;
 using Mimbly.CoreServices.Authorization;
 using Mimbly.Api.AAD;
+using Mimbly.Api.AAD.Helpers;
 
 public static class PuppeteerExtensions
 {
@@ -140,5 +141,6 @@ public static class ServiceExtensions
     {
         services.AddSingleton<IAccountService, AccountService>();
         services.AddSingleton<IGraphService, GraphService>();
+        services.AddSingleton<IGraphHelper, GraphHelper>();
     }
 }

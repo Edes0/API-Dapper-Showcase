@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using Mimbly.Api.AAD.DTOs;
+using Mimbly.Api.AAD.Helpers;
 using Mimbly.Application.Commands.Company.CreateCompany;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.Domain.Entities;
@@ -13,28 +14,31 @@ public class AccountService : IAccountService
     private readonly IGraphService _graphService;
     private readonly ILogger<AccountService> _logger;
     private readonly IMediator _mediator;
+    private readonly IGraphHelper _graphHelper;
     private readonly UriBuilder _redirectUrl = new("https://mimbly-frontend.azurewebsites.net");
 
-    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IMediator mediator)
+    public AccountService(IGraphService graphService, ILogger<AccountService> logger,
+        IMediator mediator, IGraphHelper graphHelper)
     {
         _graphService = graphService;
         _logger = logger;
         _mediator = mediator;
+        _graphHelper = graphHelper;
     }
 
     public async Task<bool> InviteUser(UserInviteDTO user)
     {
         var redirectUrl = _redirectUrl.Path = "dashboard/" + user.GroupId;
 
-        var userInvitation = GetInvitation(user, redirectUrl);
-        var userInfo = GetUserInfo(user);
+        var userInvitation = _graphHelper.GetInvitation(user, redirectUrl);
+        var userInfo = _graphHelper.GetUserInfo(user);
 
-        var invitedUserId = await InviteAndGetUserId(userInvitation);
+        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
 
         if (invitedUserId != null)
         {
-            UpdateUserInfo(userInfo, invitedUserId);
-            AddMemberToGroup(user.GroupId, invitedUserId);
+            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
+            _graphHelper.AddMemberToGroup(user.GroupId, invitedUserId);
 
             return true;
         }
@@ -44,14 +48,14 @@ public class AccountService : IAccountService
 
     public async Task<bool> InviteTechnician(UserInviteDTO technician)
     {
-        var userInvitation = GetInvitation(technician, _redirectUrl.ToString());
-        var userInfo = GetUserInfo(technician);
+        var userInvitation = _graphHelper.GetInvitation(technician, _redirectUrl.ToString());
+        var userInfo = _graphHelper.GetUserInfo(technician);
 
-        var invitedUserId = await InviteAndGetUserId(userInvitation);
+        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
 
         if (invitedUserId != null)
         {
-            UpdateUserInfo(userInfo, invitedUserId);
+            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
 
             return true;
         }
@@ -63,17 +67,17 @@ public class AccountService : IAccountService
 
     public async Task<bool> InviteAdmin(UserInviteDTO admin)
     {
-        var userInvitation = GetInvitation(admin, _redirectUrl.ToString());
-        var userInfo = GetUserInfo(admin);
+        var userInvitation = _graphHelper.GetInvitation(admin, _redirectUrl.ToString());
+        var userInfo = _graphHelper.GetUserInfo(admin);
 
-        var invitedUserId = await InviteAndGetUserId(userInvitation);
+        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
 
         if (invitedUserId != null)
         {
-            UpdateUserInfo(userInfo, invitedUserId);
+            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
 
             // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
-            AddMemberToGroup("Admin group Id", invitedUserId);
+            _graphHelper.AddMemberToGroup("Admin group Id", invitedUserId);
 
             return true;
         }
@@ -87,8 +91,8 @@ public class AccountService : IAccountService
 
         var redirectUrl = _redirectUrl.Path = "dashboard/" + owner.GroupId;
 
-        var userInvitation = GetInvitation(owner, redirectUrl);
-        var userInfo = GetUserInfo(owner);
+        var userInvitation = _graphHelper.GetInvitation(owner, redirectUrl);
+        var userInfo = _graphHelper.GetUserInfo(owner);
 
         var groupInfo = new Group
         {
@@ -97,12 +101,12 @@ public class AccountService : IAccountService
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
-        var invitedUserId = await InviteAndGetUserId(userInvitation);
+        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
 
         if (invitedUserId != null)
         {
-            UpdateUserInfo(userInfo, invitedUserId);
-            AddOwnerToGroup(group.Id, invitedUserId);
+            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
+            _graphHelper.AddOwnerToGroup(group.Id, invitedUserId);
 
             var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
 
@@ -113,98 +117,4 @@ public class AccountService : IAccountService
     }
 
     public Task<bool> AddUserToCompany(UserInviteDTO user, Guid companyId) => throw new NotImplementedException();
-
-    public static Invitation GetInvitation(UserInviteDTO user, string redirectUrl)
-    {
-        var invite = new Invitation
-        {
-            InvitedUserDisplayName = user.DisplayName,
-            InvitedUserEmailAddress = user.EmailAddress,
-            InviteRedirectUrl = redirectUrl
-        };
-
-        return invite;
-    }
-
-    public static User GetUserInfo(UserInviteDTO user)
-    {
-        var userInfo = new User
-        {
-            JobTitle = user.Contact?.JobTitle,
-            MobilePhone = user.Contact?.MobilePhone,
-            StreetAddress = user.Contact?.StreetAddress,
-            City = user.Contact?.StreetAddress,
-            Country = user.Contact?.Country
-        };
-
-        return userInfo;
-    }
-
-    public async Task<string?> InviteAndGetUserId(Invitation invite)
-    {
-        var client = _graphService.GetClient();
-
-        try
-        {
-            var resp = await client.Invitations.Request().AddAsync(invite);
-            var userId = resp.InvitedUser.Id;
-
-            return userId;
-        }
-        catch (Exception ex)
-        {
-            // TODO: create a LoggerMessage Extension
-            _logger.LogInformation("Something went wrong inviting a user: ", ex);
-            return null;
-        }
-    }
-
-    public async void UpdateUserInfo(User userInfo, string userId)
-    {
-        var client = _graphService.GetClient();
-
-        try
-        {
-            await client.Users[userId].Request().UpdateAsync(userInfo);
-        }
-        catch (Exception ex)
-        {
-            // TODO: create a LoggerMessage Extension
-            _logger.LogInformation("Something went wrong inviting a user: ", ex);
-        }
-    }
-
-    public async void AddMemberToGroup(string groupId, string userId)
-    {
-        var client = _graphService.GetClient();
-
-        try
-        {
-            var dirObj = new DirectoryObject { Id = userId };
-            await client.Groups[groupId].Members.References.Request().AddAsync(dirObj);
-        }
-        catch (Exception ex)
-        {
-            // TODO: create a LoggerMessage Extension
-            _logger.LogInformation("Something went wrong adding a member to a group: ", ex);
-        }
-    }
-
-    public async void AddOwnerToGroup(string groupId, string userId)
-    {
-        var client = _graphService.GetClient();
-
-        try
-        {
-            var dirObj = new DirectoryObject { Id = userId };
-            await client.Groups[groupId].Owners.References.Request().AddAsync(new DirectoryObject { Id = userId });
-        }
-        catch (Exception ex)
-        {
-            // TODO: create a LoggerMessage Extension
-            _logger.LogInformation("Something went wrong adding a member to a group: ", ex);
-        }
-    }
-
-
 }
