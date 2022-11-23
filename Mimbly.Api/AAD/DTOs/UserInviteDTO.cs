@@ -1,11 +1,11 @@
-﻿namespace Mimbly.Api.AAD;
+﻿namespace Mimbly.Api.AAD.DTOs;
 
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using Microsoft.Graph;
 using Mimbly.CoreServices.Validation;
 
-public class UserInviteModel
+public class UserInviteDTO
 {
     [EmailAddress]
     public string? EmailAddress { get; set; }
@@ -18,7 +18,7 @@ public class UserInviteModel
 
     public async Task Validate()
     {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new UserInviteModelValidator());
+        await ValidatableEntity.ValidateEntityByFluentRules(this, new UserInviteValidator());
     }
 }
 
@@ -36,9 +36,9 @@ public class Contact
     public string? Country { get; set; }
 }
 
-internal class UserInviteModelValidator : AbstractValidator<UserInviteModel>
+internal class UserInviteValidator : AbstractValidator<UserInviteDTO>
 {
-    public UserInviteModelValidator()
+    public UserInviteValidator()
     {
         RuleFor(user => user.EmailAddress).NotNull();
         RuleFor(user => user.DisplayName).NotNull();
