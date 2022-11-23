@@ -47,7 +47,7 @@ public class MimboxLocationRepository : IMimboxLocationRepository
         var sql =
         @"
             INSERT INTO Mimbox_Location
-                (Id, Country, Region, Postal_code, City, Street_Address)
+                (Id, Country, Region, Postal_code, City, Street_address)
             VALUES
                 (@Id, @Country, @Region, @PostalCode, @City, @StreetAddress)
         ";
@@ -76,7 +76,7 @@ public class MimboxLocationRepository : IMimboxLocationRepository
                 Region = @Region,
                 Postal_code = @PostalCode,
                 City = @City,
-                Street_Address = @StreetAddress
+                Street_address = @StreetAddress
             WHERE Id = @Id
         ";
 
