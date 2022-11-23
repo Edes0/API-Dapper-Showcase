@@ -76,7 +76,7 @@ public class AccountService
         return false;
     }
 
-    public async Task<bool> CreateCompany(UserInviteModel owner, string displayName, string description, Guid parentCompanyId)
+    public async Task<bool> CreateCompany(UserInviteModel owner, string displayName, string description, Guid? parentCompanyId)
     {
         // TODO: Create company instance in Db, Handle parentCompany relation
         var client = _graphService.GetClient();
