@@ -7,6 +7,7 @@ using Mimbly.CoreServices.Validation;
 
 public class UserInviteModel
 {
+    [EmailAddress]
     public string? EmailAddress { get; set; }
 
     public string? DisplayName { get; set; }
@@ -39,7 +40,7 @@ internal class UserInviteModelValidator : AbstractValidator<UserInviteModel>
 {
     public UserInviteModelValidator()
     {
-        RuleFor(user => user.EmailAddress).EmailAddress().NotNull();
+        RuleFor(user => user.EmailAddress).NotNull();
         RuleFor(user => user.DisplayName).NotNull();
     }
 }
