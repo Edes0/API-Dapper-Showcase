@@ -139,5 +139,6 @@ public static class ServiceExtensions
     public static void ConfigureAccountService(this IServiceCollection services)
     {
         services.AddSingleton<IAccountService, AccountService>();
+        services.AddSingleton<IGraphService, GraphService>();
     }
 }

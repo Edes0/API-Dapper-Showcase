@@ -1,11 +1,11 @@
-﻿namespace Mimbly.CoreServices.AADServices;
+﻿namespace Mimbly.Infrastructure.AAD;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
 using Azure.Identity;
 using Mimbly.Infrastructure.Security.Configurations;
 
-public class GraphService
+public class GraphService : IGraphService
 {
     private IConfiguration _config;
 
