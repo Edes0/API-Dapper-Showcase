@@ -39,6 +39,9 @@ services.ConfigureVersioning();
 services.ConfigureAuthentication(builder.Configuration);
 services.ConfigureAuthAttribute();
 
+// Account Service
+services.ConfigureAccountService();
+
 // Build
 var app = builder.Build();
 
