@@ -15,12 +15,10 @@ public class AccountController : ControllerBase
     // TODO: Add validation
 
     private readonly AccountService _accountService;
-    private readonly ILogger _logger;
 
-    public AccountController(AccountService accountService, ILogger logger)
+    public AccountController(AccountService accountService)
     {
         _accountService = accountService;
-        _logger = logger;
     }
 
     [HttpPost]
