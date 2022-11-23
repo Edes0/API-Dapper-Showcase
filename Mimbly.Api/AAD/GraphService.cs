@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Infrastructure.AAD;
+﻿namespace Mimbly.Api.AAD;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;

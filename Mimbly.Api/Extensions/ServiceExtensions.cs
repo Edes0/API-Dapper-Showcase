@@ -18,7 +18,7 @@ using NLog;
 using PuppeteerSharp;
 using Microsoft.AspNetCore.Authorization;
 using Mimbly.CoreServices.Authorization;
-using Mimbly.Infrastructure.AAD;
+using Mimbly.Api.AAD;
 
 public static class PuppeteerExtensions
 {

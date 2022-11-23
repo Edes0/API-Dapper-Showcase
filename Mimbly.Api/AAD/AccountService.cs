@@ -1,19 +1,24 @@
-﻿namespace Mimbly.Infrastructure.AAD;
+﻿namespace Mimbly.Api.AAD;
 
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
+using Mimbly.Application.Commands.Company.CreateCompany;
+using Mimbly.Application.Contracts.Dtos.Company;
 
 
 public class AccountService : IAccountService
 {
     private readonly IGraphService _graphService;
     private readonly ILogger<AccountService> _logger;
+    private readonly IMediator _mediator;
     private readonly UriBuilder _redirectUrl = new("https://mimbly-frontend.azurewebsites.net");
 
-    public AccountService(IGraphService graphService, ILogger<AccountService> logger)
+    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IMediator mediator)
     {
         _graphService = graphService;
         _logger = logger;
+        _mediator = mediator;
     }
 
     public async Task<bool> InviteUser(UserInviteModel user)
@@ -75,7 +80,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<bool> CreateCompany(UserInviteModel owner, string displayName, string description, Guid? parentCompanyId)
+    public async Task<bool> CreateCompany(UserInviteModel owner, CreateCompanyRequestDto createCompanyDto, string displayName, string description, Guid? parentCompanyId)
     {
         // TODO: Create company instance in Db, Handle parentCompany relation
         var client = _graphService.GetClient();
@@ -98,6 +103,8 @@ public class AccountService : IAccountService
         {
             UpdateUserInfo(userInfo, invitedUserId);
             AddOwnerToGroup(group.Id, invitedUserId);
+
+            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyDto });
 
             return true;
         }

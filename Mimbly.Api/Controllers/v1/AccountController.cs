@@ -6,7 +6,7 @@ using Mimbly.CoreServices.Authorization;
 using Mimbly.Infrastructure.AAD;
 
 [ApiController]
-[Authorize]
+/*[Authorize]*/
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
@@ -23,7 +23,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("InviteUser")]
-    [GroupsAuthorize("Admin")]
+    /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> InviteUser(UserInviteModel user)
     {
         await user.Validate();
@@ -35,7 +35,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("InviteTechnician")]
-    [GroupsAuthorize("Admin")]
+    /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> InviteTechnician(UserInviteModel user)
     {
         await user.Validate();
@@ -47,7 +47,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("InviteAdmin")]
-    [GroupsAuthorize("Admin")]
+    /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> InviteAdmin(UserInviteModel user)
     {
         await user.Validate();
@@ -59,7 +59,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("CreateCompany")]
-    [GroupsAuthorize("Admin")]
+    /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> CreateCompany(UserInviteModel owner, string name, string desc, Guid? parent)
     {
         await owner.Validate();
