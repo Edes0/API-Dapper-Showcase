@@ -25,11 +25,11 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteUser")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteUser(UserInviteDTO user)
+    public async Task<ActionResult> InviteUser(UserInviteDTO userDto)
     {
-        await user.Validate();
+        await userDto.Validate();
 
-        var status = await _accountService.InviteUser(user);
+        var status = await _accountService.InviteUser(userDto);
 
         return status ? Ok() : BadRequest();
     }
@@ -37,11 +37,11 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteTechnician")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(UserInviteDTO user)
+    public async Task<ActionResult> InviteTechnician(UserInviteDTO userDto)
     {
-        await user.Validate();
+        await userDto.Validate();
 
-        var status = await _accountService.InviteTechnician(user);
+        var status = await _accountService.InviteTechnician(userDto);
 
         return status ? Ok() : BadRequest();
     }
@@ -49,11 +49,11 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteAdmin")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(UserInviteDTO user)
+    public async Task<ActionResult> InviteAdmin(UserInviteDTO userDto)
     {
-        await user.Validate();
+        await userDto.Validate();
 
-        var status = await _accountService.InviteAdmin(user);
+        var status = await _accountService.InviteAdmin(userDto);
 
         return status ? Ok() : BadRequest();
     }
