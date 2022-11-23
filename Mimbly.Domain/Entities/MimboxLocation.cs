@@ -24,7 +24,7 @@ public class MimboxLocation
     [Column("City", TypeName = "Nvarchar(100)")]
     public string City { get; set; }
 
-    [Column("Street_Address", TypeName = "Nvarchar(100)")]
+    [Column("Street_address", TypeName = "Nvarchar(100)")]
     public string StreetAddress { get; set; }
 
     public MimboxLocation(string country, string city, string streetAddress)
