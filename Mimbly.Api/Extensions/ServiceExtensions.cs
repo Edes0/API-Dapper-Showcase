@@ -18,6 +18,7 @@ using NLog;
 using PuppeteerSharp;
 using Microsoft.AspNetCore.Authorization;
 using Mimbly.CoreServices.Authorization;
+using Mimbly.Infrastructure.AAD;
 
 public static class PuppeteerExtensions
 {
@@ -133,5 +134,10 @@ public static class ServiceExtensions
     {
         services.AddSingleton<IAuthorizationPolicyProvider, GroupsPolicyProvider>();
         services.AddSingleton<IAuthorizationHandler, GroupsHandler>();
+    }
+
+    public static void ConfigureAccountService(this IServiceCollection services)
+    {
+        services.AddSingleton<IAccountService, AccountService>();
     }
 }

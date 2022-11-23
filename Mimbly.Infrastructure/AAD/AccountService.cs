@@ -5,7 +5,7 @@ using Microsoft.Graph;
 using Mimbly.CoreServices.AADServices;
 
 
-public class AccountService
+public class AccountService : IAccountService
 {
     private readonly GraphService _graphService;
     private readonly ILogger _logger;
@@ -106,6 +106,8 @@ public class AccountService
         return false;
     }
 
+    public Task<bool> AddUserToCompany(UserInviteModel user, Guid companyId) => throw new NotImplementedException();
+
     public static Invitation GetInvitation(UserInviteModel user, string redirectUrl)
     {
         var invite = new Invitation
@@ -197,4 +199,6 @@ public class AccountService
             _logger.LogInformation("Something went wrong adding a member to a group: ", ex);
         }
     }
+
+    
 }
