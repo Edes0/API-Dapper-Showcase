@@ -81,7 +81,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<Company?> CreateCompany(UserInviteDTO owner, CreateCompanyDTO company)
+    public async Task<Company?> CreateCompany(UserInviteDTO owner, CompanyModel company)
     {
         var client = _graphService.GetClient();
 
@@ -104,7 +104,7 @@ public class AccountService : IAccountService
             UpdateUserInfo(userInfo, invitedUserId);
             AddOwnerToGroup(group.Id, invitedUserId);
 
-            var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = company });
+            var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
 
             return newCompany;
         }

@@ -61,12 +61,12 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("CreateCompany")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> CreateCompany(UserInviteDTO owner, CreateCompanyDTO company)
+    public async Task<ActionResult> CreateCompany(CreateCompanyDTO createCompanyDto)
     {
-        await owner.Validate();
-        await company.Validate();
+        await createCompanyDto.user.Validate();
+        await createCompanyDto.company.Validate();
 
-        var createdCompany = await _accountService.CreateCompany(owner, company);
+        var createdCompany = await _accountService.CreateCompany(createCompanyDto.user, createCompanyDto.company);
 
         if (createdCompany != null)
         {

@@ -11,7 +11,7 @@ public interface IAccountService
 
     Task<bool> InviteAdmin(UserInviteDTO admin);
 
-    Task<Company> CreateCompany(UserInviteDTO owner, CreateCompanyDTO company);
+    Task<Company> CreateCompany(UserInviteDTO owner, CompanyModel company);
 
     Task<bool> AddUserToCompany(UserInviteDTO user, Guid companyId);
 
