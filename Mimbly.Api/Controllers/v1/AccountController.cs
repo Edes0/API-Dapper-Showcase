@@ -11,6 +11,9 @@ using Mimbly.Infrastructure.AAD;
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
 {
+
+    // TODO: Add validation
+
     private readonly AccountService _accountService;
     private readonly ILogger _logger;
 
@@ -23,28 +26,40 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteUser")]
     [GroupsAuthorize("Admin")]
-    public ActionResult InviteUser(string email, string companyId, string displayName)
+    public async Task<ActionResult> InviteUser(UserInviteModel user)
     {
-        try
-        {
-            _accountService.InviteUser(email, companyId, displayName);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogInformation("Something went wrong creating a account", ex);
+        var status = await _accountService.InviteUser(user);
 
-            return BadRequest();
-        }
+        return status ? Ok() : BadRequest();
+    }
 
-        return Ok();
+    [HttpPost]
+    [Route("InviteTechnician")]
+    [GroupsAuthorize("Admin")]
+    public async Task<ActionResult> InviteTechnician(UserInviteModel user)
+    {
+        var status = await _accountService.InviteTechnician(user);
+
+        return status ? Ok() : BadRequest();
+    }
+
+    [HttpPost]
+    [Route("InviteAdmin")]
+    [GroupsAuthorize("Admin")]
+    public async Task<ActionResult> InviteAdmin(UserInviteModel user)
+    {
+        var status = await _accountService.InviteAdmin(user);
+
+        return status ? Ok() : BadRequest();
     }
 
     [HttpPost]
     [Route("CreateCompany")]
     [GroupsAuthorize("Admin")]
-    public ActionResult CreateCompany(string companyName)
+    public async Task<ActionResult> CreateCompany(UserInviteModel owner, string name, string desc, Guid? parent)
     {
-        var companyId = Guid.NewGuid();
-        return Created($"/Company/${companyId}", new { CompanyName = companyName, CompanyId = companyId });
+        var status = await _accountService.CreateCompany(owner, name, desc, parent);
+
+        return status ? Ok() : BadRequest();
     }
 }
