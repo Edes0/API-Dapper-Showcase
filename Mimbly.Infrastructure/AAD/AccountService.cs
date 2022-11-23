@@ -2,16 +2,15 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
-using Mimbly.CoreServices.AADServices;
 
 
 public class AccountService : IAccountService
 {
-    private readonly GraphService _graphService;
-    private readonly ILogger _logger;
+    private readonly IGraphService _graphService;
+    private readonly ILogger<AccountService> _logger;
     private readonly UriBuilder _redirectUrl = new("https://mimbly-frontend.azurewebsites.net");
 
-    public AccountService(GraphService graphService, ILogger logger)
+    public AccountService(IGraphService graphService, ILogger<AccountService> logger)
     {
         _graphService = graphService;
         _logger = logger;
