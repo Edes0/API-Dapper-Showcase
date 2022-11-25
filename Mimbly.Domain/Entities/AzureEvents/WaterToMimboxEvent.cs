@@ -34,6 +34,6 @@ public class WaterToMimboxEvent
 
     public WaterColor? WaterColor { get; set; }
 
-    //Navigation property
+    [Column("Water_Color_Id", TypeName = "uniqueidentifier")]
     public virtual Guid? WaterColorId { get; set; }
 }
