@@ -51,9 +51,7 @@ public class Mimbox
     // Navigation property
     public virtual ICollection<EventLog> EventLogList { get; set; }
 
-    public virtual ICollection<WaterToWashingMachineEvent> WaterToWashingMachineEventList { get; set; }
-
-    public virtual ICollection<WaterToMimboxEvent> WaterToMimboxEventList { get; set; }
+    public virtual ICollection<WashStats> WaterToWashingMachineEventList { get; set; }
 
 
     public Mimbox()

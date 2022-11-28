@@ -92,80 +92,7 @@ namespace Mimbly.Api.Migrations
                     b.ToTable("Event_Log");
                 });
 
-            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterColor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Id")
-                        .HasColumnOrder(1);
-
-                    b.Property<double>("Blue")
-                        .HasColumnType("float")
-                        .HasColumnName("Blue");
-
-                    b.Property<double>("Green")
-                        .HasColumnType("float")
-                        .HasColumnName("Green");
-
-                    b.Property<double>("Red")
-                        .HasColumnType("float")
-                        .HasColumnName("Red");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Water_Color");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterToMimboxEvent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Id")
-                        .HasColumnOrder(1);
-
-                    b.Property<DateTime?>("EndedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("Ended_At");
-
-                    b.Property<int?>("FilterClean")
-                        .HasColumnType("int")
-                        .HasColumnName("Filter_Clean");
-
-                    b.Property<Guid>("MimboxId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Mimbox_Id");
-
-                    b.Property<double?>("PressureFromWashingMachine")
-                        .HasColumnType("float")
-                        .HasColumnName("Pressure_From_Washing_Machine");
-
-                    b.Property<DateTime>("StartedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("Started_At");
-
-                    b.Property<Guid?>("WaterColorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double?>("WaterCondition")
-                        .HasColumnType("float")
-                        .HasColumnName("Water_Condition");
-
-                    b.Property<double?>("WaterTempIn")
-                        .HasColumnType("float")
-                        .HasColumnName("Water_Temp_In");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MimboxId");
-
-                    b.HasIndex("WaterColorId");
-
-                    b.ToTable("Water_To_Mimbox_Event");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterToWashingMachineEvent", b =>
+            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WashStats", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -175,7 +102,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("Co2Saved")
                         .HasColumnType("float")
-                        .HasColumnName("co2_saved");
+                        .HasColumnName("Co2_saved");
 
                     b.Property<double>("EconomySaved")
                         .HasColumnType("float")
@@ -191,7 +118,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("PlasticSaved")
                         .HasColumnType("float")
-                        .HasColumnName("plastic_saved");
+                        .HasColumnName("Plastic_saved");
 
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime")
@@ -203,13 +130,13 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<double>("WaterSaved")
                         .HasColumnType("float")
-                        .HasColumnName("water_saved");
+                        .HasColumnName("Water_saved");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MimboxId");
 
-                    b.ToTable("Water_To_Washing_Machine_Event");
+                    b.ToTable("Wash_Stats");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.Company", b =>
@@ -406,7 +333,7 @@ namespace Mimbly.Api.Migrations
                     b.Property<string>("StreetAddress")
                         .IsRequired()
                         .HasColumnType("Nvarchar(100)")
-                        .HasColumnName("Street_Address");
+                        .HasColumnName("Street_address");
 
                     b.HasKey("Id");
 
@@ -496,22 +423,7 @@ namespace Mimbly.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterToMimboxEvent", b =>
-                {
-                    b.HasOne("Mimbly.Domain.Entities.Mimbox", null)
-                        .WithMany("WaterToMimboxEventList")
-                        .HasForeignKey("MimboxId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Mimbly.Domain.Entities.AzureEvents.WaterColor", "WaterColor")
-                        .WithMany()
-                        .HasForeignKey("WaterColorId");
-
-                    b.Navigation("WaterColor");
-                });
-
-            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WaterToWashingMachineEvent", b =>
+            modelBuilder.Entity("Mimbly.Domain.Entities.AzureEvents.WashStats", b =>
                 {
                     b.HasOne("Mimbly.Domain.Entities.Mimbox", null)
                         .WithMany("WaterToWashingMachineEventList")
@@ -603,8 +515,6 @@ namespace Mimbly.Api.Migrations
                     b.Navigation("EventLogList");
 
                     b.Navigation("MimboxLogList");
-
-                    b.Navigation("WaterToMimboxEventList");
 
                     b.Navigation("WaterToWashingMachineEventList");
                 });

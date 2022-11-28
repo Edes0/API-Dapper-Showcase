@@ -10,6 +10,11 @@ namespace Mimbly.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
+                name: "Street_Address",
+                table: "Mimbox_Location",
+                newName: "Street_address");
+
+            migrationBuilder.RenameColumn(
                 name: "Water",
                 table: "Mimbox",
                 newName: "Water_Saved");
@@ -81,27 +86,13 @@ namespace Mimbly.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Water_Color",
+                name: "Wash_Stats",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Red = table.Column<double>(type: "float", nullable: false),
-                    Green = table.Column<double>(type: "float", nullable: false),
-                    Blue = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Water_Color", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Water_To_Washing_Machine_Event",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    water_saved = table.Column<double>(type: "float", nullable: false),
-                    co2_saved = table.Column<double>(type: "float", nullable: false),
-                    plastic_saved = table.Column<double>(type: "float", nullable: false),
+                    Water_saved = table.Column<double>(type: "float", nullable: false),
+                    Co2_saved = table.Column<double>(type: "float", nullable: false),
+                    Plastic_saved = table.Column<double>(type: "float", nullable: false),
                     Economy_saved = table.Column<double>(type: "float", nullable: false),
                     Started_At = table.Column<DateTime>(type: "datetime", nullable: false),
                     Ended_At = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -110,43 +101,13 @@ namespace Mimbly.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Water_To_Washing_Machine_Event", x => x.Id);
+                    table.PrimaryKey("PK_Wash_Stats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Water_To_Washing_Machine_Event_Mimbox_Mimbox_Id",
+                        name: "FK_Wash_Stats_Mimbox_Mimbox_Id",
                         column: x => x.Mimbox_Id,
                         principalTable: "Mimbox",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Water_To_Mimbox_Event",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Started_At = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Ended_At = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Mimbox_Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Water_Condition = table.Column<double>(type: "float", nullable: true),
-                    Pressure_From_Washing_Machine = table.Column<double>(type: "float", nullable: true),
-                    Filter_Clean = table.Column<int>(type: "int", nullable: true),
-                    Water_Temp_In = table.Column<double>(type: "float", nullable: true),
-                    WaterColorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Water_To_Mimbox_Event", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Water_To_Mimbox_Event_Mimbox_Mimbox_Id",
-                        column: x => x.Mimbox_Id,
-                        principalTable: "Mimbox",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Water_To_Mimbox_Event_Water_Color_WaterColorId",
-                        column: x => x.WaterColorId,
-                        principalTable: "Water_Color",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -160,18 +121,8 @@ namespace Mimbly.Api.Migrations
                 column: "Mimbox_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Water_To_Mimbox_Event_Mimbox_Id",
-                table: "Water_To_Mimbox_Event",
-                column: "Mimbox_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Water_To_Mimbox_Event_WaterColorId",
-                table: "Water_To_Mimbox_Event",
-                column: "WaterColorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Water_To_Washing_Machine_Event_Mimbox_Id",
-                table: "Water_To_Washing_Machine_Event",
+                name: "IX_Wash_Stats_Mimbox_Id",
+                table: "Wash_Stats",
                 column: "Mimbox_Id");
         }
 
@@ -184,13 +135,12 @@ namespace Mimbly.Api.Migrations
                 name: "Event_Log");
 
             migrationBuilder.DropTable(
-                name: "Water_To_Mimbox_Event");
+                name: "Wash_Stats");
 
-            migrationBuilder.DropTable(
-                name: "Water_To_Washing_Machine_Event");
-
-            migrationBuilder.DropTable(
-                name: "Water_Color");
+            migrationBuilder.RenameColumn(
+                name: "Street_address",
+                table: "Mimbox_Location",
+                newName: "Street_Address");
 
             migrationBuilder.RenameColumn(
                 name: "Water_Saved",
