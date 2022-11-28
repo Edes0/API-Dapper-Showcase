@@ -72,11 +72,11 @@ public static class Seed
                 {
                    Id = Guid.NewGuid(),
                    FirstName = "Hans",
-                   LastName = "Sheike",
-                   Email = "fdsfsdff@live.se",
-                   PhoneNumber = "0739543467",
+                   LastName = "Andersson",
+                   Email = "HansAndersson@live.se",
+                   PhoneNumber = "0737543467",
                    CompanyId = companyEntites[0].Id,
-                   Title = "Company VD"
+                   Title = "Company something"
                 }
         };
 
@@ -239,7 +239,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Log = "Going to install in next week, lol",
+                   Log = "Going to install in next week",
                    MimboxId = mimboxEntites[1].Id
                 }
         };

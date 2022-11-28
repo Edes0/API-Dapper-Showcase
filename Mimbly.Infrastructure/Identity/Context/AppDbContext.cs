@@ -3,6 +3,7 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using Microsoft.EntityFrameworkCore;
 using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AzureEvents;
 
 public class AppDbContext : DbContext
 {
@@ -17,6 +18,9 @@ public class AppDbContext : DbContext
     public DbSet<Company> Companies { get; set; } = null!;
     public DbSet<CompanyContact> CompanyContacts { get; set; } = null!;
     public DbSet<MimboxLocation> Locations { get; set; } = null!;
+    public DbSet<ErrorLog> ErrorLogs { get; set; } = null!;
+    public DbSet<EventLog> EventLogs { get; set; } = null!;
+    public DbSet<WashStats> WaterToWashingMachineEvents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

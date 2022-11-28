@@ -2,22 +2,20 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using Microsoft.OpenApi.Models;
 using Mimbly.Application;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Common.Mappings;
+using Mimbly.CoreServices.Authorization;
 using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
-using NLog;
 using PuppeteerSharp;
-using Microsoft.AspNetCore.Authorization;
-using Mimbly.CoreServices.Authorization;
 
 public static class PuppeteerExtensions
 {
@@ -36,7 +34,6 @@ public static class PuppeteerExtensions
     public static string ExecutablePath => _executablePath;
 }
 
-
 public static class ServiceExtensions
 {
     public static void ConfigureDataAccessManager(this IServiceCollection services) =>
@@ -45,6 +42,7 @@ public static class ServiceExtensions
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IMimboxRepository, MimboxRepository>();
+        services.AddScoped<IMimboxLocationRepository, MimboxLocationRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
     }

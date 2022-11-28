@@ -15,8 +15,8 @@ public class MimboxLog
     [Column("Log", TypeName = "Nvarchar(max)")]
     public string Log { get; set; }
 
-    [Column("Created", TypeName = "Date")]
-    public DateTime Created { get; set; } = DateTime.Now; //TODO: Change this and make it better, just did this to make it work
+    [Column("Created", TypeName = "datetime")]
+    public DateTime Created { get; set; }
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
@@ -24,6 +24,7 @@ public class MimboxLog
     public MimboxLog(string log)
     {
         Id = Guid.NewGuid();
+        Created = DateTime.Now;
         Log = log;
     }
 
