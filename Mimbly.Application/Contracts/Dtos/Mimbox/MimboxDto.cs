@@ -7,13 +7,13 @@ public record MimboxDto
 {
     public Guid Id { get; init; }
 
-    public float Water { get; init; }
+    public float WaterSaved { get; init; }
 
-    public float Co2 { get; init; }
+    public float Co2Saved { get; init; }
 
-    public float Plastic { get; init; }
+    public float PlasticSaved { get; init; }
 
-    public float Economy { get; init; }
+    public float EconomySaved { get; init; }
 
     public Guid StatusId { get; init; }
 
