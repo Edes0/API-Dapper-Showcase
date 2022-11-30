@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("Error_Log")]
+[Table("Error_Log")] // TODO: Change to Mimbox_Error_Model for future migration
 public class ErrorLog
 {
     [Key]
