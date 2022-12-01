@@ -4,6 +4,7 @@ using System;
 using System.Data.SqlClient;
 using Application.Common.Interfaces;
 using Dapper;
+using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
 
@@ -108,9 +109,6 @@ public class MimboxRepository : IMimboxRepository
                mimboxToReturn.Add(mimbox);
 
                return null;
-           },
-           new
-           {
            });
 
         return mimboxToReturn;
@@ -159,15 +157,12 @@ public class MimboxRepository : IMimboxRepository
 
                return null;
            },
-           new
-           {
-               id
-           });
+           new { id });
 
         return mimboxToReturn.FirstOrDefault();
     }
 
-    public async Task<IEnumerable<Company>> GetMimboxDataByCompanyId(IEnumerable<Guid> ids)
+    public async Task<IEnumerable<Company>> GetMimboxDataByCompanyIds(IEnumerable<Guid> ids)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
         await using var connection = new SqlConnection(connectionString);
@@ -212,11 +207,53 @@ public class MimboxRepository : IMimboxRepository
                }
                return null;
            },
-           new
-           {
-               ids
-           });
+           new { ids });
 
         return lookup.Values;
+    }
+
+    public async Task<Company> GetMimboxDataByCompanyId(Guid id)
+    {
+        var connectionString = _config.GetConnectionString(ConnectionStringName);
+        await using var connection = new SqlConnection(connectionString);
+
+        var sql =
+        @"
+            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*
+            FROM Company c
+            LEFT JOIN Mimbox m ON m.Company_Id = c.Id
+            LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
+            LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
+            LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
+            LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
+            WHERE c.Id = @id
+        ";
+
+        List<Company> companyToReturn = new();
+
+        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, Company>
+           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact) =>
+           {
+               if (mimboxLocation != null)
+               {
+                   mimbox.Location = mimboxLocation;
+                   mimbox.LocationId = mimboxLocation.Id;
+               }
+
+               mimbox.Model = mimboxModel;
+               mimbox.ModelId = mimboxModel.Id;
+               mimbox.Status = mimboxStatus;
+               mimbox.StatusId = mimboxStatus.Id;
+               mimbox.ContactList.Add(mimboxContact);
+
+               company.MimboxList.Add(mimbox);
+
+               companyToReturn.Add(company);
+
+               return null;
+           },
+           new { id });
+
+        return companyToReturn.FirstOrDefault();
     }
 }
