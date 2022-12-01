@@ -14,6 +14,8 @@ public record CreateMimboxRequestDto
 
     public float EconomySaved { get; init; }
 
+    public string? Nickname { get; set; }
+
     public Guid StatusId { get; init; }
 
     public Guid ModelId { get; init; }

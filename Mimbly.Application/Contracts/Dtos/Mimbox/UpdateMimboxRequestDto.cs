@@ -14,6 +14,8 @@ public record UpdateMimboxRequestDto
 
     public float EconomySaved { get; set; }
 
+    public string? Nickname { get; set; }
+
     public Guid StatusId { get; set; }
 
     public Guid ModelId { get; set; }

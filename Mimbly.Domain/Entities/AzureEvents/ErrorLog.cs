@@ -4,8 +4,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("Error_Log")] // TODO: Change to Mimbox_Error_Model for future migration
-public class ErrorLog
+[Table("Mimbox_Error_Log")]
+public class MimboxErrorLog
 {
     [Key]
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
