@@ -34,6 +34,4 @@ public record MimboxDto
     public MimboxModel Model { get; init; }
 
     public MimboxLocation? Location { get; init; }
-
-    public Company? Company { get; init; }
 }

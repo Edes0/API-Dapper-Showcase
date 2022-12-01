@@ -35,8 +35,8 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
 
         var companyIds = companies.Select(x => x.Id);
 
-        var companiesWithData = await _companyRepository.GetCompanyDataById(companyIds);
-        var companiesWithMimboxData = await _mimboxRepository.GetMimboxDataByCompanyId(companyIds);
+        var companiesWithData = await _companyRepository.GetCompanyDataByIds(companyIds);
+        var companiesWithMimboxData = await _mimboxRepository.GetMimboxDataByCompanyIds(companyIds);
 
         foreach (var company in companiesWithData)
         {
