@@ -1,6 +1,8 @@
 namespace Mimbly.Application.Contracts.Dtos.Mimbox;
 
 using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 using Mimbly.Domain.Entities;
 
 public record MimboxDto
@@ -14,6 +16,8 @@ public record MimboxDto
     public float PlasticSaved { get; init; }
 
     public float EconomySaved { get; init; }
+
+    public string? Nickname { get; set; }
 
     public Guid StatusId { get; init; }
 

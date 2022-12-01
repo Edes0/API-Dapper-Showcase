@@ -89,9 +89,9 @@ public class MimboxRepository : IMimboxRepository
         var sql =
         @"
             INSERT INTO Mimbox
-                (Id, Water_Saved, Co2_Saved, Plastic_Saved, Economy_Saved, Mimbox_Status_Id, Mimbox_Model_Id, Mimbox_Location_Id, Company_Id)
+                (Id, Water_Saved, Co2_Saved, Plastic_Saved, Economy_Saved, Nickname, Mimbox_Status_Id, Mimbox_Model_Id, Mimbox_Location_Id, Company_Id)
             VALUES
-                (@Id, @WaterSaved, @Co2Saved, @PlasticSaved, @EconomySaved, @StatusId, @ModelId, @LocationId, @CompanyId)
+                (@Id, @WaterSaved, @Co2Saved, @PlasticSaved, @EconomySaved, @Nickname, @StatusId, @ModelId, @LocationId, @CompanyId)
         ";
 
         await _db.SaveChanges(sql, mimbox);
@@ -118,6 +118,7 @@ public class MimboxRepository : IMimboxRepository
                 Co2_Saved = @Co2Saved,
                 Plastic_Saved = @PlasticSaved,
                 Economy_Saved = @EconomySaved,
+                Nickname = @Nickname,
                 Mimbox_Status_Id = @StatusId,
                 Mimbox_Model_Id = @ModelId,
                 Mimbox_Location_Id = @LocationId,

@@ -24,6 +24,9 @@ public class Mimbox
     [Column("Economy_Saved", TypeName = "float")]
     public float EconomySaved { get; set; }
 
+    [Column("Nickname", TypeName = "Nvarchar(50)")]
+    public string? Nickname { get; set; }
+
     [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
     public Guid StatusId { get; set; }
 
@@ -40,7 +43,7 @@ public class Mimbox
 
     public ICollection<MimboxContact> ContactList { get; set; } = new List<MimboxContact>();
 
-    public ICollection<ErrorLog> ErrorLogList { get; set; } = new List<ErrorLog>();
+    public ICollection<MimboxErrorLog> ErrorLogList { get; set; } = new List<MimboxErrorLog>();
 
     public MimboxStatus Status { get; set; }
 
