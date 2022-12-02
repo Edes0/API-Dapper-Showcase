@@ -4,7 +4,6 @@ using System;
 using System.Data.SqlClient;
 using Application.Common.Interfaces;
 using Dapper;
-using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
 
@@ -97,6 +96,7 @@ public class MimboxRepository : IMimboxRepository
 
                if (company != null)
                {
+                   mimbox.Company = company;
                    mimbox.CompanyId = company.Id;
                }
 
@@ -144,6 +144,7 @@ public class MimboxRepository : IMimboxRepository
 
                if (company != null)
                {
+                   mimbox.Company = company;
                    mimbox.CompanyId = company.Id;
                }
 

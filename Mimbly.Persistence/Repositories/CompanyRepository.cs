@@ -172,4 +172,34 @@ public class CompanyRepository : ICompanyRepository
 
         return lookup.Values;
     }
+
+    public async Task<Company> GetCompanyDataById(Guid id)
+    {
+        var connectionString = _config.GetConnectionString(ConnectionStringName);
+        await using var connection = new SqlConnection(connectionString);
+
+        var sql =
+        @"
+            SELECT c.*, cc.*, ccl.*
+            FROM Company c
+            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
+            LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
+            WHERE c.Id = @id
+        ";
+
+        List<Company> companyToReturn = new();
+
+        await connection.QueryAsync<Company, Company, CompanyContact, Company>
+           (sql, (company, childCompany, companyContact) =>
+           {
+               company.ContactList.Add(companyContact);
+
+               companyToReturn.Add(company);
+
+               return null;
+           },
+           new { id });
+
+        return companyToReturn.FirstOrDefault();
+    }
 }

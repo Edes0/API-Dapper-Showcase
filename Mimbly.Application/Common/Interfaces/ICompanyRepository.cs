@@ -8,6 +8,7 @@ public interface ICompanyRepository
     Task<Company> GetCompanyById(Guid id);
     Task<IEnumerable<Company>> GetParentWithChildrenById(Guid id);
     Task<IEnumerable<Company>> GetCompanyDataByIds(IEnumerable<Guid> ids);
+    Task<Company> GetCompanyDataById(Guid id);
     Task CreateCompany(Company company);
     Task DeleteCompany(Company company);
     Task UpdateCompany(Company company);

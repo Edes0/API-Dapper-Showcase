@@ -19,7 +19,6 @@ public class MappingProfile : Profile
         CreateMap<UpdateMimboxRequestDto, Mimbox>();
 
         // Mimbox Location
-
         CreateMap<MimboxLocation, MimboxLocationDto>();
 
         CreateMap<CreateMimboxLocationRequestDto, MimboxLocation>();
