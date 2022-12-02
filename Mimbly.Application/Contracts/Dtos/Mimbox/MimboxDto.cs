@@ -1,9 +1,8 @@
 namespace Mimbly.Application.Contracts.Dtos.Mimbox;
 
 using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
 using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AzureEvents;
 
 public record MimboxDto
 {
@@ -19,7 +18,9 @@ public record MimboxDto
 
     public string? Nickname { get; set; }
 
-    public ICollection<MimboxLog> MimboxLogList { get; init; }
+    public ICollection<MimboxLog> LogList { get; init; }
+
+    public ICollection<MimboxErrorLog> ErrorLogList { get; init; }
 
     public MimboxStatus Status { get; init; }
 
