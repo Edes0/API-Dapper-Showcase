@@ -19,14 +19,6 @@ public record MimboxDto
 
     public string? Nickname { get; set; }
 
-    public Guid StatusId { get; init; }
-
-    public Guid ModelId { get; init; }
-
-    public Guid? LocationId { get; init; }
-
-    public Guid? CompanyId { get; set; }
-
     public ICollection<MimboxLog> MimboxLogList { get; init; }
 
     public MimboxStatus Status { get; init; }
