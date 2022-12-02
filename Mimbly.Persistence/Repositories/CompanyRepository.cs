@@ -68,9 +68,8 @@ public class CompanyRepository : ICompanyRepository
 
         var sql =
         @"
-            SELECT c.*, cc.*, ccl.*
+            SELECT c.*, ccl.*
             FROM Company c
-            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
             LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
         ";
 
@@ -96,9 +95,8 @@ public class CompanyRepository : ICompanyRepository
 
         var sql =
         @"
-            SELECT c.*, cc.*, ccl.*
+            SELECT c.*, ccl.*
             FROM Company c
-            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
             LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
             WHERE c.Id = @id
         ";

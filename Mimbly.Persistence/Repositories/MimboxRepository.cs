@@ -6,6 +6,7 @@ using Application.Common.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AzureEvents;
 
 public class MimboxRepository : IMimboxRepository
 {
@@ -74,19 +75,20 @@ public class MimboxRepository : IMimboxRepository
 
         var sql =
         @"
-            SELECT m.*, ml.*, ms.*, mm.*, mc.*, c.Id
+            SELECT m.*, ml.*, ms.*, mm.*, mc.*, mel.*, c.Id
             FROM Mimbox m
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
             LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
             LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
+            LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
             LEFT JOIN Company c ON c.Id = m.Company_Id
         ";
 
         List<Mimbox> mimboxToReturn = new();
 
-        await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, Company, Mimbox>
-           (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, company) =>
+        await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company, Mimbox>
+           (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog, company) =>
            {
                if (mimboxLocation != null)
                {
@@ -105,6 +107,7 @@ public class MimboxRepository : IMimboxRepository
                mimbox.Status = mimboxStatus;
                mimbox.StatusId = mimboxStatus.Id;
                mimbox.ContactList.Add(mimboxContact);
+               mimbox.ErrorLogList.Add(mimboxErrorLog);
 
                mimboxToReturn.Add(mimbox);
 
@@ -121,20 +124,21 @@ public class MimboxRepository : IMimboxRepository
 
         var sql =
         @"
-            SELECT m.*, ml.*, ms.*, mm.*, mc.*, c.Id
+            SELECT m.*, ml.*, ms.*, mm.*, mc.*, mel.*, c.Id
             FROM Mimbox m
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
             LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
             LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
+            LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
             LEFT JOIN Company c ON c.Id = m.Company_Id
             WHERE m.Id = @id
         ";
 
         List<Mimbox> mimboxToReturn = new();
 
-        await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, Company, Mimbox>
-           (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, company) =>
+        await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company, Mimbox>
+           (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog, company) =>
            {
                if (mimboxLocation != null)
                {
@@ -153,6 +157,7 @@ public class MimboxRepository : IMimboxRepository
                mimbox.Status = mimboxStatus;
                mimbox.StatusId = mimboxStatus.Id;
                mimbox.ContactList.Add(mimboxContact);
+               mimbox.ErrorLogList.Add(mimboxErrorLog);
 
                mimboxToReturn.Add(mimbox);
 
@@ -170,20 +175,21 @@ public class MimboxRepository : IMimboxRepository
 
         var sql =
         @"
-            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*
+            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*, mel.*
             FROM Company c
             LEFT JOIN Mimbox m ON m.Company_Id = c.Id
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
             LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
             LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
+            LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
             WHERE c.Id IN @ids
         ";
 
         var lookup = new Dictionary<Guid, Company>();
 
-        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, Company>
-           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact) =>
+        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company>
+           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog) =>
            {
                Company companyRef;
 
@@ -203,6 +209,7 @@ public class MimboxRepository : IMimboxRepository
                    mimbox.Status = mimboxStatus;
                    mimbox.StatusId = mimboxStatus.Id;
                    mimbox.ContactList.Add(mimboxContact);
+                   mimbox.ErrorLogList.Add(mimboxErrorLog);
 
                    companyRef.MimboxList.Add(mimbox);
                }
@@ -220,20 +227,21 @@ public class MimboxRepository : IMimboxRepository
 
         var sql =
         @"
-            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*
+            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*, mel.*
             FROM Company c
             LEFT JOIN Mimbox m ON m.Company_Id = c.Id
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
             LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
             LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
+            LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
             WHERE c.Id = @id
         ";
 
         List<Company> companyToReturn = new();
 
-        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, Company>
-           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact) =>
+        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company>
+           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog) =>
            {
                if (mimboxLocation != null)
                {
@@ -246,6 +254,7 @@ public class MimboxRepository : IMimboxRepository
                mimbox.Status = mimboxStatus;
                mimbox.StatusId = mimboxStatus.Id;
                mimbox.ContactList.Add(mimboxContact);
+               mimbox.ErrorLogList.Add(mimboxErrorLog);
 
                company.MimboxList.Add(mimbox);
 
