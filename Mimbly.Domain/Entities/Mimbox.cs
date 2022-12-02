@@ -51,6 +51,8 @@ public class Mimbox
 
     public MimboxLocation? Location { get; set; }
 
+    public Company? Company { get; set; }
+
     // Navigation property
     public virtual ICollection<EventLog> EventLogList { get; set; }
 
