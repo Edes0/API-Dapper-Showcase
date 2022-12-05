@@ -33,7 +33,7 @@ public class GraphHelper : IGraphHelper
             JobTitle = user.Contact?.JobTitle,
             MobilePhone = user.Contact?.MobilePhone,
             StreetAddress = user.Contact?.StreetAddress,
-            City = user.Contact?.StreetAddress,
+            City = user.Contact?.City,
             Country = user.Contact?.Country
         };
 
