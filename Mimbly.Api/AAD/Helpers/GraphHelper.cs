@@ -14,7 +14,7 @@ public class GraphHelper : IGraphHelper
         _logger = logger;
     }
 
-    public Invitation GetInvitation(UserInviteDTO user, string redirectUrl)
+    public Invitation GetInvitation(InvitedUser user, string redirectUrl)
     {
         var invite = new Invitation
         {
@@ -26,7 +26,7 @@ public class GraphHelper : IGraphHelper
         return invite;
     }
 
-    public User GetUserInfo(UserInviteDTO user)
+    public User GetUserInfo(InvitedUser user)
     {
         var userInfo = new User
         {

@@ -5,14 +5,14 @@ using Mimbly.Domain.Entities;
 
 public interface IAccountService
 {
-    Task<bool> InviteUser(UserInviteDTO user);
+    Task<bool> InviteUser(InvitedUser user);
 
-    Task<bool> InviteTechnician(UserInviteDTO technician);
+    Task<bool> InviteTechnician(InvitedUser technician);
 
-    Task<bool> InviteAdmin(UserInviteDTO admin);
+    Task<bool> InviteAdmin(InvitedUser admin);
 
-    Task<Company> CreateCompany(UserInviteDTO owner, CompanyModel company);
+    Task<Company> CreateCompany(InvitedUser owner, CompanyModel company);
 
-    Task<bool> AddUserToCompany(UserInviteDTO user, Guid companyId);
+    Task<bool> AddUserToCompany(InvitedUser user, Guid companyId);
 
 }

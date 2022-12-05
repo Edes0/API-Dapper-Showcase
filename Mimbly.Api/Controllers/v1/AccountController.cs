@@ -37,7 +37,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteTechnician")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(UserInviteDTO userDto)
+    public async Task<ActionResult> InviteTechnician(InvitedUser userDto)
     {
         await userDto.Validate();
 
@@ -49,7 +49,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteAdmin")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(UserInviteDTO userDto)
+    public async Task<ActionResult> InviteAdmin(InvitedUser userDto)
     {
         await userDto.Validate();
 
