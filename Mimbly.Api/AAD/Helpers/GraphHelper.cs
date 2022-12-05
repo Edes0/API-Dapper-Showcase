@@ -20,7 +20,9 @@ public class GraphHelper : IGraphHelper
         {
             InvitedUserDisplayName = user.DisplayName,
             InvitedUserEmailAddress = user.EmailAddress,
-            InviteRedirectUrl = redirectUrl
+            InviteRedirectUrl = redirectUrl,
+            SendInvitationMessage = true,
+            InvitedUserMessageInfo = new InvitedUserMessageInfo { MessageLanguage = "sv-SE"}
         };
 
         return invite;
