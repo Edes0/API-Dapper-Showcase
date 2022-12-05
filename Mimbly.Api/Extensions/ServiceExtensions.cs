@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using Mimbly.CoreServices.Authorization;
 using Mimbly.Api.AAD;
 using Mimbly.Api.AAD.Helpers;
+using Mimbly.Api.AAD.Mappings;
 
 public static class PuppeteerExtensions
 {
@@ -66,6 +67,7 @@ public static class ServiceExtensions
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        services.AddAutoMapper(typeof(AADMappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }
 
