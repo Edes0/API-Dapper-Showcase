@@ -15,7 +15,7 @@ public class AccountService : IAccountService
     private readonly ILogger<AccountService> _logger;
     private readonly IMediator _mediator;
     private readonly IGraphHelper _graphHelper;
-    private readonly UriBuilder _redirectUrl = new("https://mimbly-frontend.azurewebsites.net");
+    private readonly string _redirectUrl = "http://localhost:3000/dashboard/";
 
     public AccountService(IGraphService graphService, ILogger<AccountService> logger,
         IMediator mediator, IGraphHelper graphHelper)
@@ -26,9 +26,10 @@ public class AccountService : IAccountService
         _graphHelper = graphHelper;
     }
 
-    public async Task<bool> InviteUser(UserInviteDTO user)
+    public async Task<bool> InviteUser(InvitedUser user)
     {
-        var redirectUrl = _redirectUrl.Path = "dashboard/" + user.GroupId;
+        var redirectUrl = _redirectUrl + user.GroupId;
+        Console.WriteLine(redirectUrl);
 
         var userInvitation = _graphHelper.GetInvitation(user, redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(user);
@@ -46,9 +47,9 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<bool> InviteTechnician(UserInviteDTO technician)
+    public async Task<bool> InviteTechnician(InvitedUser technician)
     {
-        var userInvitation = _graphHelper.GetInvitation(technician, _redirectUrl.ToString());
+        var userInvitation = _graphHelper.GetInvitation(technician, _redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(technician);
 
         var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
@@ -65,9 +66,9 @@ public class AccountService : IAccountService
         // TODO: Add technician to database, once entity is created
     }
 
-    public async Task<bool> InviteAdmin(UserInviteDTO admin)
+    public async Task<bool> InviteAdmin(InvitedUser admin)
     {
-        var userInvitation = _graphHelper.GetInvitation(admin, _redirectUrl.ToString());
+        var userInvitation = _graphHelper.GetInvitation(admin, _redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(admin);
 
         var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
@@ -85,11 +86,11 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<Company?> CreateCompany(UserInviteDTO owner, CompanyModel company)
+    public async Task<Company?> CreateCompany(InvitedUser owner, CompanyModel company)
     {
         var client = _graphService.GetClient();
 
-        var redirectUrl = _redirectUrl.Path = "dashboard/" + owner.GroupId;
+        var redirectUrl = _redirectUrl + owner.GroupId;
 
         var userInvitation = _graphHelper.GetInvitation(owner, redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(owner);
@@ -116,5 +117,5 @@ public class AccountService : IAccountService
         return null;
     }
 
-    public Task<bool> AddUserToCompany(UserInviteDTO user, Guid companyId) => throw new NotImplementedException();
+    public Task<bool> AddUserToCompany(InvitedUser user, Guid companyId) => throw new NotImplementedException();
 }
