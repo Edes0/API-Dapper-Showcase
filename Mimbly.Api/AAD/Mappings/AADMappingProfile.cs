@@ -10,12 +10,7 @@ public class AADMappingProfile : Profile
         CreateMap<UserInviteDTO, InvitedUser>()
                     .ForMember(
                     dest => dest.DisplayName,
-                    inp => inp.MapFrom(src => $"{src.FirstName}{src.LastName}"))
-                    .ForMember(
-                    dest => dest.EmailAddress, inp => inp.MapFrom( src => src.Email
-                    )).ForMember(
-                    dest => dest.MobilePhone, inp => inp.MapFrom(src => src.Phone
-                    ));
+                    inp => inp.MapFrom(src => $"{src.FirstName}{src.LastName}"));
 
     }
 }

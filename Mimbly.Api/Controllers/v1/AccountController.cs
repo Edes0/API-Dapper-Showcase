@@ -38,11 +38,12 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteTechnician")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(InvitedUser userDto)
+    public async Task<ActionResult> InviteTechnician(UserInviteDTO userDto)
     {
         await userDto.Validate();
 
-        var status = await _accountService.InviteTechnician(userDto);
+        var user = _mapper.Map<InvitedUser>(userDto);
+        var status = await _accountService.InviteTechnician(user);
 
         return status ? Ok() : BadRequest();
     }
@@ -50,11 +51,12 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteAdmin")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(InvitedUser userDto)
+    public async Task<ActionResult> InviteAdmin(UserInviteDTO userDto)
     {
         await userDto.Validate();
 
-        var status = await _accountService.InviteAdmin(userDto);
+        var user = _mapper.Map<InvitedUser>(userDto);
+        var status = await _accountService.InviteAdmin(user);
 
         return status ? Ok() : BadRequest();
     }
@@ -67,7 +69,8 @@ public class AccountController : ControllerBase
         await createCompanyDto.user.Validate();
         await createCompanyDto.company.Validate();
 
-        var createdCompany = await _accountService.CreateCompany(createCompanyDto.user, createCompanyDto.company);
+        var user = _mapper.Map<InvitedUser>(createCompanyDto.user);
+        var createdCompany = await _accountService.CreateCompany(user, createCompanyDto.company);
 
         if (createdCompany != null)
         {

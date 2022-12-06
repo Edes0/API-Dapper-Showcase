@@ -17,7 +17,7 @@ public class GraphHelper : IGraphHelper
         var invite = new Invitation
         {
             InvitedUserDisplayName = user.DisplayName,
-            InvitedUserEmailAddress = user.EmailAddress,
+            InvitedUserEmailAddress = user.Email,
             InviteRedirectUrl = redirectUrl,
             SendInvitationMessage = true,
             InvitedUserMessageInfo = new InvitedUserMessageInfo { MessageLanguage = "sv-SE" }
@@ -31,7 +31,7 @@ public class GraphHelper : IGraphHelper
         var userInfo = new User
         {
             JobTitle = user.JobTitle,
-            MobilePhone = user.MobilePhone,
+            MobilePhone = user.Phone,
             StreetAddress = user.StreetAddress,
             City = user.City,
             Country = user.Country
@@ -62,7 +62,14 @@ public class GraphHelper : IGraphHelper
         var client = _graphService.GetClient();
 
         var dirObj = new DirectoryObject { Id = userId };
-        await client.Groups[groupId].Members.References.Request().AddAsync(dirObj);
+        try
+        {
+            await client.Groups[groupId].Members.References.Request().AddAsync(dirObj);
+        }
+        catch (ServiceException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
     public async void AddOwnerToGroup(string groupId, string userId)
@@ -70,7 +77,7 @@ public class GraphHelper : IGraphHelper
         var client = _graphService.GetClient();
 
         var dirObj = new DirectoryObject { Id = userId };
-        await client.Groups[groupId].Owners.References.Request().AddAsync(new DirectoryObject { Id = userId });
+        await client.Groups[groupId].Owners.References.Request().AddAsync(dirObj);
     }
 
 }
