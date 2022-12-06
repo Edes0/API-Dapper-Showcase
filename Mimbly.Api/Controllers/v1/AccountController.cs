@@ -13,9 +13,6 @@ using AutoMapper;
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
 {
-
-    // TODO: Add validation
-
     private readonly IAccountService _accountService;
     private readonly IMapper _mapper;
 
