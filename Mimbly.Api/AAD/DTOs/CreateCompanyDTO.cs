@@ -2,6 +2,6 @@
 
 public class CreateCompanyDTO
 {
-    public InvitedUser user { get; set; }
+    public UserInviteDTO user { get; set; }
     public CompanyModel company { get; set; }
 }
