@@ -18,13 +18,13 @@ public class MimboxLocation
     [Column("Region", TypeName = "Nvarchar(100)")]
     public string? Region { get; set; }
 
-    [Column("Postal_code", TypeName = "Varchar(5)")]
+    [Column("Postal_code", TypeName = "Varchar(5)")] // TODO: Fix this next migration code --> Code. don't forget to update repository also
     public string? PostalCode { get; set; }
 
     [Column("City", TypeName = "Nvarchar(100)")]
     public string City { get; set; }
 
-    [Column("Street_Address", TypeName = "Nvarchar(100)")]
+    [Column("Street_address", TypeName = "Nvarchar(100)")]
     public string StreetAddress { get; set; }
 
     public MimboxLocation(string country, string city, string streetAddress)

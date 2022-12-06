@@ -4,11 +4,11 @@ using Common.Interfaces;
 using MediatR;
 using Mimbly.CoreServices.Exceptions;
 
-public class DeleteMimblyCommandHandler : IRequestHandler<DeleteMimboxCommand>
+public class DeleteMimboxCommandHandler : IRequestHandler<DeleteMimboxCommand>
 {
     private readonly IMimboxRepository _mimboxRepository;
 
-    public DeleteMimblyCommandHandler(
+    public DeleteMimboxCommandHandler(
         IMimboxRepository mimboxRepository)
     {
         _mimboxRepository = mimboxRepository;

@@ -3,7 +3,6 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Mimbly.CoreServices.Enums;
 using Mimbly.Domain.Entities;
 
 public static class Seed
@@ -72,11 +71,11 @@ public static class Seed
                 {
                    Id = Guid.NewGuid(),
                    FirstName = "Hans",
-                   LastName = "Sheike",
-                   Email = "fdsfsdff@live.se",
-                   PhoneNumber = "0739543467",
+                   LastName = "Andersson",
+                   Email = "HansAndersson@live.se",
+                   PhoneNumber = "0737543467",
                    CompanyId = companyEntites[0].Id,
-                   Title = "Company VD"
+                   Title = "Company something"
                 }
         };
 
@@ -120,7 +119,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = ModelType.Laundry
+                   Name = "Laundry"
                 }
         };
 
@@ -135,13 +134,13 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = StatusType.Broken
+                   Name = "Broken"
                 },
 
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = StatusType.ToBeInstalled
+                   Name = "ToBeInstalled"
                 }
         };
 
@@ -239,7 +238,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Log = "Going to install in next week, lol",
+                   Log = "Going to install in next week",
                    MimboxId = mimboxEntites[1].Id
                 }
         };

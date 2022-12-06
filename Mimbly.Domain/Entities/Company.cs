@@ -21,7 +21,7 @@ public class Company
 
     public Guid? ParentId { get; set; }
 
-    public ICollection<Company> ChildCompanyList { get; set; } = new List<Company>(); //TODO: Check if needed
+    public ICollection<Company> ChildCompanyList { get; set; } = new List<Company>();
 
     public ICollection<CompanyContact> ContactList { get; set; } = new List<CompanyContact>();
 
