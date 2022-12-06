@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
 
-public class MimboxRepository : IMimboxRepository
+public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar endast mimboxar. Companies hämtar companies. PANG
 {
     private readonly ISqlDataAccess _db;
     private readonly IConfiguration _config;
@@ -85,36 +85,45 @@ public class MimboxRepository : IMimboxRepository
             LEFT JOIN Company c ON c.Id = m.Company_Id
         ";
 
-        List<Mimbox> mimboxToReturn = new();
+        var lookup = new Dictionary<Guid, Mimbox>();
 
         await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company, Mimbox>
            (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog, company) =>
            {
+               if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
+                   lookup.Add(mimbox.Id, mimboxRef = mimbox);
+
                if (mimboxLocation != null)
                {
-                   mimbox.Location = mimboxLocation;
-                   mimbox.LocationId = mimboxLocation.Id;
+                   mimboxRef.Location = mimboxLocation;
+                   mimboxRef.LocationId = mimboxLocation.Id;
                }
 
                if (company != null)
                {
-                   mimbox.Company = company;
-                   mimbox.CompanyId = company.Id;
+                   mimboxRef.Company = company;
+                   mimboxRef.CompanyId = company.Id;
                }
 
-               mimbox.Model = mimboxModel;
-               mimbox.ModelId = mimboxModel.Id;
-               mimbox.Status = mimboxStatus;
-               mimbox.StatusId = mimboxStatus.Id;
-               mimbox.ContactList.Add(mimboxContact);
-               mimbox.ErrorLogList.Add(mimboxErrorLog);
+               if (mimboxContact != null)
+               {
+                   mimboxRef.ContactList.Add(mimboxContact);
+               }
 
-               mimboxToReturn.Add(mimbox);
+               if (mimboxErrorLog != null)
+               {
+                   mimboxRef.ErrorLogList.Add(mimboxErrorLog);
+               }
+
+               mimboxRef.Model = mimboxModel;
+               mimboxRef.ModelId = mimboxModel.Id;
+               mimboxRef.Status = mimboxStatus;
+               mimboxRef.StatusId = mimboxStatus.Id;
 
                return null;
            });
 
-        return mimboxToReturn;
+        return lookup.Values;
     }
 
     public async Task<Mimbox> GetMimboxById(Guid id)
@@ -135,40 +144,49 @@ public class MimboxRepository : IMimboxRepository
             WHERE m.Id = @id
         ";
 
-        List<Mimbox> mimboxToReturn = new();
+        var lookup = new Dictionary<Guid, Mimbox>();
 
         await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company, Mimbox>
            (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog, company) =>
            {
+               if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
+                   lookup.Add(mimbox.Id, mimboxRef = mimbox);
+
                if (mimboxLocation != null)
                {
-                   mimbox.Location = mimboxLocation;
-                   mimbox.LocationId = mimboxLocation.Id;
+                   mimboxRef.Location = mimboxLocation;
+                   mimboxRef.LocationId = mimboxLocation.Id;
                }
 
                if (company != null)
                {
-                   mimbox.Company = company;
-                   mimbox.CompanyId = company.Id;
+                   mimboxRef.Company = company;
+                   mimboxRef.CompanyId = company.Id;
                }
 
-               mimbox.Model = mimboxModel;
-               mimbox.ModelId = mimboxModel.Id;
-               mimbox.Status = mimboxStatus;
-               mimbox.StatusId = mimboxStatus.Id;
-               mimbox.ContactList.Add(mimboxContact);
-               mimbox.ErrorLogList.Add(mimboxErrorLog);
+               if (mimboxContact != null)
+               {
+                   mimboxRef.ContactList.Add(mimboxContact);
+               }
 
-               mimboxToReturn.Add(mimbox);
+               if (mimboxErrorLog != null)
+               {
+                   mimboxRef.ErrorLogList.Add(mimboxErrorLog);
+               }
+
+               mimboxRef.Model = mimboxModel;
+               mimboxRef.ModelId = mimboxModel.Id;
+               mimboxRef.Status = mimboxStatus;
+               mimboxRef.StatusId = mimboxStatus.Id;
 
                return null;
            },
            new { id });
 
-        return mimboxToReturn.FirstOrDefault();
+        return lookup.Values.FirstOrDefault();
     }
 
-    public async Task<IEnumerable<Company>> GetMimboxDataByCompanyIds(IEnumerable<Guid> ids)
+    public async Task<IEnumerable<Mimbox>> GetMimboxDataByCompanyIds(IEnumerable<Guid> ids)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
         await using var connection = new SqlConnection(connectionString);
@@ -186,32 +204,38 @@ public class MimboxRepository : IMimboxRepository
             WHERE c.Id IN @ids
         ";
 
-        var lookup = new Dictionary<Guid, Company>();
+        var lookup = new Dictionary<Guid, Mimbox>();
 
-        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company>
-           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog) =>
+        await connection.QueryAsync<Mimbox, Company, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Mimbox>
+           (sql, (mimbox, company, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog) =>
            {
-               Company companyRef;
+               if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
+                   lookup.Add(mimbox.Id, mimboxRef = mimbox);
 
-               if (!lookup.TryGetValue(company.Id, out companyRef))
-                   lookup.Add(company.Id, companyRef = company);
-
-               if (mimbox != null && !companyRef.MimboxList.Select(x => x.Id).Contains(mimbox.Id))
+               if (mimbox != null)
                {
                    if (mimboxLocation != null)
                    {
-                       mimbox.Location = mimboxLocation;
-                       mimbox.LocationId = mimboxLocation.Id;
+                       mimboxRef.Location = mimboxLocation;
+                       mimboxRef.LocationId = mimboxLocation.Id;
                    }
 
-                   mimbox.Model = mimboxModel;
-                   mimbox.ModelId = mimboxModel.Id;
-                   mimbox.Status = mimboxStatus;
-                   mimbox.StatusId = mimboxStatus.Id;
-                   mimbox.ContactList.Add(mimboxContact);
-                   mimbox.ErrorLogList.Add(mimboxErrorLog);
+                   if (mimboxContact != null)
+                   {
+                       mimboxRef.ContactList.Add(mimboxContact);
+                   }
 
-                   companyRef.MimboxList.Add(mimbox);
+                   if (mimboxErrorLog != null)
+                   {
+                       mimboxRef.ErrorLogList.Add(mimboxErrorLog);
+                   }
+
+                   mimboxRef.Model = mimboxModel;
+                   mimboxRef.ModelId = mimboxModel.Id;
+                   mimboxRef.Status = mimboxStatus;
+                   mimboxRef.StatusId = mimboxStatus.Id;
+                   mimboxRef.Company = company;
+                   mimboxRef.CompanyId = company.Id;
                }
                return null;
            },
@@ -220,7 +244,7 @@ public class MimboxRepository : IMimboxRepository
         return lookup.Values;
     }
 
-    public async Task<Company> GetMimboxDataByCompanyId(Guid id)
+    public async Task<Mimbox> GetMimboxDataByCompanyId(Guid id)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
         await using var connection = new SqlConnection(connectionString);

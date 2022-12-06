@@ -20,6 +20,8 @@ public record MimboxDto
 
     public ICollection<MimboxLog> LogList { get; init; }
 
+    public ICollection<MimboxContact> ContactList { get; init; }
+
     public ICollection<MimboxErrorLog> ErrorLogList { get; init; }
 
     public MimboxStatus Status { get; init; }

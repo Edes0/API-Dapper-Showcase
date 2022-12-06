@@ -12,6 +12,6 @@ public interface IMimboxRepository
     Task CreateMimbox(Mimbox mimbox);
     Task DeleteMimbox(Mimbox mimbox);
     Task UpdateMimbox(Mimbox mimbox);
-    Task<IEnumerable<Company>> GetMimboxDataByCompanyIds(IEnumerable<Guid> ids);
-    Task<Company> GetMimboxDataByCompanyId(Guid id);
+    Task<IEnumerable<Mimbox>> GetMimboxDataByCompanyIds(IEnumerable<Guid> ids);
+    Task<Mimbox> GetMimboxDataByCompanyId(Guid id);
 }
