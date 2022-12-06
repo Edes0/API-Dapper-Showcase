@@ -30,13 +30,13 @@ public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, AllC
 
         var companyIds = companies.Select(x => x.Id);
 
-        var companiesWithMimboxData = await _mimboxRepository.GetMimboxDataByCompanyIds(companyIds);
+        var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
 
         foreach (var company in companies)
         {
-            var currentCompanyMimboxData = companiesWithMimboxData.First(x => x.Id == company.Id);
+            var currentCompanyMimboxData = mimboxes.Select(x => x).Where(x => x.CompanyId == company.Id);
 
-            company.MimboxList = currentCompanyMimboxData.MimboxList;
+            company.MimboxList = currentCompanyMimboxData.ToList();
         }
 
         var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);

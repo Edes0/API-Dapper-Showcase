@@ -7,11 +7,11 @@ using Mimbly.Domain.Entities;
 
 public interface IMimboxRepository
 {
-    Task<IEnumerable<Mimbox>> GetAllMimboxes();
-    Task<Mimbox> GetMimboxById(Guid id);
     Task CreateMimbox(Mimbox mimbox);
     Task DeleteMimbox(Mimbox mimbox);
     Task UpdateMimbox(Mimbox mimbox);
-    Task<IEnumerable<Mimbox>> GetMimboxDataByCompanyIds(IEnumerable<Guid> ids);
-    Task<Mimbox> GetMimboxDataByCompanyId(Guid id);
+    Task<IEnumerable<Mimbox>> GetAllMimboxes();
+    Task<Mimbox> GetMimboxById(Guid id);
+    Task<IEnumerable<Mimbox>> GetMimboxByCompanyIds(IEnumerable<Guid> ids);
+    Task<IEnumerable<Mimbox>> GetMimboxByCompanyId(Guid id);
 }

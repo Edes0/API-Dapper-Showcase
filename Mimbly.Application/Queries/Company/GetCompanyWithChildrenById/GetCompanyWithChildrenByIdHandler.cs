@@ -28,22 +28,20 @@ public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithC
 
     public async Task<CompanyWithChildrenByIdVm> Handle(GetCompanyWithChildrenByIdQuery request, CancellationToken cancellationToken)
     {
-        var companies = await _companyRepository.GetParentWithChildrenById(request.Id); //TODO: SLÅ IHOP
+        var companies = await _companyRepository.GetParentAndChildrenIdsById(request.Id);
 
         if (companies.IsNullOrEmpty())
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
         var companyIds = companies.Select(x => x.Id);
-
-        //companies
-        var companiesWithData = await _companyRepository.GetCompanyDataByIds(companyIds); //TODO: SLÅ IHOP
-        var mimboxes = await _mimboxRepository.GetMimboxDataByCompanyIds(companyIds);
+        var companiesWithData = await _companyRepository.GetCompanyByIds(companyIds);
+        var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
 
         foreach (var company in companiesWithData)
         {
-            var currentCompanyMimboxData = companiesWithMimboxData.First(x => x.Id == company.Id);
+            var currentCompanyMimboxes = mimboxes.Select(x => x).Where(x => x.CompanyId == company.Id);
 
-            company.MimboxList = currentCompanyMimboxData.MimboxList;
+            company.MimboxList = currentCompanyMimboxes.ToList();
 
             var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c =>
             {

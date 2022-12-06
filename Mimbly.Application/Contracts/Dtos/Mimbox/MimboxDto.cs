@@ -31,4 +31,6 @@ public record MimboxDto
     public MimboxLocation? Location { get; init; }
 
     public Company? Company { get; set; }
+
+    public Guid? CompanyId { get; set; }
 }

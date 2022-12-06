@@ -32,7 +32,7 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
             throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
 
         if (mimbox.CompanyId != null)
-            mimbox.Company = await _companyRepository.GetCompanyDataById(mimbox.Company.Id);
+            mimbox.Company = await _companyRepository.GetCompanyById(mimbox.Company.Id);
 
         var mimboxDto = _mapper.Map<MimboxDto>(mimbox);
 
