@@ -33,7 +33,7 @@ public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, AllMim
 
         var companyIds = mimboxes.Where(x => x.Company != null).Select(x => (Guid)x.CompanyId);
 
-        var companyData = await _companyRepository.GetCompanyDataByIds(companyIds);
+        var companyData = await _companyRepository.GetCompanyByIds(companyIds);
 
         foreach (var mimbox in mimboxes)
         {

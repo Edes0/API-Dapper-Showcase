@@ -39,7 +39,7 @@ public class Mimbox
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid? CompanyId { get; set; }
 
-    public ICollection<MimboxLog> MimboxLogList { get; set; } = new List<MimboxLog>();
+    public ICollection<MimboxLog> LogList { get; set; } = new List<MimboxLog>();
 
     public ICollection<MimboxContact> ContactList { get; set; } = new List<MimboxContact>();
 

@@ -31,8 +31,9 @@ public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, Compan
         if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyWithMimboxData = await _mimboxRepository.GetMimboxDataByCompanyId(company.Id);
-        company.MimboxList = companyWithMimboxData.MimboxList;
+        var mimboxes = await _mimboxRepository.GetMimboxByCompanyId(company.Id);
+
+        company.MimboxList = mimboxes.ToList();
 
         var companyDto = _mapper.Map<CompanyDto>(company);
 

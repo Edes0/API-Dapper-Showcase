@@ -68,25 +68,28 @@ public class CompanyRepository : ICompanyRepository
 
         var sql =
         @"
-            SELECT c.*, cc.*, ccl.*
+            SELECT c.*, ccl.*
             FROM Company c
-            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
             LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
         ";
 
-        List<Company> CompanyToReturn = new();
+        var lookup = new Dictionary<Guid, Company>();
 
         await connection.QueryAsync<Company, CompanyContact, Company>
            (sql, (company, companyContact) =>
            {
-               company.ContactList.Add(companyContact);
+               Company companyRef;
 
-               CompanyToReturn.Add(company);
+               if (!lookup.TryGetValue(company.Id, out companyRef))
+                   lookup.Add(company.Id, companyRef = company);
+
+               if (companyContact != null)
+                   companyRef.ContactList.Add(companyContact);
 
                return null;
            });
 
-        return CompanyToReturn;
+        return lookup.Values;
     }
 
     public async Task<Company> GetCompanyById(Guid id)
@@ -96,30 +99,33 @@ public class CompanyRepository : ICompanyRepository
 
         var sql =
         @"
-            SELECT c.*, cc.*, ccl.*
+            SELECT c.*, ccl.*
             FROM Company c
-            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
             LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
             WHERE c.Id = @id
         ";
 
-        List<Company> CompanyToReturn = new();
+        var lookup = new Dictionary<Guid, Company>();
 
         await connection.QueryAsync<Company, CompanyContact, Company>
            (sql, (company, companyContact) =>
            {
-               company.ContactList.Add(companyContact);
+               Company companyRef;
 
-               CompanyToReturn.Add(company);
+               if (!lookup.TryGetValue(company.Id, out companyRef))
+                   lookup.Add(company.Id, companyRef = company);
+
+               if (companyContact != null)
+                   companyRef.ContactList.Add(companyContact);
 
                return null;
            },
            new { id });
 
-        return CompanyToReturn.FirstOrDefault();
+        return lookup.Values.FirstOrDefault();
     }
 
-    public async Task<IEnumerable<Company>> GetParentWithChildrenById(Guid id)
+    public async Task<IEnumerable<Company>> GetParentAndChildrenIdsById(Guid id)
     {
         var sql =
           @"
@@ -139,7 +145,7 @@ public class CompanyRepository : ICompanyRepository
         return await _db.LoadEntities<Company, dynamic>(sql, new { Id = id });
     }
 
-    public async Task<IEnumerable<Company>> GetCompanyDataByIds(IEnumerable<Guid> ids)
+    public async Task<IEnumerable<Company>> GetCompanyByIds(IEnumerable<Guid> ids)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
         await using var connection = new SqlConnection(connectionString);
@@ -163,7 +169,7 @@ public class CompanyRepository : ICompanyRepository
                if (!lookup.TryGetValue(company.Id, out companyRef))
                    lookup.Add(company.Id, companyRef = company);
 
-               if (companyContact != null && !companyRef.ContactList.Select(x => x.Id).Contains(companyContact.Id))
+               if (companyContact != null)
                    companyRef.ContactList.Add(companyContact);
 
                return null;
@@ -171,35 +177,5 @@ public class CompanyRepository : ICompanyRepository
            new { ids });
 
         return lookup.Values;
-    }
-
-    public async Task<Company> GetCompanyDataById(Guid id)
-    {
-        var connectionString = _config.GetConnectionString(ConnectionStringName);
-        await using var connection = new SqlConnection(connectionString);
-
-        var sql =
-        @"
-            SELECT c.*, cc.*, ccl.*
-            FROM Company c
-            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
-            LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
-            WHERE c.Id = @id
-        ";
-
-        List<Company> companyToReturn = new();
-
-        await connection.QueryAsync<Company, Company, CompanyContact, Company>
-           (sql, (company, childCompany, companyContact) =>
-           {
-               company.ContactList.Add(companyContact);
-
-               companyToReturn.Add(company);
-
-               return null;
-           },
-           new { id });
-
-        return companyToReturn.FirstOrDefault();
     }
 }
