@@ -102,7 +102,6 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                if (company != null)
                {
                    mimboxRef.Company = company;
-                   mimboxRef.CompanyId = company.Id;
                }
 
                if (mimboxContact != null)
@@ -161,7 +160,6 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                if (company != null)
                {
                    mimboxRef.Company = company;
-                   mimboxRef.CompanyId = company.Id;
                }
 
                if (mimboxContact != null)

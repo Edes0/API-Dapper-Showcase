@@ -27,9 +27,7 @@ public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, AllC
     public async Task<AllCompaniesVm> Handle(GetAllCompaniesQuery request, CancellationToken cancellationToken)
     {
         var companies = await _companyRepository.GetAllCompanies();
-
         var companyIds = companies.Select(x => x.Id);
-
         var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
 
         foreach (var company in companies)
