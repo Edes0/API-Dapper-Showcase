@@ -44,33 +44,33 @@ public class GraphHelper : IGraphHelper
     {
         var client = _graphService.GetClient();
 
-            var resp = await client.Invitations.Request().AddAsync(invite);
-            var userId = resp.InvitedUser.Id;
+        var resp = await client.Invitations.Request().AddAsync(invite);
+        var userId = resp.InvitedUser.Id;
 
-            return userId;
-        }
+        return userId;
+    }
 
     public async void UpdateUserInfo(User userInfo, string userId)
     {
         var client = _graphService.GetClient();
 
-            await client.Users[userId].Request().UpdateAsync(userInfo);
-        }
+        await client.Users[userId].Request().UpdateAsync(userInfo);
+    }
 
     public async void AddMemberToGroup(string groupId, string userId)
     {
         var client = _graphService.GetClient();
 
-            var dirObj = new DirectoryObject { Id = userId };
-            await client.Groups[groupId].Members.References.Request().AddAsync(dirObj);
-        }
+        var dirObj = new DirectoryObject { Id = userId };
+        await client.Groups[groupId].Members.References.Request().AddAsync(dirObj);
+    }
 
     public async void AddOwnerToGroup(string groupId, string userId)
     {
         var client = _graphService.GetClient();
 
-            var dirObj = new DirectoryObject { Id = userId };
-            await client.Groups[groupId].Owners.References.Request().AddAsync(new DirectoryObject { Id = userId });
-        }
+        var dirObj = new DirectoryObject { Id = userId };
+        await client.Groups[groupId].Owners.References.Request().AddAsync(new DirectoryObject { Id = userId });
+    }
 
 }

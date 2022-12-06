@@ -40,6 +40,6 @@ internal class UserInviteDtoValidator : AbstractValidator<UserInviteDTO>
     {
         RuleFor(user => user.Email).NotNull();
         RuleFor(user => user.FirstName).NotNull();
-        RuleFor(user => user.GroupId).NotNull();
+        RuleFor(user => user.GroupId).NotNull().NotEmpty();
     }
 }
