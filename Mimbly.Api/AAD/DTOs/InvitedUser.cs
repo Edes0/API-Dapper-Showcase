@@ -14,16 +14,6 @@ public class InvitedUser
 
     public string? GroupId { get; set; }
 
-    public Contact? Contact { get; set; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new InvitedUserValidator());
-    }
-}
-
-public class Contact
-{
     public string? JobTitle { get; set; }
 
     [Phone]
@@ -34,6 +24,11 @@ public class Contact
     public string? City { get; set; }
 
     public string? Country { get; set; }
+
+    public async Task Validate()
+    {
+        await ValidatableEntity.ValidateEntityByFluentRules(this, new InvitedUserValidator());
+    }
 }
 
 internal class InvitedUserValidator : AbstractValidator<InvitedUser>

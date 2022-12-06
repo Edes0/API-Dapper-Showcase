@@ -20,7 +20,7 @@ public class GraphHelper : IGraphHelper
             InvitedUserEmailAddress = user.EmailAddress,
             InviteRedirectUrl = redirectUrl,
             SendInvitationMessage = true,
-            InvitedUserMessageInfo = new InvitedUserMessageInfo { MessageLanguage = "sv-SE"}
+            InvitedUserMessageInfo = new InvitedUserMessageInfo { MessageLanguage = "sv-SE" }
         };
 
         return invite;
@@ -30,11 +30,11 @@ public class GraphHelper : IGraphHelper
     {
         var userInfo = new User
         {
-            JobTitle = user.Contact?.JobTitle,
-            MobilePhone = user.Contact?.MobilePhone,
-            StreetAddress = user.Contact?.StreetAddress,
-            City = user.Contact?.City,
-            Country = user.Contact?.Country
+            JobTitle = user.JobTitle,
+            MobilePhone = user.MobilePhone,
+            StreetAddress = user.StreetAddress,
+            City = user.City,
+            Country = user.Country
         };
 
         return userInfo;
