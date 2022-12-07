@@ -18,6 +18,10 @@ public record MimboxDto
 
     public string? Nickname { get; set; }
 
+    public Guid? CompanyId { get; set; }
+
+    public DateTime Updated { get; set; }
+
     public ICollection<MimboxLog> LogList { get; init; }
 
     public ICollection<MimboxContact> ContactList { get; init; }
@@ -32,5 +36,5 @@ public record MimboxDto
 
     public Company? Company { get; set; }
 
-    public Guid? CompanyId { get; set; }
+
 }

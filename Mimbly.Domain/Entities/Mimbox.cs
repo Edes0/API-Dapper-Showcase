@@ -3,6 +3,7 @@ namespace Mimbly.Domain.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Mimbly.Domain.Entities.AzureEvents;
 
 [Table("Mimbox")]
@@ -39,6 +40,9 @@ public class Mimbox
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid? CompanyId { get; set; }
 
+    [Column("Updated", TypeName = "datetime")]
+    public DateTime Updated { get; set; }
+
     public ICollection<MimboxLog> LogList { get; set; } = new List<MimboxLog>();
 
     public ICollection<MimboxContact> ContactList { get; set; } = new List<MimboxContact>();
@@ -58,7 +62,6 @@ public class Mimbox
 
     public virtual ICollection<WashStats> WaterToWashingMachineEventList { get; set; }
 
-
     public Mimbox()
     {
         Id = Guid.NewGuid();
@@ -66,5 +69,11 @@ public class Mimbox
         Co2Saved = 0;
         PlasticSaved = 0;
         EconomySaved = 0;
+    }
+    public static void Configure(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Mimbox>(entity => entity
+        .Property(x => x.Updated)
+        .ValueGeneratedOnAddOrUpdate());
     }
 }
