@@ -86,35 +86,25 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<Company?> CreateCompany(InvitedUser owner, CompanyModel company)
+    public async Task<Company> CreateCompany(CompanyModel company)
     {
         var client = _graphService.GetClient();
-
-        var redirectUrl = _redirectUrl + owner.GroupId;
-
-        var userInvitation = _graphHelper.GetInvitation(owner, redirectUrl);
-        var userInfo = _graphHelper.GetUserInfo(owner);
 
         var groupInfo = new Group
         {
             DisplayName = company.Name,
             Description = company.Description,
+            GroupTypes = new List<String>() { },
+            MailEnabled = false,
+            MailNickname = "mimbly",
+            SecurityEnabled = true,
+            AdditionalData = new Dictionary<string, object>() { }
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
-        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
+        var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
 
-        if (invitedUserId != null)
-        {
-            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-            _graphHelper.AddOwnerToGroup(group.Id, invitedUserId);
-
-            var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
-
-            return newCompany;
-        }
-
-        return null;
+        return newCompany;
     }
 
     public Task<bool> AddUserToCompany(InvitedUser user, Guid companyId) => throw new NotImplementedException();
