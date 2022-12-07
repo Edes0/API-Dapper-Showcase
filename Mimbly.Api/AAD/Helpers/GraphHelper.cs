@@ -53,8 +53,14 @@ public class GraphHelper : IGraphHelper
     public async void UpdateUserInfo(User userInfo, string userId)
     {
         var client = _graphService.GetClient();
+        try
+        {
+            await client.Users[userId].Request().UpdateAsync(userInfo);
+        }
+        catch (Exception ex)
+        {
 
-        await client.Users[userId].Request().UpdateAsync(userInfo);
+        }
     }
 
     public async void AddMemberToGroup(string groupId, string userId)
@@ -62,6 +68,7 @@ public class GraphHelper : IGraphHelper
         var client = _graphService.GetClient();
 
         var dirObj = new DirectoryObject { Id = userId };
+
         try
         {
             await client.Groups[groupId].Members.References.Request().AddAsync(dirObj);
