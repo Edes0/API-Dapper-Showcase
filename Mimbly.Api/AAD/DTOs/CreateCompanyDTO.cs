@@ -7,7 +7,7 @@ public class CreateCompanyDTO
 {
     public string? CompanyName { get; set; }
     public string? Description { get; set; }
-    public Guid ParentId { get; set; }
+    public string? ParentId { get; set; }
 
     public async Task Validate()
     {
