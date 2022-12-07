@@ -12,8 +12,8 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221207123033_AddSetUpdatedAsNonNullable")]
-    partial class AddSetUpdatedAsNonNullable
+    [Migration("20221207141040_UpdateToStatsUpdatedAtAndCreatedAt")]
+    partial class UpdateToStatsUpdatedAtAndCreatedAt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,14 +245,13 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("float")
                         .HasColumnName("Plastic_Saved");
 
+                    b.Property<DateTime>("StatsUpdatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("Stats_Updated_At");
+
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Mimbox_Status_Id");
-
-                    b.Property<DateTime>("Updated")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime")
-                        .HasColumnName("Updated");
 
                     b.Property<double>("WaterSaved")
                         .HasColumnType("float")
@@ -359,10 +358,9 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime")
-                        .HasColumnName("Created");
+                        .HasColumnName("Created_At");
 
                     b.Property<string>("Log")
                         .IsRequired()

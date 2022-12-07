@@ -40,8 +40,8 @@ public class Mimbox
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid? CompanyId { get; set; }
 
-    [Column("Updated", TypeName = "datetime")]
-    public DateTime Updated { get; set; }
+    [Column("Stats_Updated_At", TypeName = "datetime")]
+    public DateTime StatsUpdatedAt { get; set; }
 
     public ICollection<MimboxLog> LogList { get; set; } = new List<MimboxLog>();
 
@@ -69,11 +69,6 @@ public class Mimbox
         Co2Saved = 0;
         PlasticSaved = 0;
         EconomySaved = 0;
-    }
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Mimbox>(entity => entity
-        .Property(x => x.Updated)
-        .ValueGeneratedOnAddOrUpdate());
+        StatsUpdatedAt = DateTime.Now;
     }
 }

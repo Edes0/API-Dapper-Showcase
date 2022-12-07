@@ -20,7 +20,7 @@ public record MimboxDto
 
     public Guid? CompanyId { get; set; }
 
-    public DateTime Updated { get; set; }
+    public DateTime StatsUpdatedAt { get; set; }
 
     public ICollection<MimboxLog> LogList { get; init; }
 
