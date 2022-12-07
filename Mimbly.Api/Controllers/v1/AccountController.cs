@@ -6,6 +6,9 @@ using Mimbly.CoreServices.Authorization;
 using Mimbly.Api.AAD;
 using Mimbly.Api.AAD.DTOs;
 using AutoMapper;
+using Mimbly.Application.Commands.Company.CreateCompany;
+using Mimbly.Application.Contracts.Dtos.Company;
+using MediatR;
 
 [ApiController]
 /*[Authorize]*/
@@ -15,11 +18,14 @@ public class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
-    public AccountController(IAccountService accountService, IMapper mapper)
+    public AccountController(IAccountService accountService, IMapper mapper,
+        IMediator mediator)
     {
         _accountService = accountService;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     [HttpPost]
@@ -69,11 +75,12 @@ public class AccountController : ControllerBase
         await createCompanyDto.Validate();
 
         var company = _mapper.Map<CompanyModel>(createCompanyDto);
-        var createdCompany = await _accountService.CreateCompany(company);
+        var isCreated = await _accountService.CreateCompany(company);
 
-        if (createdCompany != null)
+        if (isCreated)
         {
-            return Created($"/Company/{createdCompany.Id}", createdCompany);
+            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = Guid.Parse("d43e2f2d-c6be-4027-a5eb-87d87c0b1b4e") } });
+            return Ok();
         }
         else
         {

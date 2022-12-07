@@ -13,16 +13,13 @@ public class AccountService : IAccountService
 {
     private readonly IGraphService _graphService;
     private readonly ILogger<AccountService> _logger;
-    private readonly IMediator _mediator;
     private readonly IGraphHelper _graphHelper;
     private readonly string _redirectUrl = "http://localhost:3000/dashboard/";
 
-    public AccountService(IGraphService graphService, ILogger<AccountService> logger,
-        IMediator mediator, IGraphHelper graphHelper)
+    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IGraphHelper graphHelper)
     {
         _graphService = graphService;
         _logger = logger;
-        _mediator = mediator;
         _graphHelper = graphHelper;
     }
 
@@ -86,7 +83,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<Company> CreateCompany(CompanyModel company)
+    public async Task<bool> CreateCompany(CompanyModel company)
     {
         var client = _graphService.GetClient();
 
@@ -102,9 +99,7 @@ public class AccountService : IAccountService
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
-        var newCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
-
-        return newCompany;
+        return group.Id != null;
     }
 
     public Task<bool> AddUserToCompany(InvitedUser user, Guid companyId) => throw new NotImplementedException();
