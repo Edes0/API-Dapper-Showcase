@@ -66,11 +66,10 @@ public class AccountController : ControllerBase
     /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> CreateCompany(CreateCompanyDTO createCompanyDto)
     {
-        await createCompanyDto.user.Validate();
-        await createCompanyDto.company.Validate();
+        await createCompanyDto.Validate();
 
-        var user = _mapper.Map<InvitedUser>(createCompanyDto.user);
-        var createdCompany = await _accountService.CreateCompany(user, createCompanyDto.company);
+        var company = _mapper.Map<CompanyModel>(createCompanyDto);
+        var createdCompany = await _accountService.CreateCompany(company);
 
         if (createdCompany != null)
         {
