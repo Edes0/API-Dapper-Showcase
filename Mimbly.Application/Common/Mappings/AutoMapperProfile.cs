@@ -9,9 +9,9 @@ using Mimbly.Application.Contracts.Dtos.MimboxLocation;
 using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
 
-public class MappingProfile : Profile
+public class AutoMapperProfile : Profile
 {
-    public MappingProfile()
+    public AutoMapperProfile()
     {
         // Mimbox
         CreateMap<Mimbox, MimboxDto>();

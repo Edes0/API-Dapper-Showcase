@@ -1,5 +1,5 @@
 ﻿namespace Mimbly.Api.Extensions;
-
+using Dapper.FluentMap;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -63,7 +63,7 @@ public static class ServiceExtensions
 
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }
 
@@ -103,6 +103,14 @@ public static class ServiceExtensions
         {
             opt.ViewLocationExpanders.Add(new ViewLocationExpander());
             opt.ViewLocationFormats.Add("/DocumentTemplates/{0}.cshtml");
+        });
+    }
+
+    public static void ConfigureDapperMapping(this IServiceCollection services)
+    {
+        FluentMapper.Initialize(config =>
+        {
+            config.AddMap(new MimboxPocoMapping());
         });
     }
 

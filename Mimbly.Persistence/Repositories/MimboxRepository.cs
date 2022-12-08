@@ -7,6 +7,7 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
+using Mimbly.Domain.Entities.POCOs;
 
 public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar endast mimboxar. Companies hämtar companies. PANG
 {
@@ -87,16 +88,16 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
 
         var lookup = new Dictionary<Guid, Mimbox>();
 
-        await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company, Mimbox>
-           (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog, company) =>
+        await connection.QueryAsync<Mimbox, MimboxPoco, Company, Mimbox>
+           (sql, (mimbox, mimboxPoco, company) =>
            {
                if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
                    lookup.Add(mimbox.Id, mimboxRef = mimbox);
 
-               if (mimboxLocation != null)
+               if (mimboxPoco.MimboxLocation != null)
                {
-                   mimboxRef.Location = mimboxLocation;
-                   mimboxRef.LocationId = mimboxLocation.Id;
+                   mimboxRef.Location = mimboxPoco.MimboxLocation;
+                   mimboxRef.LocationId = mimboxPoco.MimboxLocation.Id;
                }
 
                if (company != null)
@@ -104,20 +105,20 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                    mimboxRef.Company = company;
                }
 
-               if (mimboxContact != null)
+               if (mimboxPoco.MimboxContact != null)
                {
-                   mimboxRef.ContactList.Add(mimboxContact);
+                   mimboxRef.ContactList.Add(mimboxPoco.MimboxContact);
                }
 
-               if (mimboxErrorLog != null)
+               if (mimboxPoco.MimboxErrorLog != null)
                {
-                   mimboxRef.ErrorLogList.Add(mimboxErrorLog);
+                   mimboxRef.ErrorLogList.Add(mimboxPoco.MimboxErrorLog);
                }
 
-               mimboxRef.Model = mimboxModel;
-               mimboxRef.ModelId = mimboxModel.Id;
-               mimboxRef.Status = mimboxStatus;
-               mimboxRef.StatusId = mimboxStatus.Id;
+               mimboxRef.Model = mimboxPoco.MimboxModel;
+               mimboxRef.ModelId = mimboxPoco.MimboxModel.Id;
+               mimboxRef.Status = mimboxPoco.MimboxStatus;
+               mimboxRef.StatusId = mimboxPoco.MimboxStatus.Id;
 
                return null;
            });

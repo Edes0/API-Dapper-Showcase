@@ -35,6 +35,9 @@ services.ConfigurePuppeteer(builder.Environment);
 // Versioning
 services.ConfigureVersioning();
 
+// Dapper
+services.ConfigureDapperMapping();
+
 // Authentication & Authorization
 services.ConfigureAuthentication(builder.Configuration);
 services.ConfigureAuthAttribute();
