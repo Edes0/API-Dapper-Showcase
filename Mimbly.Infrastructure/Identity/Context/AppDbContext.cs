@@ -33,6 +33,7 @@ public class AppDbContext : DbContext
         }
 
         // Configure entities
-        MimboxLog.Configure(modelBuilder);
+        // MimboxLog Created
+        // Mimbox Updated
     }
 }
