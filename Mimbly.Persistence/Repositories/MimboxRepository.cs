@@ -28,9 +28,9 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
         var sql =
         @"
             INSERT INTO Mimbox
-                (Id, Water_Saved, Co2_Saved, Plastic_Saved, Economy_Saved, Nickname, Mimbox_Status_Id, Mimbox_Model_Id, Mimbox_Location_Id, Company_Id)
+                (Id, Water_Saved, Co2_Saved, Plastic_Saved, Economy_Saved, Nickname, Mimbox_Status_Id, Mimbox_Model_Id, Mimbox_Location_Id, Company_Id, Stats_Updated_At)
             VALUES
-                (@Id, @WaterSaved, @Co2Saved, @PlasticSaved, @EconomySaved, @Nickname, @StatusId, @ModelId, @LocationId, @CompanyId)
+                (@Id, @WaterSaved, @Co2Saved, @PlasticSaved, @EconomySaved, @Nickname, @StatusId, @ModelId, @LocationId, @CompanyId, @StatsUpdatedAt)
         ";
 
         await _db.SaveChanges(sql, mimbox);

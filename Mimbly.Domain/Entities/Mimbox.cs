@@ -3,7 +3,6 @@ namespace Mimbly.Domain.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 using Mimbly.Domain.Entities.AzureEvents;
 
 [Table("Mimbox")]

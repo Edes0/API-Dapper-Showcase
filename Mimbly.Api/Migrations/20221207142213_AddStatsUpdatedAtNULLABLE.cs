@@ -5,12 +5,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mimbly.Api.Migrations
 {
-    public partial class AddUpdatedNULLABLEInMimboxEntity : Migration
+    public partial class AddStatsUpdatedAtNULLABLE : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "Created",
+                table: "Mimbox_Log",
+                newName: "Created_At");
+
             migrationBuilder.AddColumn<DateTime>(
-                name: "Updated",
+                name: "Stats_Updated_At",
                 table: "Mimbox",
                 type: "datetime",
                 nullable: true);
@@ -19,8 +24,13 @@ namespace Mimbly.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Updated",
+                name: "Stats_Updated_At",
                 table: "Mimbox");
+
+            migrationBuilder.RenameColumn(
+                name: "Created_At",
+                table: "Mimbox_Log",
+                newName: "Created");
         }
     }
 }

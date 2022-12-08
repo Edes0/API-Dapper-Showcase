@@ -12,8 +12,8 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221207141040_UpdateToStatsUpdatedAtAndCreatedAt")]
-    partial class UpdateToStatsUpdatedAtAndCreatedAt
+    [Migration("20221207142213_AddStatsUpdatedAtNULLABLE")]
+    partial class AddStatsUpdatedAtNULLABLE
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,7 +245,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnType("float")
                         .HasColumnName("Plastic_Saved");
 
-                    b.Property<DateTime>("StatsUpdatedAt")
+                    b.Property<DateTime?>("StatsUpdatedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("Stats_Updated_At");
 
