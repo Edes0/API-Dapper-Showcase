@@ -39,6 +39,9 @@ public class Mimbox
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid? CompanyId { get; set; }
 
+    [Column("Stats_Updated_At", TypeName = "datetime")]
+    public DateTime StatsUpdatedAt { get; set; }
+
     public ICollection<MimboxLog> LogList { get; set; } = new List<MimboxLog>();
 
     public ICollection<MimboxContact> ContactList { get; set; } = new List<MimboxContact>();
@@ -58,7 +61,6 @@ public class Mimbox
 
     public virtual ICollection<WashStats> WaterToWashingMachineEventList { get; set; }
 
-
     public Mimbox()
     {
         Id = Guid.NewGuid();
@@ -66,5 +68,6 @@ public class Mimbox
         Co2Saved = 0;
         PlasticSaved = 0;
         EconomySaved = 0;
+        StatsUpdatedAt = DateTime.Now;
     }
 }

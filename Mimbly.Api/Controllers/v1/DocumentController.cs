@@ -37,7 +37,7 @@ public class DocumentController : Controller
             {
                 MoneySaved = "10 203",
                 PlasticSaved = 132,
-                WaterSaved = 44,
+                WaterSaved = 44
             },
             BestMimboxes = new List<Address>
             {
@@ -46,21 +46,21 @@ public class DocumentController : Controller
                     Country = "Sweden",
                     City = "Borås",
                     StreetAddress = "Helvetesgatan 1",
-                    PostCode = "465 54",
+                    PostCode = "465 54"
                 },
                 new Address
                 {
                     Country = "Sweden",
                     City = "Stockholm",
                     StreetAddress = "Kalkstensgatan 55",
-                    PostCode = "123 11",
+                    PostCode = "123 11"
                 },
                 new Address
                 {
                     Country = "Sweden",
                     City = "Göteborg",
                     StreetAddress = "Doktor Eggs Gata 1",
-                    PostCode = "414 42",
+                    PostCode = "414 42"
                 },
             }
         };
