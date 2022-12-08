@@ -28,7 +28,7 @@ public static class PuppeteerExtensions
         IWebHostEnvironment hostingEnvironment)
     {
         // Downloads & Installs a chromium browser.
-        var downloadPath = Path.Join(hostingEnvironment.ContentRootPath, "./puppeteer");
+        var downloadPath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "./puppeteer");
         var browserOptions = new BrowserFetcherOptions { Path = downloadPath };
         var browserFetcher = new BrowserFetcher(browserOptions);
         ExecutablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
