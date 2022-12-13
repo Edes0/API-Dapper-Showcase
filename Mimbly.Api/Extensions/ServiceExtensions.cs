@@ -46,6 +46,7 @@ public static class ServiceExtensions
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
         services.AddScoped<IMimboxErrorLogRepository, MimboxErrorLogRepository>();
+        services.AddScoped<IEventLogRepository, EventLogRepository>();
     }
 
     public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
