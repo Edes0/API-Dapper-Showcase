@@ -7,7 +7,6 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
-using Mimbly.Domain.Entities.POCOs;
 
 public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar endast mimboxar. Companies hämtar companies. PANG
 {
