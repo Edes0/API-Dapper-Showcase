@@ -6,14 +6,16 @@ using Mimbly.CoreServices.Validation;
 
 public class UserInviteDTO
 {
-    public string? FirstName { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+    public string FirstName { get; set; }
 
     public string? LastName { get; set; }
 
     [EmailAddress]
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
-    public string? GroupId { get; set; }
+    public string GroupId { get; set; }
 
     [Phone]
     public string? Phone { get; set; }
@@ -27,6 +29,8 @@ public class UserInviteDTO
     public string? City { get; set; }
 
     public string? Country { get; set; }
+
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public async Task Validate()
     {
