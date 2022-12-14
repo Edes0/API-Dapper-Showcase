@@ -11,7 +11,7 @@ using Mimbly.Application.Contracts.Dtos.Company;
 using MediatR;
 
 [ApiController]
-/*[Authorize]*/
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
