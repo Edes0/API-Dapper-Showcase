@@ -56,7 +56,7 @@ public static class ServiceExtensions
     public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
     services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
     {
-        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/"); // TODO: TA BORT LOCALHOST VID SKARP RELEASE
+        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/");
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
     }));
