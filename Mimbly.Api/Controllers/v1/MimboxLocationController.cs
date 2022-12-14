@@ -1,6 +1,7 @@
 ﻿namespace Mimbly.Api.Controllers.v1;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Commands.MimboxLocation.CreateMimboxLocation;
@@ -11,7 +12,7 @@ using Mimbly.Application.Queries.MimboxLocation.GetAll;
 using Mimbly.Application.Queries.MimboxLocation.GetById;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class MimboxLocationController : BaseController

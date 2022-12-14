@@ -12,7 +12,7 @@ using Mimbly.Application.Queries.Mimbox.GetAll;
 using Mimbly.Application.Queries.Mimbox.GetById;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class MimboxController : BaseController

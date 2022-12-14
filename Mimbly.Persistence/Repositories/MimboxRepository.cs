@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
 
-public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar endast mimboxar. Companies hämtar companies. PANG
+public class MimboxRepository : IMimboxRepository
 {
     private readonly ISqlDataAccess _db;
     private readonly IConfiguration _config;
@@ -75,13 +75,13 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
 
         var sql =
         @"
-            SELECT m.*, ml.*, ms.*, mm.*, mc.*, mel.*, c.Id
+            SELECT m.*, ml.*,ms.*, mm.*, mc.*, mel.*, c.Id
             FROM Mimbox m
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
-            LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
-            LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
             LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
+            LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
+            LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Company c ON c.Id = m.Company_Id
         ";
 
@@ -93,15 +93,15 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
                    lookup.Add(mimbox.Id, mimboxRef = mimbox);
 
+               if (company != null)
+               {
+                   mimboxRef.Company = company;
+               }
+
                if (mimboxLocation != null)
                {
                    mimboxRef.Location = mimboxLocation;
                    mimboxRef.LocationId = mimboxLocation.Id;
-               }
-
-               if (company != null)
-               {
-                   mimboxRef.Company = company;
                }
 
                if (mimboxContact != null)
@@ -114,10 +114,10 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                    mimboxRef.ErrorLogList.Add(mimboxErrorLog);
                }
 
-               mimboxRef.Model = mimboxModel;
-               mimboxRef.ModelId = mimboxModel.Id;
                mimboxRef.Status = mimboxStatus;
                mimboxRef.StatusId = mimboxStatus.Id;
+               mimboxRef.Model = mimboxModel;
+               mimboxRef.ModelId = mimboxModel.Id;
 
                return null;
            });
@@ -132,22 +132,44 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
 
         var sql =
         @"
-            SELECT m.*, ml.*, ms.*, mm.*, mc.*, mel.*, c.Id
+            SELECT m.*, ml.*, mc.*, mel.*, ms.*, mm.*, mlo.*, c.Id
             FROM Mimbox m
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
-            LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
-            LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
             LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
             LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
+            LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
+            LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
+            LEFT JOIN Mimbox_Log mlo ON mlo.Mimbox_Id = m.Id
             LEFT JOIN Company c ON c.Id = m.Company_Id
             WHERE m.Id = @id
         ";
 
         var lookup = new Dictionary<Guid, Mimbox>();
 
-        await connection.QueryAsync<Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company, Mimbox>
-           (sql, (mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog, company) =>
+        await connection.QueryAsync<Mimbox>
+           (sql, new[]
+             {
+               typeof(Mimbox),
+               typeof(MimboxLocation),
+               typeof(MimboxContact),
+               typeof(MimboxErrorLog),
+               typeof(MimboxStatus),
+               typeof(MimboxModel),
+               typeof(MimboxLog),
+               typeof(Company)
+               }
+           , obj =>
            {
+               Mimbox mimbox = obj[0] as Mimbox;
+               MimboxLocation? mimboxLocation = obj[1] as MimboxLocation;
+               MimboxContact? mimboxContact = obj[2] as MimboxContact;
+               MimboxErrorLog? mimboxErrorLog = obj[3] as MimboxErrorLog;
+               MimboxStatus mimboxStatus = obj[4] as MimboxStatus;
+               MimboxModel mimboxModel = obj[5] as MimboxModel;
+               MimboxLog mimboxLog = obj[6] as MimboxLog;
+               Company company = obj[7] as Company;
+
+
                if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
                    lookup.Add(mimbox.Id, mimboxRef = mimbox);
 
@@ -155,11 +177,6 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                {
                    mimboxRef.Location = mimboxLocation;
                    mimboxRef.LocationId = mimboxLocation.Id;
-               }
-
-               if (company != null)
-               {
-                   mimboxRef.Company = company;
                }
 
                if (mimboxContact != null)
@@ -170,6 +187,16 @@ public class MimboxRepository : IMimboxRepository //TODO: Bygg om. Mimbox hämtar
                if (mimboxErrorLog != null)
                {
                    mimboxRef.ErrorLogList.Add(mimboxErrorLog);
+               }
+
+               if (mimboxLog != null)
+               {
+                   mimboxRef.LogList.Add(mimboxLog);
+               }
+
+               if (company != null)
+               {
+                   mimboxRef.Company = company;
                }
 
                mimboxRef.Model = mimboxModel;

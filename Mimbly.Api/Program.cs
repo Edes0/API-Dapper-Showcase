@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Options;
 using Mimbly.Api.Extensions;
 using Mimbly.CoreServices.Middlewares;
 using Mimbly.Infrastructure.Identity.Context;
@@ -56,7 +55,8 @@ if (app.Environment.IsDevelopment())
     var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
     app.UseSwagger();
-    app.UseSwaggerUI(opt => {
+    app.UseSwaggerUI(opt =>
+    {
         foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
         {
             opt.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",

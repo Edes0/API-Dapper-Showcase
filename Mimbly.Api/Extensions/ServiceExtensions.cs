@@ -50,12 +50,13 @@ public static class ServiceExtensions
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
         services.AddScoped<IMimboxErrorLogRepository, MimboxErrorLogRepository>();
+        services.AddScoped<IEventLogRepository, EventLogRepository>();
     }
 
     public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
     services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "https://mimbly-frontend.azurewebsites.net/"); // TODO: TA BORT LOCALHOST VID SKARP RELEASE
+        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/"); // TODO: TA BORT LOCALHOST VID SKARP RELEASE
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
     }));
@@ -67,7 +68,7 @@ public static class ServiceExtensions
 
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
         services.AddAutoMapper(typeof(AADMappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }

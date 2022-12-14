@@ -3,15 +3,16 @@ namespace Mimbly.Application.Common.Mappings;
 using AutoMapper;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;
+using Mimbly.Application.Contracts.Dtos.EventLog;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.Application.Contracts.Dtos.MimboxErrorLog;
 using Mimbly.Application.Contracts.Dtos.MimboxLocation;
 using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
 
-public class MappingProfile : Profile
+public class AutoMapperProfile : Profile
 {
-    public MappingProfile()
+    public AutoMapperProfile()
     {
         // Mimbox
         CreateMap<Mimbox, MimboxDto>();

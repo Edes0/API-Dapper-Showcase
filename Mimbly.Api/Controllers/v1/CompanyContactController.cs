@@ -1,6 +1,7 @@
 ﻿namespace Mimbly.Api.Controllers;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Commands.CompanyContact.CreateCompanyContact;
@@ -12,7 +13,7 @@ using Mimbly.Application.Queries.CompanyContact.GetById;
 using v1;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class CompanyContactController : BaseController
