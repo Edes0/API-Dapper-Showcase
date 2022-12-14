@@ -14,6 +14,5 @@ public class AADMappingProfile : Profile
 
         CreateMap<CreateCompanyDTO, CompanyModel>()
             .ForMember(dest => dest.Name, inp => inp.MapFrom(src => src.CompanyName));
-
     }
 }
