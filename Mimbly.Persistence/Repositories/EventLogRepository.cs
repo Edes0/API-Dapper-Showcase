@@ -26,5 +26,17 @@ public class EventLogRepository : IEventLogRepository
 
         return await _db.LoadEntities<string, dynamic>(sql, new { Id = id });
     }
-}
 
+    public async Task<IEnumerable<string>> Get10NewestEventLogByMimboxId(Guid id)
+    {
+        var sql =
+        @"
+        SELECT TOP(10) Log
+        FROM Event_Log
+        WHERE Mimbox_Id = @id
+        ORDER BY Created DESC
+        ";
+
+        return await _db.LoadEntities<string, dynamic>(sql, new { Id = id });
+    }
+}
