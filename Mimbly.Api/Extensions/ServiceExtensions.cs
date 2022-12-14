@@ -63,7 +63,7 @@ public static class ServiceExtensions
 
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }
 

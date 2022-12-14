@@ -6,6 +6,8 @@ using Mimbly.CoreServices.Validation;
 
 public class CreateCompanyRequestDto
 {
+    public Guid Id { get; set; }
+
     public string Name { get; set; }
 
     public Guid? ParentId { get; set; }
