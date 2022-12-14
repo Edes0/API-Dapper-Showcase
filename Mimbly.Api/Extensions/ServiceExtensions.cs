@@ -16,22 +16,26 @@ using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using PuppeteerSharp;
+using Microsoft.AspNetCore.Authorization;
+using Mimbly.CoreServices.Authorization;
+using Mimbly.Api.AAD;
+using Mimbly.Api.AAD.Helpers;
+using Mimbly.Api.AAD.Mappings;
 
 public static class PuppeteerExtensions
 {
-    private static string _executablePath;
     public static async Task PreparePuppeteerAsync(this IServiceCollection service,
         IWebHostEnvironment hostingEnvironment)
     {
         // Downloads & Installs a chromium browser.
-        var downloadPath = Path.Join(hostingEnvironment.ContentRootPath, "./puppeteer");
+        var downloadPath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "./puppeteer");
         var browserOptions = new BrowserFetcherOptions { Path = downloadPath };
         var browserFetcher = new BrowserFetcher(browserOptions);
-        _executablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
+        ExecutablePath = browserFetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision);
         await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
     }
 
-    public static string ExecutablePath => _executablePath;
+    public static string? ExecutablePath { get; private set; }
 }
 
 public static class ServiceExtensions
@@ -52,7 +56,7 @@ public static class ServiceExtensions
     public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
     services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
     {
-        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/"); // TODO: TA BORT LOCALHOST VID SKARP RELEASE
+        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/");
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
     }));
@@ -65,6 +69,7 @@ public static class ServiceExtensions
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+        services.AddAutoMapper(typeof(AADMappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }
 
@@ -134,5 +139,12 @@ public static class ServiceExtensions
     {
         services.AddSingleton<IAuthorizationPolicyProvider, GroupsPolicyProvider>();
         services.AddSingleton<IAuthorizationHandler, GroupsHandler>();
+    }
+
+    public static void ConfigureAccountService(this IServiceCollection services)
+    {
+        services.AddSingleton<IAccountService, AccountService>();
+        services.AddSingleton<IGraphService, GraphService>();
+        services.AddSingleton<IGraphHelper, GraphHelper>();
     }
 }
