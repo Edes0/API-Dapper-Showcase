@@ -3,7 +3,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mimbly.Application.Queries.EventLog.GetBetweenDatesByMimboxId;
 using Mimbly.Application.Queries.EventLog.GetByMimboxId;
+using Mimbly.Application.Queries.EventLog.GetTop10ByMimboxId;
 
 [ApiController]
 //[Authorize]
@@ -16,8 +18,20 @@ public class EventLogController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "EventLogByMimboxId")]
-    public async Task<ActionResult<EventLogByMimboxIdVm>> FilterEventLogsById([BindRequired] Guid id)
+    public async Task<ActionResult<EventLogByMimboxIdVm>> FilterEventLogByMimboxId([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetByMimboxIdEventLogQuery { Id = id }));
+    }
+
+    [HttpGet("Top10/{id:guid}", Name = "EventLogTop10ByMimboxId")]
+    public async Task<ActionResult<EventLogTop10ByMimboxIdVm>> FilterEventLogTop10ByMimboxId([BindRequired] Guid id)
+    {
+        return Ok(await _mediator.Send(new GetTop10ByMimboxIdEventLogQuery { Id = id }));
+    }
+
+    [HttpGet("BetweenDates/{id:guid}", Name = "EventLogBetweenDatesByMimboxId")]
+    public async Task<ActionResult<EventLogBetweenDatesByMimboxIdVm>> FilterEventLogBetweenDatesByMimboxId([BindRequired] Guid id, DateTime startDate, DateTime endDate)
+    {
+        return Ok(await _mediator.Send(new GetBetweenDatesByMimboxIdEventLogQuery { Id = id, StartDate = startDate, EndDate = endDate }));
     }
 }

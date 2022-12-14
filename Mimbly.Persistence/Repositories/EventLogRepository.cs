@@ -27,7 +27,7 @@ public class EventLogRepository : IEventLogRepository
         return await _db.LoadEntities<string, dynamic>(sql, new { Id = id });
     }
 
-    public async Task<IEnumerable<string>> Get10NewestEventLogByMimboxId(Guid id)
+    public async Task<IEnumerable<string>> GetTop10EventLogByMimboxId(Guid id)
     {
         var sql =
         @"
@@ -38,5 +38,19 @@ public class EventLogRepository : IEventLogRepository
         ";
 
         return await _db.LoadEntities<string, dynamic>(sql, new { Id = id });
+    }
+
+    public async Task<IEnumerable<string>> GetEventLogBetweenDatesByMimboxId(Guid id, DateTime startDate, DateTime endDate)
+    {
+        var sql =
+        @"
+        SELECT Log
+        FROM Event_Log
+        WHERE Mimbox_Id = @id
+        AND Created BETWEEN @startDate AND @endDate
+        ORDER BY Created DESC
+        ";
+
+        return await _db.LoadEntities<string, dynamic>(sql, new { Id = id, StartDate = startDate, EndDate = endDate });
     }
 }
