@@ -75,7 +75,7 @@ public class GraphHelper : IGraphHelper
         }
         catch (ServiceException ex)
         {
-            Console.WriteLine(ex.Message);
+
         }
     }
 

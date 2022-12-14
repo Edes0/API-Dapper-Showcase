@@ -26,7 +26,6 @@ public class AccountService : IAccountService
     public async Task<bool> InviteUser(InvitedUser user)
     {
         var redirectUrl = _redirectUrl + user.GroupId;
-        Console.WriteLine(redirectUrl);
 
         var userInvitation = _graphHelper.GetInvitation(user, redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(user);
