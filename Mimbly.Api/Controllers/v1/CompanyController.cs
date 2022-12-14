@@ -34,8 +34,7 @@ public class CompanyController : BaseController
         return Ok(await _mediator.Send(new GetByIdCompanyQuery { Id = id }));
     }
 
-    [Route("WithChildren/{id:guid}")]
-    [HttpGet]
+    [HttpGet("WithChildren/{id:guid}")]
     public async Task<ActionResult<CompanyByIdVm>> CompanyWithChildrenById([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetCompanyWithChildrenByIdQuery { Id = id }));

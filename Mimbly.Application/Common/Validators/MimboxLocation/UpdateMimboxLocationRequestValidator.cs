@@ -1,7 +1,6 @@
 ﻿namespace Mimbly.Application.Common.Validators.MimboxLocation;
 
 using FluentValidation;
-using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.Application.Contracts.Dtos.MimboxLocation;
 
 public class UpdateMimboxLocationRequestDtoValidator : AbstractValidator<UpdateMimboxLocationRequestDto>
