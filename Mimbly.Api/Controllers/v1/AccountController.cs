@@ -79,7 +79,7 @@ public class AccountController : ControllerBase
 
         if (isCreated)
         {
-            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = Guid.Parse("d43e2f2d-c6be-4027-a5eb-87d87c0b1b4e") } });
+            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
             return Ok();
         }
         else
