@@ -1,4 +1,4 @@
-namespace Mimbly.Application.Queries.Company.GetWithAllDataById;
+namespace Mimbly.Application.Queries.Company.GetCompanyWithChildrenById;
 
 using System.Linq;
 using System.Threading;
@@ -10,33 +10,40 @@ using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 
-public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompanyWithChildrenByIdQuery, CompanyWithChildrenByIdVm>
+public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithChildrenByIdQuery, CompanyWithChildrenByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
+    private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
-    public GetFilterWithAllDataByIdCompanyHandler(
+    public GetCompanyWithChildrenByIdHandler(
         ICompanyRepository companyRepository,
+        IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
         _companyRepository = companyRepository;
+        _mimboxRepository = mimboxRepository;
         _mapper = mapper;
     }
 
     public async Task<CompanyWithChildrenByIdVm> Handle(GetCompanyWithChildrenByIdQuery request, CancellationToken cancellationToken)
     {
-        var parentWithChildren = await _companyRepository.GetParentWithChildrenById(request.Id);
+        var companies = await _companyRepository.GetParentAndChildrenIdsById(request.Id);
 
-        if (parentWithChildren.IsNullOrEmpty())
+        if (companies.IsNullOrEmpty())
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var companyIds = parentWithChildren.Select(x => x.Id);
+        var companyIds = companies.Select(x => x.Id);
+        var companiesWithData = await _companyRepository.GetCompanyByIds(companyIds);
+        var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
 
-        var companies = await _companyRepository.GetCompanyDataById(companyIds);
-
-        foreach (var company in companies)
+        foreach (var company in companiesWithData)
         {
-            var childCompanies = companies.Where(c => c.ParentId == company.Id).Select(c =>
+            var currentCompanyMimboxes = mimboxes.Select(x => x).Where(x => x.CompanyId == company.Id);
+
+            company.MimboxList = currentCompanyMimboxes.ToList();
+
+            var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c =>
             {
                 c.ChildCompanyList = c.ChildCompanyList;
                 return c;
@@ -45,7 +52,7 @@ public class GetFilterWithAllDataByIdCompanyHandler : IRequestHandler<GetCompany
             company.ChildCompanyList = childCompanies.ToList();
         }
 
-        var parentCompany = companies.Where(c => c.Id == request.Id).Select(c => c).First();
+        var parentCompany = companiesWithData.Where(c => c.Id == request.Id).Select(c => c).First();
 
         var companyDto = _mapper.Map<CompanyDto>(parentCompany);
 

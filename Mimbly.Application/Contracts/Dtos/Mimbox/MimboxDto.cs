@@ -2,28 +2,31 @@ namespace Mimbly.Application.Contracts.Dtos.Mimbox;
 
 using System;
 using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AzureEvents;
 
 public record MimboxDto
 {
     public Guid Id { get; init; }
 
-    public float Water { get; init; }
+    public float WaterSaved { get; init; }
 
-    public float Co2 { get; init; }
+    public float Co2Saved { get; init; }
 
-    public float Plastic { get; init; }
+    public float PlasticSaved { get; init; }
 
-    public float Economy { get; init; }
+    public float EconomySaved { get; init; }
 
-    public Guid StatusId { get; init; }
-
-    public Guid ModelId { get; init; }
-
-    public Guid? LocationId { get; init; }
+    public string? Nickname { get; set; }
 
     public Guid? CompanyId { get; set; }
 
-    public ICollection<MimboxLog> MimboxLogList { get; init; }
+    public DateTime StatsUpdatedAt { get; set; }
+
+    public ICollection<MimboxLog> LogList { get; init; }
+
+    public ICollection<MimboxContact> ContactList { get; init; }
+
+    public ICollection<MimboxErrorLog> ErrorLogList { get; init; }
 
     public MimboxStatus Status { get; init; }
 
@@ -31,5 +34,7 @@ public record MimboxDto
 
     public MimboxLocation? Location { get; init; }
 
-    public Company? Company { get; init; }
+    public Company? Company { get; set; }
+
+
 }

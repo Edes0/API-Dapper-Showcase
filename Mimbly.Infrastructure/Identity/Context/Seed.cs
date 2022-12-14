@@ -3,7 +3,6 @@ namespace Mimbly.Infrastructure.Identity.Context;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Mimbly.CoreServices.Enums;
 using Mimbly.Domain.Entities;
 
 public static class Seed
@@ -64,17 +63,19 @@ public static class Seed
                    LastName = "Sjögren",
                    Email = "sjogrenandreas@live.se",
                    PhoneNumber = "0733143465",
-                   CompanyId = companyEntites[0].Id
+                   CompanyId = companyEntites[0].Id,
+                   Title = "Company VD"
                 },
 
                 new ()
                 {
                    Id = Guid.NewGuid(),
                    FirstName = "Hans",
-                   LastName = "Sheike",
-                   Email = "fdsfsdff@live.se",
-                   PhoneNumber = "0739543467",
-                   CompanyId = companyEntites[0].Id
+                   LastName = "Andersson",
+                   Email = "HansAndersson@live.se",
+                   PhoneNumber = "0737543467",
+                   CompanyId = companyEntites[0].Id,
+                   Title = "Company something"
                 }
         };
 
@@ -118,7 +119,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = ModelType.LaundryRoom
+                   Name = "Laundry"
                 }
         };
 
@@ -133,13 +134,13 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = StatusType.Broken
+                   Name = "Broken"
                 },
 
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Name = StatusType.ToBeInstalled
+                   Name = "ToBeInstalled"
                 }
         };
 
@@ -185,6 +186,37 @@ public static class Seed
         modelBuilder.Entity<Mimbox>().HasData(mimboxEntites);
 
         //////////////////////////////////
+        ///     SEED MIMBOX CONTACTS  ///
+        //////////////////////////////////
+
+        var mimboxContactEntites = new List<MimboxContact>
+        {
+                new()
+                {
+                   Id = Guid.NewGuid(),
+                   FirstName = "Edwin",
+                   LastName = "Andersson",
+                   Email = "sjfdsfeas@live.se",
+                   PhoneNumber = "0733143465",
+                   MimboxId = mimboxEntites[1].Id,
+                   Title = "Company VD"
+                },
+
+                new ()
+                {
+                   Id = Guid.NewGuid(),
+                   FirstName = "Kristoffer",
+                   LastName = "Karlsson",
+                   Email = "fdsfsdff@live.se",
+                   PhoneNumber = "0739543467",
+                   MimboxId = mimboxEntites[1].Id,
+                   Title = "Company VD"
+                }
+        };
+
+        modelBuilder.Entity<MimboxContact>().HasData(mimboxContactEntites);
+
+        //////////////////////////////////
         ///         SEED LOGS          ///
         //////////////////////////////////
 
@@ -206,7 +238,7 @@ public static class Seed
                 new()
                 {
                    Id = Guid.NewGuid(),
-                   Log = "Going to install in next week, lol",
+                   Log = "Going to install in next week",
                    MimboxId = mimboxEntites[1].Id
                 }
         };

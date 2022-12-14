@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Mimbly.Api.Extensions;
 using Mimbly.CoreServices.Middlewares;
 using Mimbly.Infrastructure.Identity.Context;
@@ -10,6 +11,8 @@ var configurationBuilder = builder.Configuration.SetBasePath(AppDomain.CurrentDo
     .AddEnvironmentVariables()
     .Build();
 
+const string AllowedOrigins = "_allowedOrigins";
+
 // Add services to the container.
 var services = builder.Services;
 
@@ -20,13 +23,23 @@ services.ConfigureDataAccessManager();
 services.ConfigureRepositories();
 
 // Services
-services.ConfigureCors();
+services.ConfigureCors(AllowedOrigins);
 services.AddControllers();
 services.ConfigureAppDbContext(builder.Configuration);
 services.ConfigureNugetPackages();
 
-// Authentication
+// Puppeteer
+services.ConfigurePuppeteer(builder.Environment);
+
+// Versioning
+services.ConfigureVersioning();
+
+// Authentication & Authorization
 services.ConfigureAuthentication(builder.Configuration);
+services.ConfigureAuthAttribute();
+
+// Account Service
+services.ConfigureAccountService();
 
 // Build
 var app = builder.Build();
@@ -39,8 +52,17 @@ if (app.Environment.IsDevelopment())
     var context = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
     context?.Database.EnsureCreated();
 
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mimbly.Api v1"));
+    app.UseSwaggerUI(opt =>
+    {
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
+        {
+            opt.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
 }
 
 if (app.Environment.IsProduction())
@@ -49,7 +71,7 @@ if (app.Environment.IsProduction())
     app.UseHsts();
 }
 
-app.UseCors("WhatToAdd"); //TODO Add specific origin to cors. also have in config in ServiceExtensions "CorsPolicy"
+app.UseCors(AllowedOrigins);
 app.UseMiddleware(typeof(ExceptionMiddleware));
 app.Use(async (context, next) => await ControllerExceptionMiddleware.HandleControllerExceptions(context, next));
 app.UseAuthentication();

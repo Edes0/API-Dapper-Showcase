@@ -1,0 +1,124 @@
+﻿@model Mimbly.Domain.DocumentModels.ReportModel
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>@Model.Month Report for @Model.Company.Name</title>
+
+    <style>
+      body {
+          margin: 0;
+          padding: 0;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      b,
+      p {
+        font-family: Montserrat;
+      }
+      li p {
+        line-height: 0;
+        text-align: start;
+      }
+      .report-box {
+        background-image: url(https://i.imgur.com/nF8YMRF.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 21cm;
+        height: 30cm;
+        padding: 30px;
+        font-size: 16px;
+        line-height: 24px;
+        font-family: "Source Serif 4 SmText";
+        color: #555;
+        background-color: #edf1f7;
+      }
+      .report-box header {
+        margin-top: 180px;
+        text-align: center;
+        line-height: 36px;
+      }
+      .islands {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 150px;
+        margin-bottom: 60px;
+      }
+      .island {
+        text-align: center;
+        max-width: max-content;
+        background-color: rgba(31, 57, 96, 0.6);
+        color: white;
+        border-radius: 16px;
+        margin: 20px;
+        padding: 12px;
+      }
+
+      .island h2 {
+        margin: 6px 0 0 0;
+        font-size: 20px;
+        font-weight: medium;
+      }
+      .island p {
+        margin: 10px 0;
+        font-size: 16px;
+        font-weight: 400;
+      }
+      footer {
+        position: absolute;
+        bottom: 0;
+        background-color: #4a4a4a;
+        height: 60px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <head>
+        <title>Report</title>
+    </head>
+    <div class="report-box">
+      <header>
+        <h1>@Model.Company.Name, här kommer den senaste statistiken från era mimboxar!</h1>
+      </header>
+      <div class="islands">
+        <div class="island">
+          <h2>@Model.Stats.WaterSaved % Mindre vatten förbrukades!</h2>
+          <p>
+            Deserunt do eiusmod excepteur duis aliquip excepteur in Lorem exercitation consequat excepteur ea qui. Consequat consequat in
+            dolore quis laboris.
+          </p>
+        </div>
+
+        <div class="island">
+          <h2>@Model.Stats.PlasticSaved % Mer mikroplast fångades upp!</h2>
+          <p>
+            Ipsum dolore aliqua qui nostrud tempor in est qui. Aliqua est ut minim cillum ea commodo. Occaecat ex labore labore deserunt
+            enim. Cupidatat pariatur ut est id id nulla fugiat qui. Consectetur do incididunt excepteur in nisi quis consectetur dolore
+            culpa anim.
+          </p>
+        </div>
+        <div class="island">
+          <h2>Mimboxarna på följande addresser presterade bäst:</h2>
+          <ol>
+            @foreach (var mimbox in Model.BestMimboxes)
+            {
+                <li><p>@mimbox.StreetAddress, @mimbox.PostCode @mimbox.City</p></li>
+            }
+          </ol>
+        </div>
+        <div class="island">
+          <h2>Ni har totalt sparat in @Model.Stats.MoneySaved Kr 💵</h2>
+        </div>
+      </div>
+      <footer>
+
+      </footer>
+    </div>
+  </body>
+</html>

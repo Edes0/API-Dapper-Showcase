@@ -1,16 +1,28 @@
 namespace Mimbly.Application.Contracts.Dtos.Mimbox;
 
 using System.Threading.Tasks;
-using Common.Validators;
 using CoreServices.Validation;
+using Mimbly.Application.Common.Validators.Mimbox;
 
 public record CreateMimboxRequestDto
 {
-    public string FirstName { get; init; } = null!;
+    public float WaterSaved { get; init; }
 
-    public string LastName { get; init; } = null!;
+    public float Co2Saved { get; init; }
 
-    public int Age { get; init; }
+    public float PlasticSaved { get; init; }
+
+    public float EconomySaved { get; init; }
+
+    public string? Nickname { get; set; }
+
+    public Guid StatusId { get; init; }
+
+    public Guid ModelId { get; init; }
+
+    public Guid? LocationId { get; init; }
+
+    public Guid? CompanyId { get; set; }
 
     public async Task Validate()
     {

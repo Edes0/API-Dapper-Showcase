@@ -7,18 +7,20 @@ using MediatR;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.CoreServices.Exceptions;
-using Microsoft.IdentityModel.Tokens;
 
 public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxByIdVm>
 {
     private readonly IMimboxRepository _mimboxRepository;
+    private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
 
     public GetByIdMimboxHandler(
         IMimboxRepository mimboxRepository,
+        ICompanyRepository companyRepository,
         IMapper mapper)
     {
         _mimboxRepository = mimboxRepository;
+        _companyRepository = companyRepository;
         _mapper = mapper;
     }
 
@@ -28,6 +30,8 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
 
         if (mimbox == null)
             throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
+
+        mimbox.Company = await _companyRepository.GetCompanyById(mimbox.Company.Id);
 
         var mimboxDto = _mapper.Map<MimboxDto>(mimbox);
 

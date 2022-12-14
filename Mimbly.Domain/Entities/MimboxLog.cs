@@ -2,7 +2,6 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Table("Mimbox_Log")]
@@ -15,8 +14,8 @@ public class MimboxLog
     [Column("Log", TypeName = "Nvarchar(max)")]
     public string Log { get; set; }
 
-    [Column("Created", TypeName = "Date")]
-    public DateTime Created { get; set; } = DateTime.Now; //TODO: Change this and make it better, just did this to make it work
+    [Column("Created_At", TypeName = "datetime")]
+    public DateTime CreatedAt { get; set; }
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
@@ -24,17 +23,11 @@ public class MimboxLog
     public MimboxLog(string log)
     {
         Id = Guid.NewGuid();
+        CreatedAt = DateTime.Now;
         Log = log;
     }
 
     public MimboxLog()
     {
-    }
-
-    public static void Configure(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<MimboxLog>(entity => entity
-        .Property(x => x.Created)
-        .ValueGeneratedOnAdd());
     }
 }

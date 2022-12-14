@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Table("Company_Contact")]
@@ -11,6 +10,9 @@ public class CompanyContact
     [Key]
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
+
+    [Column("Title", TypeName = "Nvarchar(50)")]
+    public string Title { get; set; }
 
     [Column("First_name", TypeName = "Nvarchar(50)")]
     public string FirstName { get; set; }
@@ -27,13 +29,14 @@ public class CompanyContact
     [Column("Company_Id", TypeName = "uniqueidentifier")]
     public Guid CompanyId { get; set; }
 
-    public CompanyContact(string firstName, string lastName, string email, string phoneNumber)
+    public CompanyContact(string firstName, string lastName, string email, string phoneNumber, string title)
     {
         Id = Guid.NewGuid();
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         PhoneNumber = phoneNumber;
+        Title = title;
     }
 
     public CompanyContact()

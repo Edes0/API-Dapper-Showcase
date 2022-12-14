@@ -3,22 +3,24 @@ namespace Mimbly.Application.Queries.Company.GetById;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Mimbly.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.IdentityModel.Tokens;
+using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.CoreServices.Exceptions;
 
 public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, CompanyByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
+    private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
     public GetByIdCompanyHandler(
         ICompanyRepository companyRepository,
+        IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
         _companyRepository = companyRepository;
+        _mimboxRepository = mimboxRepository;
         _mapper = mapper;
     }
 
@@ -28,6 +30,10 @@ public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, Compan
 
         if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
+
+        var mimboxes = await _mimboxRepository.GetMimboxByCompanyId(company.Id);
+
+        company.MimboxList = mimboxes.ToList();
 
         var companyDto = _mapper.Map<CompanyDto>(company);
 
