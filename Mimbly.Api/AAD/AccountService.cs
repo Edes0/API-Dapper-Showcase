@@ -14,7 +14,7 @@ public class AccountService : IAccountService
     private readonly IGraphService _graphService;
     private readonly ILogger<AccountService> _logger;
     private readonly IGraphHelper _graphHelper;
-    private readonly string _redirectUrl = "http://localhost:3000/dashboard/";
+    private readonly string _redirectUrl = "https://mimbly-frontend.azurewebsites.net/dashboard/";
 
     public AccountService(IGraphService graphService, ILogger<AccountService> logger, IGraphHelper graphHelper)
     {
