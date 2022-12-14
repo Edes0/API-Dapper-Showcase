@@ -8,6 +8,6 @@ public class UpdateCompanyRequestDtoValidator : AbstractValidator<UpdateCompanyR
     public UpdateCompanyRequestDtoValidator()
     {
         RuleFor(x => x.Name)
-                .NotNull().WithMessage("Name is required");
+           .NotNull().WithMessage("Name is required");
     }
 }
