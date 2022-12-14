@@ -1,6 +1,7 @@
 ﻿namespace Mimbly.Api.Controllers.v1;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Queries.EventLog.GetBetweenDatesByMimboxId;
@@ -8,7 +9,7 @@ using Mimbly.Application.Queries.EventLog.GetByMimboxId;
 using Mimbly.Application.Queries.EventLog.GetTop10ByMimboxId;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class EventLogController : BaseController

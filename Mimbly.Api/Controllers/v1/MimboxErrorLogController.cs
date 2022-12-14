@@ -4,9 +4,10 @@ using Mimbly.Application.Commands.MimboxErrorLog.UpdateMimboxErrorLog;
 using Mimbly.Application.Contracts.Dtos.MimboxErrorLog;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class MimboxErrorLogController : BaseController
