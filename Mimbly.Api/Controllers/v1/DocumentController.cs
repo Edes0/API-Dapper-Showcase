@@ -11,7 +11,7 @@ using PuppeteerSharp.Media;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-//[Authorize]
+[Authorize]
 public class DocumentController : Controller
 {
     private readonly ITemplateService _templateService;
