@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mimbly.Api.Attributes;
 using Mimbly.Application.Commands.Mimbox.DeleteMimbox;
 using Mimbly.Application.Commands.Mimbox.UpdateMimbox;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
@@ -12,7 +13,6 @@ using Mimbly.Application.Queries.Mimbox.GetAll;
 using Mimbly.Application.Queries.Mimbox.GetById;
 
 [ApiController]
-[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class MimboxController : BaseController
@@ -21,18 +21,21 @@ public class MimboxController : BaseController
     {
     }
 
+    [ApiKey]
     [HttpGet]
     public async Task<ActionResult<AllMimboxesVm>> GetAllMimboxes()
     {
         return Ok(await _mediator.Send(new GetAllMimboxesQuery { }));
     }
 
+    [ApiKey]
     [HttpGet("{id:guid}", Name = "MimboxById")]
     public async Task<ActionResult<MimboxByIdVm>> FilterMimboxesById([BindRequired] Guid id)
     {
         return Ok(await _mediator.Send(new GetByIdMimboxQuery { Id = id }));
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> CreateMimbox([FromBody] CreateMimboxRequestDto createMimboxRequestDto)
     {
@@ -41,6 +44,7 @@ public class MimboxController : BaseController
         return CreatedAtRoute("MimboxById", new { createdMimbox.Id }, createdMimbox);
     }
 
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> DeleteMimbox([BindRequired] Guid id)
     {
@@ -49,6 +53,7 @@ public class MimboxController : BaseController
         return NoContent();
     }
 
+    [Authorize]
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> UpdateMimbox(Guid id, [FromBody] UpdateMimboxRequestDto updateMimboxRequestDto)
     {

@@ -2,7 +2,6 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mimbly.CoreServices.Authorization;
 using Mimbly.Api.AAD;
 using Mimbly.Api.AAD.DTOs;
 using AutoMapper;
