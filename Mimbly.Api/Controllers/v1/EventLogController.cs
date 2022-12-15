@@ -9,9 +9,9 @@ using Mimbly.Application.Queries.EventLog.GetByMimboxId;
 using Mimbly.Application.Queries.EventLog.GetTop10ByMimboxId;
 
 [ApiController]
-[ApiKey]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
+[ApiKey]
 public class EventLogController : BaseController
 {
     public EventLogController(IMediator mediator) : base(mediator)
