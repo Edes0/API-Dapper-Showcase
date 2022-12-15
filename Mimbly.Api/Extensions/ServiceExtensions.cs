@@ -53,11 +53,11 @@ public static class ServiceExtensions
         services.AddScoped<IEventLogRepository, EventLogRepository>();
     }
 
-    public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
+    public static void ConfigureCors(this IServiceCollection services, string allowedOrigins, IConfiguration config) =>
     services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
     {
-
-        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/", "http://localhost:3000");
+        var corsUrl = config.GetValue<string>("CorsUrl");
+        policy.WithOrigins(corsUrl);
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
     }));

@@ -23,7 +23,7 @@ services.ConfigureDataAccessManager();
 services.ConfigureRepositories();
 
 // Services
-services.ConfigureCors(AllowedOrigins);
+services.ConfigureCors(AllowedOrigins, builder.Configuration);
 services.AddControllers();
 services.ConfigureAppDbContext(builder.Configuration);
 services.ConfigureNugetPackages();
