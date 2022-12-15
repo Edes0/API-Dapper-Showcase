@@ -56,6 +56,7 @@ public static class ServiceExtensions
     public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
     services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
     {
+
         policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/", "http://localhost:3000");
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
