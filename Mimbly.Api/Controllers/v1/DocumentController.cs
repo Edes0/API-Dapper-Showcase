@@ -11,7 +11,6 @@ using PuppeteerSharp.Media;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-[Authorize]
 public class DocumentController : Controller
 {
     private readonly ITemplateService _templateService;
@@ -92,6 +91,7 @@ public class DocumentController : Controller
 
     [HttpGet]
     [Route("Preview")]
+    [Authorize]
     public async Task<IActionResult> Preview(string templateName)
     {
         var model = new ReportModel

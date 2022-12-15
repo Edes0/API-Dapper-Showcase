@@ -2,9 +2,9 @@ namespace Mimbly.Api.Controllers.v1;
 
 using Application.Commands.Mimbox.CreateMimbox;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Mimbly.Api.Attributes;
 using Mimbly.Application.Commands.Mimbox.DeleteMimbox;
 using Mimbly.Application.Commands.Mimbox.UpdateMimbox;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
@@ -12,14 +12,15 @@ using Mimbly.Application.Queries.Mimbox.GetAll;
 using Mimbly.Application.Queries.Mimbox.GetById;
 
 [ApiController]
-[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
+[ApiKey]
 public class MimboxController : BaseController
 {
     public MimboxController(IMediator mediator) : base(mediator)
     {
     }
+
 
     [HttpGet]
     public async Task<ActionResult<AllMimboxesVm>> GetAllMimboxes()
