@@ -21,7 +21,7 @@ public class MimboxErrorLog
     public bool Discarded { get; set; }
 
     [Column("Created", TypeName = "datetime")]
-    public DateTime Created_At { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
