@@ -74,11 +74,11 @@ public class AccountController : ControllerBase
         await createCompanyDto.Validate();
 
         var company = _mapper.Map<CompanyModel>(createCompanyDto);
-        var isCreated = await _accountService.CreateCompany(company);
+        var groupId = await _accountService.CreateCompany(company);
 
-        if (isCreated)
+        if (Guid.TryParse(groupId, out var groupGuid))
         {
-            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, ParentId = company.ParentId } });
+            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, Id = groupGuid, ParentId = company.ParentId } });
             return Ok();
         }
         else

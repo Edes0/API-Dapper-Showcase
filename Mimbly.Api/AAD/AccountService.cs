@@ -82,7 +82,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<bool> CreateCompany(CompanyModel company)
+    public async Task<string?> CreateCompany(CompanyModel company)
     {
         var client = _graphService.GetClient();
 
@@ -90,7 +90,7 @@ public class AccountService : IAccountService
         {
             DisplayName = company.Name,
             Description = company.Description,
-            GroupTypes = new List<String>() { },
+            GroupTypes = new List<string>() { },
             MailEnabled = false,
             MailNickname = "mimbly",
             SecurityEnabled = true,
@@ -98,7 +98,7 @@ public class AccountService : IAccountService
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
-        return group.Id != null;
+        return group.Id ?? null;
     }
 
     public Task<bool> AddUserToCompany(InvitedUser user, Guid companyId) => throw new NotImplementedException();

@@ -8,6 +8,6 @@ public interface IAccountService
     Task<bool> InviteUser(InvitedUser user);
     Task<bool> InviteTechnician(InvitedUser technician);
     Task<bool> InviteAdmin(InvitedUser admin);
-    Task<bool> CreateCompany(CompanyModel company);
+    Task<string?> CreateCompany(CompanyModel company);
     Task<bool> AddUserToCompany(InvitedUser user, Guid companyId);
 }
