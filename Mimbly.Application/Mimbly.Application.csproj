@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Mimbly.Infrastructure\Mimbly.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\AD" />
+  </ItemGroup>
+
 </Project>
