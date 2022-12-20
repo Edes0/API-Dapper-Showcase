@@ -1,7 +1,6 @@
-﻿namespace Mimbly.Api.AAD;
+﻿namespace Mimbly.Business.Interfaces.AD;
 
-using Domain.Entities.AD;
-using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AD;
 
 public interface IAccountService
 {

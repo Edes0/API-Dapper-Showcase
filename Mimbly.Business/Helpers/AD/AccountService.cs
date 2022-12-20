@@ -1,6 +1,5 @@
 ﻿namespace Mimbly.Business.Helpers.AD;
 
-using Api.AAD;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using Mimbly.Business.Interfaces.AD;
