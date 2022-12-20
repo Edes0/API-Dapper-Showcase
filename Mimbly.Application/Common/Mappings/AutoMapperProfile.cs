@@ -5,7 +5,6 @@ using Contracts.Dtos.AD;
 using Domain.Entities.AD;
 using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;
-using Mimbly.Application.Contracts.Dtos.EventLog;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
 using Mimbly.Application.Contracts.Dtos.MimboxErrorLog;
 using Mimbly.Application.Contracts.Dtos.MimboxLocation;
@@ -22,8 +21,8 @@ public class AutoMapperProfile : Profile
                 dest => dest.DisplayName,
                 inp => inp.MapFrom(src => $"{src.FirstName} {src.LastName}"));
 
-        CreateMap<AddCompanyDto, AdCompany>()
-            .ForMember(dest => dest.Name, inp => inp.MapFrom(src => src.CompanyName));
+        CreateMap<AddCompanyDto, AdCompany>();
+
 
         // Mimbox
         CreateMap<Mimbox, MimboxDto>();
