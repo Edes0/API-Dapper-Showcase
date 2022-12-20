@@ -33,12 +33,9 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteUser")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteUser(UserInviteDTO userDto)
+    public async Task<ActionResult> InviteUser(InviteUserDto inviteUserDto)
     {
-        await userDto.Validate();
-
-        var user = _mapper.Map<InvitedUser>(userDto);
-        var status = await _accountService.InviteUser(user);
+        var status = await _mediator.Send(new InviteUserToAdCommand { InviteUserToAdRequest = inviteUserDto });
 
         return status ? Ok() : BadRequest();
     }
