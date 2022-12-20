@@ -17,7 +17,7 @@ public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AccountController(Mediator mediator)
+    public AccountController(IMediator mediator)
     {
         _mediator = mediator;
     }
