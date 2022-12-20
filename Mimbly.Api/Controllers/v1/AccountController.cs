@@ -5,9 +5,6 @@ using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mimbly.Api.AAD;
-using Mimbly.Api.AAD.DTOs;
-using AutoMapper;
 using Mimbly.Application.Commands.Company.CreateCompany;
 using Mimbly.Application.Contracts.Dtos.Company;
 using MediatR;
@@ -18,15 +15,10 @@ using MediatR;
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
 {
-    private readonly IAccountService _accountService;
-    private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public AccountController(IAccountService accountService, IMapper mapper,
-        IMediator mediator)
+    public AccountController(Mediator mediator)
     {
-        _accountService = accountService;
-        _mapper = mapper;
         _mediator = mediator;
     }
 
@@ -43,27 +35,17 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteTechnician")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(UserInviteDTO userDto)
+    public async Task<ActionResult> InviteTechnician(InviteUserDto userDto)
     {
-        await userDto.Validate();
-
-        var user = _mapper.Map<InvitedUser>(userDto);
-        var status = await _accountService.InviteTechnician(user);
-
-        return status ? Ok() : BadRequest();
+        return BadRequest();
     }
 
     [HttpPost]
     [Route("InviteAdmin")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(UserInviteDTO userDto)
+    public async Task<ActionResult> InviteAdmin(InviteUserDto userDto)
     {
-        await userDto.Validate();
-
-        var user = _mapper.Map<InvitedUser>(userDto);
-        var status = await _accountService.InviteAdmin(user);
-
-        return status ? Ok() : BadRequest();
+        return BadRequest();
     }
 
     [HttpPost]
