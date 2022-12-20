@@ -1,5 +1,8 @@
 ﻿namespace Mimbly.Api.Controllers.v1;
 
+using Application.Commands.AD.AddCompanyToAd;
+using Application.Commands.AD.InviteUserToAd;
+using Application.Contracts.Dtos.AD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mimbly.Api.AAD;
@@ -69,17 +72,15 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("CreateCompany")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> CreateCompany(CreateCompanyDTO createCompanyDto)
+    public async Task<ActionResult> CreateCompany(AddCompanyDto addCompanyDto)
     {
-        await createCompanyDto.Validate();
-
-        var company = _mapper.Map<CompanyModel>(createCompanyDto);
-        var groupId = await _accountService.CreateCompany(company);
+        var groupId = await _mediator.Send(new AddCompanyToAdCommand {AddCompanyToAdRequest = addCompanyDto});
 
         if (Guid.TryParse(groupId, out var groupGuid))
         {
-            await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = company.Name, Id = groupGuid, ParentId = company.ParentId } });
-            return Ok();
+            var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = addCompanyDto.CompanyName, Id = groupGuid, ParentId = addCompanyDto.ParentId } });
+
+            return new CreatedAtRouteResult("CompanyById", new { controller = "Company", id = createdCompany.Id }, createdCompany);
         }
         else
         {
