@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\AD" />
+    <Folder Include="Commands\AD\AddCompanyToAd" />
   </ItemGroup>
 
 </Project>
