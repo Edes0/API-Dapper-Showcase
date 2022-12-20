@@ -57,7 +57,7 @@ public class AccountController : ControllerBase
 
         if (Guid.TryParse(groupId, out var groupGuid))
         {
-            var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = addCompanyDto.CompanyName, Id = groupGuid, ParentId = addCompanyDto.ParentId } });
+            var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = addCompanyDto.Name, Id = groupGuid, ParentId = addCompanyDto.ParentId } });
 
             return new CreatedAtRouteResult("CompanyById", new { controller = "Company", id = createdCompany.Id }, createdCompany);
         }

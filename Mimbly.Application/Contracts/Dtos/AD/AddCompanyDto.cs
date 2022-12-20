@@ -6,7 +6,7 @@ using FluentValidation;
 public class AddCompanyDto
 {
 
-    public string CompanyName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
     public string Description { get; set; } = string.Empty;
 
@@ -22,7 +22,7 @@ internal class CreateCompanyValidator : AbstractValidator<AddCompanyDto>
 {
     public CreateCompanyValidator()
     {
-        RuleFor(company => company.CompanyName).NotEmpty();
+        RuleFor(company => company.Name).NotEmpty();
         RuleFor(company => company.Description).NotEmpty();
         RuleFor(company => company.ParentId).NotNull().NotEmpty();
     }
