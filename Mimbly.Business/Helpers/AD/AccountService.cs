@@ -31,7 +31,7 @@ public class AccountService : IAccountService
         if (invitedUserId != null)
         {
             _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-            _graphHelper.AddMemberToGroup(user.GroupId, invitedUserId);
+            _graphHelper.AddMemberToGroup(user.GroupId.ToString(), invitedUserId);
 
             return true;
         }

@@ -9,7 +9,7 @@ public class AdUser
 
     public string DisplayName { get; set; } = null!;
 
-    public string GroupId { get; set; } = null!;
+    public Guid GroupId { get; set; }
 
     public string? JobTitle { get; set; }
 
