@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mimbly.Business\Mimbly.Business.csproj" />
     <ProjectReference Include="..\Mimbly.CoreServices\Mimbly.CoreServices.csproj" />
     <ProjectReference Include="..\Mimbly.Domain\Mimbly.Domain.csproj" />
     <ProjectReference Include="..\Mimbly.Infrastructure\Mimbly.Infrastructure.csproj" />
