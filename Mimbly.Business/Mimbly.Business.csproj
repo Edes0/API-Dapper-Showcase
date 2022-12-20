@@ -14,4 +14,9 @@
     <PackageReference Include="Microsoft.Graph" Version="4.49.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mimbly.Domain\Mimbly.Domain.csproj" />
+    <ProjectReference Include="..\Mimbly.Infrastructure\Mimbly.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
