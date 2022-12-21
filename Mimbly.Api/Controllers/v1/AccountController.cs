@@ -47,23 +47,4 @@ public class AccountController : ControllerBase
     {
         return BadRequest();
     }
-
-    [HttpPost]
-    [Route("CreateCompany")]
-    /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> CreateCompany(AddCompanyDto addCompanyDto)
-    {
-        var groupId = await _mediator.Send(new AddCompanyToAdCommand {AddCompanyToAdRequest = addCompanyDto});
-
-        if (Guid.TryParse(groupId, out var groupGuid))
-        {
-            var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = addCompanyDto.Name, Id = groupGuid, ParentId = addCompanyDto.ParentId } });
-
-            return new CreatedAtRouteResult("CompanyById", new { controller = "Company", id = createdCompany.Id }, createdCompany);
-        }
-        else
-        {
-            return BadRequest();
-        }
-    }
 }

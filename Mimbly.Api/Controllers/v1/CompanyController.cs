@@ -1,5 +1,8 @@
 namespace Mimbly.Api.Controllers.v1;
 
+using Application.Commands.AD.AddCompanyToAd;
+using Application.Commands.AD.RemoveCompanyFromAd;
+using Application.Contracts.Dtos.AD;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,11 +44,19 @@ public class CompanyController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateCompany([FromBody] CreateCompanyRequestDto createCompanyRequestDto)
+    public async Task<ActionResult> CreateCompany([FromBody] AddCompanyDto addCompanyDto)
     {
-        var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = createCompanyRequestDto });
+        var groupId = await _mediator.Send(new AddCompanyToAdCommand {AddCompanyToAdRequest = addCompanyDto});
 
-        return CreatedAtRoute("CompanyById", new { createdCompany.Id }, createdCompany);
+        if (!Guid.TryParse(groupId, out var groupGuid))
+        {
+            return StatusCode(500);
+        }
+
+        var createdCompany = await _mediator.Send(new CreateCompanyCommand { CreateCompanyRequest = new CreateCompanyRequestDto { Name = addCompanyDto.Name, Id = groupGuid, ParentId = addCompanyDto.ParentId } });
+
+        return new CreatedAtRouteResult("CompanyById", new { id = createdCompany.Id }, createdCompany);
+
     }
 
     [HttpDelete("{id:guid}")]
