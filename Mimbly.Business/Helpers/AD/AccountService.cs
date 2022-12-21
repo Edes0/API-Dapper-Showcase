@@ -98,4 +98,10 @@ public class AccountService : IAccountService
     }
 
     public Task<bool> AddUserToCompany(AdUser user, Guid companyId) => throw new NotImplementedException();
+
+    public Task RemoveCompany(Guid id)
+    {
+        var client = _graphService.GetClient();
+        return client.Groups[id.ToString()].Request().DeleteAsync();
+    }
 }

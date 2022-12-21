@@ -9,4 +9,5 @@ public interface IAccountService
     Task<bool> InviteAdmin(AdUser admin);
     Task<string?> CreateCompany(AdCompany company);
     Task<bool> AddUserToCompany(AdUser user, Guid companyId);
+    Task RemoveCompany(Guid id);
 }
