@@ -63,6 +63,7 @@ public class CompanyController : BaseController
     public async Task<ActionResult> DeleteCompany([BindRequired] Guid id)
     {
         await _mediator.Send(new DeleteCompanyCommand { Id = id });
+        await _mediator.Send(new RemoveCompanyFromAdCommand { Id = id });
 
         return NoContent();
     }
