@@ -42,6 +42,8 @@ public static class ServiceExtensions
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IMimboxRepository, MimboxRepository>();
+        services.AddScoped<IMimboxStatusRepository, MimboxStatusRepository>();
+        services.AddScoped<IMimboxModelRepository, MimboxModelRepository>();
         services.AddScoped<IMimboxLocationRepository, MimboxLocationRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
@@ -52,7 +54,7 @@ public static class ServiceExtensions
     public static void ConfigureCors(this IServiceCollection services, string allowedOrigins) =>
     services.AddCors(opts => opts.AddPolicy(allowedOrigins, policy =>
     {
-        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/"); // TODO: TA BORT LOCALHOST VID SKARP RELEASE
+        policy.WithOrigins("https://mimbly-frontend.azurewebsites.net/");
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
     }));
