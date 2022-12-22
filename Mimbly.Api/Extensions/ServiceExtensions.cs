@@ -144,4 +144,12 @@ public static class ServiceExtensions
         services.AddSingleton<IGraphService, GraphService>();
         services.AddSingleton<IGraphHelper, GraphHelper>();
     }
+
+    public static void ConfigureCustomValidationResponse(this IServiceCollection services)
+    {
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+    }
 }
