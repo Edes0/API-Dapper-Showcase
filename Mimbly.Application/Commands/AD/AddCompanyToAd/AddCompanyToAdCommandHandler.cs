@@ -18,10 +18,7 @@ public class AddCompanyToAdCommandHandler : IRequestHandler<AddCompanyToAdComman
 
     public async Task<string?> Handle(AddCompanyToAdCommand request, CancellationToken cancellationToken)
     {
-        await request.AddCompanyToAdRequest.Validate();
-
         var company = _mapper.Map<AdCompany>(request.AddCompanyToAdRequest);
-
         return await _ac.CreateCompany(company);
 
     }

@@ -12,7 +12,6 @@ public class RemoveCompanyFromAdCommandHandler : IRequestHandler<RemoveCompanyFr
     public async Task<Unit> Handle(RemoveCompanyFromAdCommand request, CancellationToken cancellationToken)
     {
         await _ac.RemoveCompany(request.Id);
-
         return Unit.Value;
     }
 }
