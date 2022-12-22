@@ -9,7 +9,7 @@ public class MimboxModel
 {
     [Key]
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
 
     [Column("Name", TypeName = "Nvarchar(50)")]
     public string Name { get; set; }
