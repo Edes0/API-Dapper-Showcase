@@ -20,7 +20,7 @@ public class MimboxErrorLog
     [Column("Discarded", TypeName = "bit")]
     public bool Discarded { get; set; }
 
-    [Column("Created", TypeName = "datetime")]
+    [Column("Created_At", TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]

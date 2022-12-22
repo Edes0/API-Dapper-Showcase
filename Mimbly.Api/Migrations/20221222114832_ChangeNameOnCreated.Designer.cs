@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221215134651_ChangeNameOnCreated")]
+    [Migration("20221222114832_ChangeNameOnCreated")]
     partial class ChangeNameOnCreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime")
-                        .HasColumnName("Created");
+                        .HasColumnName("Created_At");
 
                     b.Property<bool>("Discarded")
                         .HasColumnType("bit")

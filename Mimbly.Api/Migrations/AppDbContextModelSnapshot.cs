@@ -65,7 +65,7 @@ namespace Mimbly.Api.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime")
-                        .HasColumnName("Created");
+                        .HasColumnName("Created_At");
 
                     b.Property<bool>("Discarded")
                         .HasColumnType("bit")
