@@ -5,6 +5,7 @@ using Mimbly.Application.Contracts.Dtos.Company;
 using Mimbly.Application.Contracts.Dtos.CompanyContact;
 using Mimbly.Application.Contracts.Dtos.EventLog;
 using Mimbly.Application.Contracts.Dtos.Mimbox;
+using Mimbly.Application.Contracts.Dtos.MimboxContact;
 using Mimbly.Application.Contracts.Dtos.MimboxErrorLog;
 using Mimbly.Application.Contracts.Dtos.MimboxLocation;
 using Mimbly.Application.Contracts.Dtos.MimboxModel;
@@ -46,6 +47,13 @@ public class AutoMapperProfile : Profile
         CreateMap<CreateMimboxLocationRequestDto, MimboxLocation>();
 
         CreateMap<UpdateMimboxLocationRequestDto, MimboxLocation>();
+
+        // MimboxContact
+        CreateMap<MimboxContact, MimboxContactDto>();
+
+        CreateMap<CreateMimboxContactRequestDto, MimboxContact>();
+
+        CreateMap<UpdateMimboxContactRequestDto, MimboxContact>();
 
         // Company
         CreateMap<Company, CompanyDto>();
