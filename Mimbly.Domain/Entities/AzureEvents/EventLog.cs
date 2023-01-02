@@ -18,8 +18,8 @@ public class EventLog
     [Column("Log", TypeName = "nvarchar(max)")]
     public string Log { get; set; }
 
-    [Column("Created", TypeName = "datetime")]
-    public DateTime Created { get; set; }
+    [Column("Created_At", TypeName = "datetime")]
+    public DateTime CreatedAt { get; set; }
 
     [Column("Mimbox_Id", TypeName = "uniqueidentifier")]
     public Guid MimboxId { get; set; }
