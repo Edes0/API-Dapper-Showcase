@@ -46,6 +46,8 @@ public static class ServiceExtensions
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IMimboxRepository, MimboxRepository>();
+        services.AddScoped<IMimboxStatusRepository, MimboxStatusRepository>();
+        services.AddScoped<IMimboxModelRepository, MimboxModelRepository>();
         services.AddScoped<IMimboxLocationRepository, MimboxLocationRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
