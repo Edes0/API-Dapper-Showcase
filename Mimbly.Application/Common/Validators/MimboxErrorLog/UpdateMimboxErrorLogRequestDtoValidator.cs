@@ -8,6 +8,6 @@ public class UpdateMimboxErrorLogRequestDtoValidator : AbstractValidator<UpdateM
     public UpdateMimboxErrorLogRequestDtoValidator()
     {
         RuleFor(x => x.Discarded)
-                .NotNull().WithMessage("Discarded is required");
+                .NotEmpty().WithMessage("Discarded is required");
     }
 }

@@ -8,9 +8,12 @@ public class CreateMimboxRequestDtoValidator : AbstractValidator<CreateMimboxReq
     public CreateMimboxRequestDtoValidator()
     {
         RuleFor(x => x.StatusId)
-            .NotNull().WithMessage("Status is required");
+            .NotEmpty().WithMessage("Status is required");
 
         RuleFor(x => x.ModelId)
-            .NotNull().WithMessage("Model is required");
+            .NotEmpty().WithMessage("Model is required");
+
+        RuleFor(x => x.Nickname)
+            .Length(1, 50).WithMessage("Nickname length is invalid");
     }
 }

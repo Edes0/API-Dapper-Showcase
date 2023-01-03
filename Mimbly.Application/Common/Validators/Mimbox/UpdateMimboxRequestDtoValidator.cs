@@ -8,21 +8,24 @@ public class UpdateMimboxRequestDtoValidator : AbstractValidator<UpdateMimboxReq
     public UpdateMimboxRequestDtoValidator()
     {
         RuleFor(x => x.WaterSaved)
-            .NotNull().WithMessage("Water is required");
+            .NotEmpty().WithMessage("Water is required");
 
         RuleFor(x => x.Co2Saved)
-            .NotNull().WithMessage("Co2 is required");
+            .NotEmpty().WithMessage("Co2 is required");
 
         RuleFor(x => x.PlasticSaved)
-            .NotNull().WithMessage("Plastic is required");
+            .NotEmpty().WithMessage("Plastic is required");
 
         RuleFor(x => x.EconomySaved)
-            .NotNull().WithMessage("Economy is required");
+            .NotEmpty().WithMessage("Economy is required");
 
         RuleFor(x => x.StatusId)
-            .NotNull().WithMessage("Status id is required");
+            .NotEmpty().WithMessage("Status id is required");
 
         RuleFor(x => x.ModelId)
-            .NotNull().WithMessage("Model id is required");
+            .NotEmpty().WithMessage("Model id is required");
+
+        RuleFor(x => x.Nickname)
+            .Length(1, 50).WithMessage("Nickname length is invalid");
     }
 }
