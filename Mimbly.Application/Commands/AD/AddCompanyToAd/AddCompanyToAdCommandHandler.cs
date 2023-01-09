@@ -20,6 +20,5 @@ public class AddCompanyToAdCommandHandler : IRequestHandler<AddCompanyToAdComman
     {
         var company = _mapper.Map<AdCompany>(request.AddCompanyToAdRequest);
         return await _ac.CreateCompany(company);
-
     }
 }
