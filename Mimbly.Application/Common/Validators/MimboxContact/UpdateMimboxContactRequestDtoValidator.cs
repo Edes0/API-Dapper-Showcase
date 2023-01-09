@@ -9,9 +9,9 @@ public class UpdateMimboxContactRequestDtoValidator : AbstractValidator<UpdateMi
     public UpdateMimboxContactRequestDtoValidator()
     {
         RuleFor(x => x.Title)
-             .NotEmpty().WithMessage("Title is required")
-             .Length(3, 55).WithMessage("Title length is invalid")
-             .Must(BeValidLetters.Validate).WithMessage("Title contains invalid characters");
+            .NotEmpty().WithMessage("Title is required")
+            .Length(3, 55).WithMessage("Title length is invalid")
+            .Must(BeValidLetters.Validate).WithMessage("Title contains invalid characters");
 
         RuleFor(x => x.FirstName)
             .NotEmpty().WithMessage("First name is required")
