@@ -1,9 +1,6 @@
 namespace Mimbly.Application.Contracts.Dtos.AD;
 
 using System.ComponentModel.DataAnnotations;
-using Common.Validators.AD;
-using CoreServices.Validation;
-using FluentValidation;
 
 public record InviteUserRequestDto
 {
@@ -30,9 +27,4 @@ public record InviteUserRequestDto
     public string? City { get; set; }
 
     public string? Country { get; set; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new InviteUserRequestDtoValidator());
-    }
 }

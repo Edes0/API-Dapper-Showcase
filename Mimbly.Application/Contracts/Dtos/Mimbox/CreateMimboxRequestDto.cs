@@ -28,9 +28,4 @@ public record CreateMimboxRequestDto
 
     [Required]
     public Guid CompanyId { get; set; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new CreateMimboxRequestDtoValidator());
-    }
 }

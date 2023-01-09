@@ -1,8 +1,6 @@
 namespace Mimbly.Application.Contracts.Dtos.AD;
 
 using System.ComponentModel.DataAnnotations;
-using Common.Validators.AD;
-using CoreServices.Validation;
 
 public record AddCompanyRequestDto
 {
@@ -14,9 +12,4 @@ public record AddCompanyRequestDto
 
     [Required]
     public Guid ParentId { get; set; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new AddCompanyRequestDtoValidator());
-    }
 }
