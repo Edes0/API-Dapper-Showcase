@@ -19,6 +19,12 @@ public class UpdateMimboxRequestDtoValidator : AbstractValidator<UpdateMimboxReq
         RuleFor(x => x.EconomySaved)
             .NotEmpty().WithMessage("Economy is required");
 
+        RuleFor(x => x.TotalTap)
+            .NotEmpty().WithMessage("Total Tap is required");
+
+        RuleFor(x => x.TotalWashes)
+            .NotEmpty().WithMessage("Total Washes is required");
+
         RuleFor(x => x.StatusId)
             .NotEmpty().WithMessage("Status id is required");
 
