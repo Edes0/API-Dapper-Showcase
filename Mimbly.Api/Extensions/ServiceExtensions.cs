@@ -43,10 +43,13 @@ public static class ServiceExtensions
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IMimboxRepository, MimboxRepository>();
+        services.AddScoped<IMimboxStatusRepository, MimboxStatusRepository>();
+        services.AddScoped<IMimboxModelRepository, MimboxModelRepository>();
         services.AddScoped<IMimboxLocationRepository, MimboxLocationRepository>();
+        services.AddScoped<IMimboxErrorLogRepository, MimboxErrorLogRepository>();
+        services.AddScoped<IMimboxContactRepository, MimboxContactRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
-        services.AddScoped<IMimboxErrorLogRepository, MimboxErrorLogRepository>();
         services.AddScoped<IEventLogRepository, EventLogRepository>();
     }
 
@@ -77,24 +80,6 @@ public static class ServiceExtensions
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddMicrosoftIdentityWebApi(azureAd);
-
-        // Optional code for multible AD's. //TODO: Maybe move this?
-
-        // var azureAdConfig = azureAd.Get<AzureAdConfiguration>();
-
-        //services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
-        //{
-        //    var existingOnTokenValidatedHandler = options.Events.OnTokenValidated;
-        //    options.Events.OnTokenValidated = async context =>
-        //    {
-        //        await existingOnTokenValidatedHandler(context);
-        //        options.TokenValidationParameters.ValidAudiences = new[] { azureAdConfig.ClientId };
-        //        options.TokenValidationParameters.ValidIssuer = azureAdConfig.Issuer;
-        //    };
-        //});
-
-        // https://learn.microsoft.com/en-us/azure/active-directory/develop/scenario-protected-web-api-app-configuration
-        // https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-web-api?tabs=csharpclient
     }
 
     public static void ConfigurePuppeteer(this IServiceCollection services, IWebHostEnvironment environment)

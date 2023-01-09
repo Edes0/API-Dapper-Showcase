@@ -25,7 +25,7 @@ public class WashStats
     public float EconomySaved { get; set; }
 
     [Column("Started_At", TypeName = "datetime")]
-    public DateTime StartedAt { get; set; }
+    public DateTime StartedAt { get; set; } // Created at this time
 
     [Column("Ended_At", TypeName = "datetime")]
     public DateTime? EndedAt { get; set; }
