@@ -5,5 +5,5 @@ using MediatR;
 
 public class AddCompanyToAdCommand : IRequest<string?>
 {
-    public AddCompanyDto AddCompanyToAdRequest { get; init; } = null!;
+    public AddCompanyRequestDto AddCompanyRequestToAdRequest { get; init; } = null!;
 }

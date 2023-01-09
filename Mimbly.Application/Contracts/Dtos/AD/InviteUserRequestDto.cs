@@ -1,12 +1,12 @@
 namespace Mimbly.Application.Contracts.Dtos.AD;
 
 using System.ComponentModel.DataAnnotations;
+using Common.Validators.AD;
 using CoreServices.Validation;
 using FluentValidation;
 
-public class InviteUserDto
+public record InviteUserRequestDto
 {
-
     [Required]
     public string FirstName { get; set; } = string.Empty;
 
@@ -33,16 +33,6 @@ public class InviteUserDto
 
     public async Task Validate()
     {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new UserInviteDtoValidator());
-    }
-}
-
-internal class UserInviteDtoValidator : AbstractValidator<InviteUserDto>
-{
-    public UserInviteDtoValidator()
-    {
-        RuleFor(user => user.Email).NotEmpty().EmailAddress();
-        RuleFor(user => user.FirstName).NotEmpty();
-        RuleFor(user => user.GroupId).NotNull().NotEmpty();
+        await ValidatableEntity.ValidateEntityByFluentRules(this, new InviteUserRequestDtoValidator());
     }
 }

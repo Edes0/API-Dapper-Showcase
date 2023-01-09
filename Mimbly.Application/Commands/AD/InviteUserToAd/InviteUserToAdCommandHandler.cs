@@ -18,7 +18,7 @@ public class InviteUserToAdCommandHandler : IRequestHandler<InviteUserToAdComman
 
     public async Task<bool> Handle(InviteUserToAdCommand request, CancellationToken cancellationToken)
     {
-        var user = _mapper.Map<AdUser>(request.InviteUserToAdRequest);
+        var user = _mapper.Map<AdUser>(request.InviteUserRequestToAdRequest);
         return await _ac.InviteUser(user);
     }
 }

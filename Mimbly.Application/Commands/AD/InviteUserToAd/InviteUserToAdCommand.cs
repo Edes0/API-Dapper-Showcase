@@ -5,5 +5,5 @@ using MediatR;
 
 public class InviteUserToAdCommand : IRequest<bool>
 {
-    public InviteUserDto InviteUserToAdRequest { get; set; }
+    public InviteUserRequestDto InviteUserRequestToAdRequest { get; set; }
 }

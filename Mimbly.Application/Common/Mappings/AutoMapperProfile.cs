@@ -19,12 +19,12 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         // AD
-        CreateMap<InviteUserDto, AdUser>()
+        CreateMap<InviteUserRequestDto, AdUser>()
             .ForMember(
                 dest => dest.DisplayName,
                 inp => inp.MapFrom(src => $"{src.FirstName} {src.LastName}"));
 
-        CreateMap<AddCompanyDto, AdCompany>();
+        CreateMap<AddCompanyRequestDto, AdCompany>();
 
 
         // Mimbox

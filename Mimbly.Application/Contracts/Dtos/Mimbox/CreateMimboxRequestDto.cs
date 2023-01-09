@@ -16,7 +16,7 @@ public record CreateMimboxRequestDto
     public float EconomySaved { get; init; }
 
     [Required]
-    public string? Nickname { get; set; }
+    public string Nickname { get; set; } = string.Empty;
 
     [Required]
     public Guid StatusId { get; init; }
@@ -27,7 +27,7 @@ public record CreateMimboxRequestDto
     public Guid? LocationId { get; init; }
 
     [Required]
-    public Guid? CompanyId { get; set; }
+    public Guid CompanyId { get; set; }
 
     public async Task Validate()
     {

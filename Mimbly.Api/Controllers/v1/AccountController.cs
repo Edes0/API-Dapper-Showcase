@@ -25,9 +25,9 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteUser")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteUser(InviteUserDto inviteUserDto)
+    public async Task<ActionResult> InviteUser(InviteUserRequestDto inviteUserRequestDto)
     {
-        var status = await _mediator.Send(new InviteUserToAdCommand { InviteUserToAdRequest = inviteUserDto });
+        var status = await _mediator.Send(new InviteUserToAdCommand { InviteUserRequestToAdRequest = inviteUserRequestDto });
 
         return status ? Ok() : BadRequest();
     }
@@ -35,7 +35,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteTechnician")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(InviteUserDto userDto)
+    public async Task<ActionResult> InviteTechnician(InviteUserRequestDto userRequestDto)
     {
         return BadRequest();
     }
@@ -43,7 +43,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("InviteAdmin")]
     /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(InviteUserDto userDto)
+    public async Task<ActionResult> InviteAdmin(InviteUserRequestDto userRequestDto)
     {
         return BadRequest();
     }
