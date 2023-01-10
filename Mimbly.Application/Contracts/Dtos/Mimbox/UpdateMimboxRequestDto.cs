@@ -18,7 +18,7 @@ public record UpdateMimboxRequestDto
 
     public int TotalWashes { get; set; }
 
-    public string? Nickname { get; set; }
+    public string Nickname { get; set; }
 
     public Guid StatusId { get; set; }
 

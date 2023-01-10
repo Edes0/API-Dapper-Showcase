@@ -6,15 +6,7 @@ using Mimbly.Application.Common.Validators.Mimbox;
 
 public record CreateMimboxRequestDto
 {
-    public float WaterSaved { get; init; }
-
-    public float Co2Saved { get; init; }
-
-    public float PlasticSaved { get; init; }
-
-    public float EconomySaved { get; init; }
-
-    public string? Nickname { get; set; }
+    public string Nickname { get; set; }
 
     public Guid StatusId { get; init; }
 

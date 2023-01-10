@@ -8,6 +8,16 @@ namespace Mimbly.Api.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "Nickname",
+                table: "Mimbox",
+                type: "Nvarchar(50)",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "Nvarchar(50)",
+                oldNullable: true);
+
             migrationBuilder.AddColumn<int>(
                 name: "Total_Tap",
                 table: "Mimbox",
@@ -30,6 +40,14 @@ namespace Mimbly.Api.Migrations
             migrationBuilder.DropColumn(
                 name: "Total_Washes",
                 table: "Mimbox");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Nickname",
+                table: "Mimbox",
+                type: "Nvarchar(50)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "Nvarchar(50)");
         }
     }
 }

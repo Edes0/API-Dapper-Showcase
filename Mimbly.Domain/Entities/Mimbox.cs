@@ -25,13 +25,13 @@ public class Mimbox
     public float EconomySaved { get; set; }
 
     [Column("Total_Tap", TypeName = "int")]
-    public int? TotalTap { get; set; }
+    public int TotalTap { get; set; }
 
     [Column("Total_Washes", TypeName = "int")]
-    public int? TotalWashes { get; set; }
+    public int TotalWashes { get; set; }
 
     [Column("Nickname", TypeName = "Nvarchar(50)")]
-    public string? Nickname { get; set; }
+    public string Nickname { get; set; }
 
     [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
     public Guid StatusId { get; set; }

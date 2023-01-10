@@ -16,7 +16,11 @@ public record MimboxDto
 
     public float EconomySaved { get; init; }
 
-    public string? Nickname { get; set; }
+    public int TotalTap { get; set; }
+
+    public int TotalWashes { get; set; }
+
+    public string Nickname { get; set; }
 
     public Guid? CompanyId { get; set; }
 
