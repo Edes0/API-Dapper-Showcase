@@ -83,9 +83,6 @@ public class CompanyRepository : ICompanyRepository
                if (!lookup.TryGetValue(company.Id, out companyRef))
                    lookup.Add(company.Id, companyRef = company);
 
-               if (companyContact != null)
-                   companyRef.ContactList.Add(companyContact);
-
                return null;
            });
 
@@ -110,12 +107,10 @@ public class CompanyRepository : ICompanyRepository
         await connection.QueryAsync<Company, CompanyContact, Company>
            (sql, (company, companyContact) =>
            {
-               Company companyRef;
-
-               if (!lookup.TryGetValue(company.Id, out companyRef))
+               if (!lookup.TryGetValue(company.Id, out var companyRef))
                    lookup.Add(company.Id, companyRef = company);
 
-               if (companyContact != null)
+               if (companyContact != null && !companyRef.ContactList.Any(x => x.Id == companyContact.Id))
                    companyRef.ContactList.Add(companyContact);
 
                return null;
@@ -168,9 +163,6 @@ public class CompanyRepository : ICompanyRepository
 
                if (!lookup.TryGetValue(company.Id, out companyRef))
                    lookup.Add(company.Id, companyRef = company);
-
-               if (companyContact != null)
-                   companyRef.ContactList.Add(companyContact);
 
                return null;
            },

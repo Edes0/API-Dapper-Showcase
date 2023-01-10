@@ -2,6 +2,7 @@ namespace Mimbly.Persistence.Repositories;
 
 using System;
 using System.Data.SqlClient;
+using System.Linq;
 using Application.Common.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -245,11 +246,6 @@ public class MimboxRepository : IMimboxRepository
                        mimboxRef.LocationId = mimboxLocation.Id;
                    }
 
-                   if (mimboxContact != null)
-                   {
-                       mimboxRef.ContactList.Add(mimboxContact);
-                   }
-
                    if (mimboxErrorLog != null)
                    {
                        mimboxRef.ErrorLogList.Add(mimboxErrorLog);
@@ -291,21 +287,21 @@ public class MimboxRepository : IMimboxRepository
         await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company>
            (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog) =>
            {
-               if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
-                   lookup.Add(mimbox.Id, mimboxRef = mimbox);
-
                if (mimbox != null)
                {
+                   if (!lookup.TryGetValue(mimbox.Id, out var mimboxRef))
+                       lookup.Add(mimbox.Id, mimboxRef = mimbox);
+
                    if (mimboxLocation != null)
                    {
                        mimboxRef.Location = mimboxLocation;
                        mimboxRef.LocationId = mimboxLocation.Id;
                    }
 
-                   if (mimboxContact != null)
+                   if (mimboxContact != null && !mimboxRef.ContactList.Any(x => x.Id == mimboxContact.Id))
                        mimboxRef.ContactList.Add(mimboxContact);
 
-                   if (mimboxErrorLog != null)
+                   if (mimboxErrorLog != null && !mimboxRef.ErrorLogList.Any(x => x.Id == mimboxErrorLog.Id))
                        mimboxRef.ErrorLogList.Add(mimboxErrorLog);
 
                    mimboxRef.Model = mimboxModel;
