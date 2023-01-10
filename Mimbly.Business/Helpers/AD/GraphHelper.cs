@@ -1,7 +1,8 @@
-﻿namespace Mimbly.Api.AAD.Helpers;
+﻿namespace Mimbly.Business.Helpers.AD;
 
+using Domain.Entities.AD;
+using Interfaces.AD;
 using Microsoft.Graph;
-using Mimbly.Api.AAD.DTOs;
 
 public class GraphHelper : IGraphHelper
 {
@@ -12,7 +13,7 @@ public class GraphHelper : IGraphHelper
         _graphService = graphService;
     }
 
-    public Invitation GetInvitation(InvitedUser user, string redirectUrl)
+    public Invitation GetInvitation(AdUser user, string redirectUrl)
     {
         var invite = new Invitation
         {
@@ -26,7 +27,7 @@ public class GraphHelper : IGraphHelper
         return invite;
     }
 
-    public User GetUserInfo(InvitedUser user)
+    public User GetUserInfo(AdUser user)
     {
         var userInfo = new User
         {

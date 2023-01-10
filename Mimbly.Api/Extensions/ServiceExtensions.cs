@@ -1,5 +1,7 @@
 ﻿namespace Mimbly.Api.Extensions;
 
+using Business.Helpers.AD;
+using Business.Interfaces.AD;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +18,6 @@ using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using PuppeteerSharp;
-using Microsoft.AspNetCore.Authorization;
-using Mimbly.CoreServices.Authorization;
-using Mimbly.Api.AAD;
-using Mimbly.Api.AAD.Helpers;
-using Mimbly.Api.AAD.Mappings;
 
 public static class PuppeteerExtensions
 {
@@ -73,7 +70,6 @@ public static class ServiceExtensions
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
-        services.AddAutoMapper(typeof(AADMappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }
 
@@ -132,5 +128,13 @@ public static class ServiceExtensions
         services.AddSingleton<IAccountService, AccountService>();
         services.AddSingleton<IGraphService, GraphService>();
         services.AddSingleton<IGraphHelper, GraphHelper>();
+    }
+
+    public static void ConfigureCustomValidationResponse(this IServiceCollection services)
+    {
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
     }
 }

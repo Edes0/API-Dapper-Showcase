@@ -1,4 +1,4 @@
-﻿namespace Mimbly.Api.AAD;
+﻿namespace Mimbly.Business.Interfaces.AD;
 
 using Microsoft.Graph;
 

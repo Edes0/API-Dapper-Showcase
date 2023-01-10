@@ -1,13 +1,9 @@
-﻿namespace Mimbly.Api.AAD;
+﻿namespace Mimbly.Business.Helpers.AD;
 
-using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
-using Mimbly.Api.AAD.DTOs;
-using Mimbly.Api.AAD.Helpers;
-using Mimbly.Application.Commands.Company.CreateCompany;
-using Mimbly.Application.Contracts.Dtos.Company;
-using Mimbly.Domain.Entities;
+using Mimbly.Business.Interfaces.AD;
+using Mimbly.Domain.Entities.AD;
 
 public class AccountService : IAccountService
 {
@@ -23,7 +19,7 @@ public class AccountService : IAccountService
         _graphHelper = graphHelper;
     }
 
-    public async Task<bool> InviteUser(InvitedUser user)
+    public async Task<bool> InviteUser(AdUser user)
     {
         var redirectUrl = _redirectUrl + user.GroupId;
 
@@ -35,7 +31,7 @@ public class AccountService : IAccountService
         if (invitedUserId != null)
         {
             _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-            _graphHelper.AddMemberToGroup(user.GroupId, invitedUserId);
+            _graphHelper.AddMemberToGroup(user.GroupId.ToString(), invitedUserId);
 
             return true;
         }
@@ -43,7 +39,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<bool> InviteTechnician(InvitedUser technician)
+    public async Task<bool> InviteTechnician(AdUser technician)
     {
         var userInvitation = _graphHelper.GetInvitation(technician, _redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(technician);
@@ -62,7 +58,7 @@ public class AccountService : IAccountService
         // TODO: Add technician to database, once entity is created
     }
 
-    public async Task<bool> InviteAdmin(InvitedUser admin)
+    public async Task<bool> InviteAdmin(AdUser admin)
     {
         var userInvitation = _graphHelper.GetInvitation(admin, _redirectUrl);
         var userInfo = _graphHelper.GetUserInfo(admin);
@@ -82,7 +78,7 @@ public class AccountService : IAccountService
         return false;
     }
 
-    public async Task<string?> CreateCompany(CompanyModel company)
+    public async Task<string?> CreateCompany(AdCompany company)
     {
         var client = _graphService.GetClient();
 
@@ -101,5 +97,11 @@ public class AccountService : IAccountService
         return group.Id ?? null;
     }
 
-    public Task<bool> AddUserToCompany(InvitedUser user, Guid companyId) => throw new NotImplementedException();
+    public Task<bool> AddUserToCompany(AdUser user, Guid companyId) => throw new NotImplementedException();
+
+    public Task RemoveCompany(Guid id)
+    {
+        var client = _graphService.GetClient();
+        return client.Groups[id.ToString()].Request().DeleteAsync();
+    }
 }

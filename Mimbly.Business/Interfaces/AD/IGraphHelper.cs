@@ -1,13 +1,13 @@
-﻿namespace Mimbly.Api.AAD.Helpers;
+﻿namespace Mimbly.Business.Interfaces.AD;
 
 using System.Threading.Tasks;
+using Domain.Entities.AD;
 using Microsoft.Graph;
-using Mimbly.Api.AAD.DTOs;
 
 public interface IGraphHelper
 {
-    User GetUserInfo(InvitedUser user);
-    Invitation GetInvitation(InvitedUser user, string redirectUrl);
+    User GetUserInfo(AdUser user);
+    Invitation GetInvitation(AdUser user, string redirectUrl);
     void AddMemberToGroup(string groupId, string userId);
     void AddOwnerToGroup(string groupId, string userId);
     Task<string?> InviteAndGetUserId(Invitation invite);

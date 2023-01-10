@@ -1,18 +1,15 @@
-﻿namespace Mimbly.Api.AAD.DTOs;
+namespace Mimbly.Domain.Entities.AD;
 
 using System.ComponentModel.DataAnnotations;
-using FluentValidation;
-using Microsoft.Graph;
-using Mimbly.CoreServices.Validation;
 
-public class InvitedUser
+public class AdUser
 {
     [EmailAddress]
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    public string? DisplayName { get; set; }
+    public string DisplayName { get; set; } = null!;
 
-    public string? GroupId { get; set; }
+    public Guid GroupId { get; set; }
 
     public string? JobTitle { get; set; }
 
@@ -25,4 +22,3 @@ public class InvitedUser
 
     public string? Country { get; set; }
 }
-

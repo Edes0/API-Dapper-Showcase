@@ -11,6 +11,11 @@
 # This file is the top-most EditorConfig file
 root = true
 
+[*.cs]
+
+# CS8618: Non nullable field _name is not initialized. Consider declare the field as nullable type
+dotnet_diagnostic.CS8618.severity = none
+
 # All Files
 [*]
 trim_trailing_whitespace = true

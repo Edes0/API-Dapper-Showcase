@@ -1,8 +1,9 @@
-﻿namespace Mimbly.Api.AAD;
+﻿namespace Mimbly.Business.Helpers.AD;
 
+using Azure.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
-using Azure.Identity;
+using Mimbly.Business.Interfaces.AD;
 using Mimbly.Infrastructure.Security.Configurations;
 
 public class GraphService : IGraphService

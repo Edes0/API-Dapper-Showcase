@@ -20,8 +20,6 @@ public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxCommand, M
 
     public async Task<Mimbox> Handle(CreateMimboxCommand request, CancellationToken cancellationToken)
     {
-        await request.CreateMimboxRequest.Validate();
-
         var mimboxEntity = _mapper.Map<Mimbox>(request.CreateMimboxRequest);
 
         await _mimboxRepository.CreateMimbox(mimboxEntity);
