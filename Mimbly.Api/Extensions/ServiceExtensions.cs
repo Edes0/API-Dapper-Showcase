@@ -1,5 +1,7 @@
 ﻿namespace Mimbly.Api.Extensions;
 
+using Business.Helpers.AD;
+using Business.Interfaces.AD;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +18,6 @@ using Mimbly.CoreServices.PuppeteerServices;
 using Mimbly.Infrastructure.Identity.Context;
 using Mimbly.Persistence.Repositories;
 using PuppeteerSharp;
-using Microsoft.AspNetCore.Authorization;
-using Mimbly.CoreServices.Authorization;
-using Mimbly.Api.AAD;
-using Mimbly.Api.AAD.Helpers;
-using Mimbly.Api.AAD.Mappings;
 
 public static class PuppeteerExtensions
 {
@@ -46,6 +43,8 @@ public static class ServiceExtensions
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IMimboxRepository, MimboxRepository>();
+        services.AddScoped<IMimboxStatusRepository, MimboxStatusRepository>();
+        services.AddScoped<IMimboxModelRepository, MimboxModelRepository>();
         services.AddScoped<IMimboxLocationRepository, MimboxLocationRepository>();
         services.AddScoped<IMimboxErrorLogRepository, MimboxErrorLogRepository>();
         services.AddScoped<IMimboxContactRepository, MimboxContactRepository>();
@@ -71,7 +70,6 @@ public static class ServiceExtensions
     public static void ConfigureNugetPackages(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
-        services.AddAutoMapper(typeof(AADMappingProfile).Assembly);
         services.AddMediatR(typeof(ApplicationMediatREntrypoint).Assembly);
     }
 
@@ -82,24 +80,6 @@ public static class ServiceExtensions
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddMicrosoftIdentityWebApi(azureAd);
-
-        // Optional code for multible AD's. //TODO: Maybe move this?
-
-        // var azureAdConfig = azureAd.Get<AzureAdConfiguration>();
-
-        //services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
-        //{
-        //    var existingOnTokenValidatedHandler = options.Events.OnTokenValidated;
-        //    options.Events.OnTokenValidated = async context =>
-        //    {
-        //        await existingOnTokenValidatedHandler(context);
-        //        options.TokenValidationParameters.ValidAudiences = new[] { azureAdConfig.ClientId };
-        //        options.TokenValidationParameters.ValidIssuer = azureAdConfig.Issuer;
-        //    };
-        //});
-
-        // https://learn.microsoft.com/en-us/azure/active-directory/develop/scenario-protected-web-api-app-configuration
-        // https://learn.microsoft.com/en-us/azure/active-directory-b2c/enable-authentication-web-api?tabs=csharpclient
     }
 
     public static void ConfigurePuppeteer(this IServiceCollection services, IWebHostEnvironment environment)
@@ -148,5 +128,13 @@ public static class ServiceExtensions
         services.AddSingleton<IAccountService, AccountService>();
         services.AddSingleton<IGraphService, GraphService>();
         services.AddSingleton<IGraphHelper, GraphHelper>();
+    }
+
+    public static void ConfigureCustomValidationResponse(this IServiceCollection services)
+    {
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
     }
 }

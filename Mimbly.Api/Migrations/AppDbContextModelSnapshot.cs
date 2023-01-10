@@ -30,9 +30,9 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime")
-                        .HasColumnName("Created");
+                        .HasColumnName("Created_At");
 
                     b.Property<string>("Log")
                         .IsRequired()
@@ -63,9 +63,9 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Id")
                         .HasColumnOrder(1);
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime")
-                        .HasColumnName("Created");
+                        .HasColumnName("Created_At");
 
                     b.Property<bool>("Discarded")
                         .HasColumnType("bit")

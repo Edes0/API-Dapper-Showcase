@@ -7,12 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="FluentValidation" Version="10.3.4" />
     <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mimbly.Business\Mimbly.Business.csproj" />
     <ProjectReference Include="..\Mimbly.CoreServices\Mimbly.CoreServices.csproj" />
     <ProjectReference Include="..\Mimbly.Domain\Mimbly.Domain.csproj" />
     <ProjectReference Include="..\Mimbly.Infrastructure\Mimbly.Infrastructure.csproj" />
