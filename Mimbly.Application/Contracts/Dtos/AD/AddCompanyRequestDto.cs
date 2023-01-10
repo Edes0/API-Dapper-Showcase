@@ -1,4 +1,3 @@
-#pragma warning disable CS8618
 namespace Mimbly.Application.Contracts.Dtos.AD;
 
 using System.ComponentModel.DataAnnotations;
