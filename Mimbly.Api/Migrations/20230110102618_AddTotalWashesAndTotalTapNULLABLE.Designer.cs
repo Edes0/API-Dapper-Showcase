@@ -12,7 +12,7 @@ using Mimbly.Infrastructure.Identity.Context;
 namespace Mimbly.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230109134855_AddTotalWashesAndTotalTapNULLABLE")]
+    [Migration("20230110102618_AddTotalWashesAndTotalTapNULLABLE")]
     partial class AddTotalWashesAndTotalTapNULLABLE
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,6 +238,7 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Mimbox_Model_Id");
 
                     b.Property<string>("Nickname")
+                        .IsRequired()
                         .HasColumnType("Nvarchar(50)")
                         .HasColumnName("Nickname");
 
