@@ -14,7 +14,11 @@ public record UpdateMimboxRequestDto
 
     public float EconomySaved { get; set; }
 
-    public string? Nickname { get; set; }
+    public int TotalTap { get; set; }
+
+    public int TotalWashes { get; set; }
+
+    public string Nickname { get; set; }
 
     public Guid StatusId { get; set; }
 

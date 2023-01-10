@@ -8,12 +8,12 @@ public class CreateMimboxLocationRequestDtoValidator : AbstractValidator<CreateM
     public CreateMimboxLocationRequestDtoValidator()
     {
         RuleFor(x => x.Country)
-            .NotNull().WithMessage("Country is required");
+            .Empty().WithMessage("Country is required");
 
         RuleFor(x => x.City)
-            .NotNull().WithMessage("City is required");
+            .Empty().WithMessage("City is required");
 
         RuleFor(x => x.StreetAddress)
-            .NotNull().WithMessage("Street address is required");
+            .Empty().WithMessage("Street address is required");
     }
 }

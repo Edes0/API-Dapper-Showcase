@@ -24,8 +24,14 @@ public class Mimbox
     [Column("Economy_Saved", TypeName = "float")]
     public float EconomySaved { get; set; }
 
+    [Column("Total_Tap", TypeName = "int")]
+    public int TotalTap { get; set; }
+
+    [Column("Total_Washes", TypeName = "int")]
+    public int TotalWashes { get; set; }
+
     [Column("Nickname", TypeName = "Nvarchar(50)")]
-    public string? Nickname { get; set; }
+    public string Nickname { get; set; }
 
     [Column("Mimbox_Status_Id", TypeName = "uniqueidentifier")]
     public Guid StatusId { get; set; }
@@ -68,6 +74,8 @@ public class Mimbox
         Co2Saved = 0;
         PlasticSaved = 0;
         EconomySaved = 0;
+        TotalTap = 0;
+        TotalWashes = 0;
         StatsUpdatedAt = DateTime.Now;
     }
 }
