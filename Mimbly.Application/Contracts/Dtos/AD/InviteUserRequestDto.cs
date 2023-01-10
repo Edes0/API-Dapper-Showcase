@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations;
 public record InviteUserRequestDto
 {
     [Required]
-    public string FirstName { get; set; } = string.Empty;
+    public string FirstName { get; set; }
 
-    public string? LastName { get; set; } = string.Empty;
+    public string? LastName { get; set; }
 
     [Required]
     [EmailAddress]
-    public string Email { get; set; } = string.Empty;
+    public string Email { get; set; }
 
     [Required]
     public Guid GroupId { get; set; }

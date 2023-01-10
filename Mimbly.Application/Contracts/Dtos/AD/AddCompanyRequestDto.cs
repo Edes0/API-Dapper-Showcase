@@ -1,3 +1,4 @@
+#pragma warning disable CS8618
 namespace Mimbly.Application.Contracts.Dtos.AD;
 
 using System.ComponentModel.DataAnnotations;
@@ -5,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 public record AddCompanyRequestDto
 {
     [Required]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
 
     [Required]
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; set; }
 
     [Required]
     public Guid ParentId { get; set; }
