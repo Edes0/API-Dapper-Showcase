@@ -16,11 +16,12 @@ public record InviteUserRequestDto
     [Required]
     public Guid GroupId { get; set; }
 
-    public string? Phone { get; set; }
-
-    public string? Role { get; set; }
+    [Required]
+    public Guid RoleId { get; set; }
 
     public string? JobTitle { get; set; }
+
+    public string? Phone { get; set; }
 
     public string? StreetAddress { get; set; }
 
