@@ -164,6 +164,9 @@ public class CompanyRepository : ICompanyRepository
                if (!lookup.TryGetValue(company.Id, out companyRef))
                    lookup.Add(company.Id, companyRef = company);
 
+               if (companyContact != null && !companyRef.ContactList.Any(x => x.Id == companyContact.Id))
+                   companyRef.ContactList.Add(companyContact);
+
                return null;
            },
            new { ids });
