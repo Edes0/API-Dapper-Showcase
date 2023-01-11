@@ -31,46 +31,8 @@ public class AccountService : IAccountService
         if (invitedUserId != null)
         {
             _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
+            _graphHelper.AddMemberToGroup(user.RoleId.ToString(), invitedUserId);
             _graphHelper.AddMemberToGroup(user.GroupId.ToString(), invitedUserId);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public async Task<bool> InviteTechnician(AdUser technician)
-    {
-        var userInvitation = _graphHelper.GetInvitation(technician, _redirectUrl);
-        var userInfo = _graphHelper.GetUserInfo(technician);
-
-        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
-
-        if (invitedUserId != null)
-        {
-            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-
-            return true;
-        }
-
-        return false;
-
-        // TODO: Add technician to database, once entity is created
-    }
-
-    public async Task<bool> InviteAdmin(AdUser admin)
-    {
-        var userInvitation = _graphHelper.GetInvitation(admin, _redirectUrl);
-        var userInfo = _graphHelper.GetUserInfo(admin);
-
-        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
-
-        if (invitedUserId != null)
-        {
-            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-
-            // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
-            _graphHelper.AddMemberToGroup("Admin group Id", invitedUserId);
 
             return true;
         }

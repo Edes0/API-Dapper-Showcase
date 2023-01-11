@@ -3,6 +3,7 @@
 using Application.Commands.AD.AddCompanyToAd;
 using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
+using CoreServices.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mimbly.Application.Commands.Company.CreateCompany;
@@ -30,21 +31,5 @@ public class AccountController : ControllerBase
         var status = await _mediator.Send(new InviteUserToAdCommand { InviteUserRequestToAdRequest = inviteUserRequestDto });
 
         return status ? Ok() : BadRequest();
-    }
-
-    [HttpPost]
-    [Route("InviteTechnician")]
-    /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(InviteUserRequestDto userRequestDto)
-    {
-        return BadRequest();
-    }
-
-    [HttpPost]
-    [Route("InviteAdmin")]
-    /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(InviteUserRequestDto userRequestDto)
-    {
-        return BadRequest();
     }
 }
