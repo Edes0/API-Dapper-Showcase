@@ -2,11 +2,17 @@
 
 using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
+<<<<<<< HEAD
 using Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Mimbly.Application.Queries.AD.GetRoles;
+=======
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+>>>>>>> 641198c (Clean up solution)
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
