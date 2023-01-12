@@ -46,7 +46,7 @@ public class CompanyController : BaseController
     [HttpPost]
     public async Task<ActionResult> CreateCompany([FromBody] AddCompanyRequestDto addCompanyRequestDto)
     {
-        var groupId = await _mediator.Send(new AddCompanyToAdCommand {AddCompanyRequestToAdRequest = addCompanyRequestDto});
+        var groupId = await _mediator.Send(new AddCompanyToAdCommand { AddCompanyRequestToAdRequest = addCompanyRequestDto });
 
         if (!Guid.TryParse(groupId, out var groupGuid))
         {
