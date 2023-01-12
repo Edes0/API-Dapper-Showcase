@@ -2,12 +2,10 @@
 
 using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
-using CoreServices.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Mimbly.Application.Queries.AD.GetRoles;
-using Microsoft.Extensions.Caching.Memory;
 
 [ApiController]
 [Authorize]
@@ -16,12 +14,10 @@ using Microsoft.Extensions.Caching.Memory;
 public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IMemoryCache _memoryCache;
 
-    public AccountController(IMediator mediator, IMemoryCache memoryCache)
+    public AccountController(IMediator mediator)
     {
         _mediator = mediator;
-        _memoryCache = memoryCache;
     }
 
     [HttpPost]
@@ -38,12 +34,8 @@ public class AccountController : ControllerBase
     [Route("GetRoles")]
     public async Task<ActionResult> GetRoles()
     {
-        var rolesInCache = _memoryCache.Get<IEnumerable<RoleDto>>("Roles");
-        if (rolesInCache != null) return Ok(rolesInCache);
-
-        var memoryCacheOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromHours(12));
         var roles = await _mediator.Send(new GetRolesQuery());
-        _memoryCache.Set<IEnumerable<RoleDto>>("Roles", roles.Roles, memoryCacheOptions);
+
         return Ok(roles.Roles);
     }
 }
