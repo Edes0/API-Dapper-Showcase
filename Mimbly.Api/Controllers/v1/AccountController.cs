@@ -1,13 +1,10 @@
 ﻿namespace Mimbly.Api.Controllers.v1;
 
-using Application.Commands.AD.AddCompanyToAd;
 using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mimbly.Application.Commands.Company.CreateCompany;
-using Mimbly.Application.Contracts.Dtos.Company;
-using MediatR;
 
 [ApiController]
 [Authorize]
