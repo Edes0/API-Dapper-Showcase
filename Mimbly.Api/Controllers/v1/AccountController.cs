@@ -2,13 +2,13 @@
 
 using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
+using Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Mimbly.Application.Queries.AD.GetRoles;
 
 [ApiController]
-[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
@@ -21,6 +21,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     [Route("InviteUser")]
     /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> InviteUser(InviteUserRequestDto inviteUserRequestDto)
@@ -31,6 +32,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpGet]
+    [ApiKey]
     [Route("GetRoles")]
     public async Task<ActionResult> GetRoles()
     {
