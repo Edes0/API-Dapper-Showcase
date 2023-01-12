@@ -7,8 +7,8 @@ using Mimbly.Domain.Entities;
 
 public interface IMimboxLogImageRepository
 {
-    Task CreateMimboxLogImage(MimboxLogImage mimboxLogImageList);
-    Task DeleteMimboxLogImagesByMimboxLogId(MimboxLog mimboxLog);
+    Task CreateMimboxLogImage(MimboxLogImage mimboxLogImage);
     Task DeleteMimboxLogImage(MimboxLogImage mimboxLogImage);
     Task<IEnumerable<MimboxLogImage>> GetMimboxLogImagesByMimboxLogId(Guid id);
+    Task<MimboxLogImage> GetMimboxLogImageById(Guid id);
 }

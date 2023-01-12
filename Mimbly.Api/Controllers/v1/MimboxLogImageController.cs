@@ -4,56 +4,47 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Mimbly.Application.Commands.MimboxLocation.CreateMimboxLocation;
-using Mimbly.Application.Commands.MimboxLocation.DeleteMimboxLocation;
-using Mimbly.Application.Commands.MimboxLocation.UpdateMimboxLocation;
-using Mimbly.Application.Contracts.Dtos.MimboxLocation;
-using Mimbly.Application.Queries.MimboxLocation.GetAll;
-using Mimbly.Application.Queries.MimboxLocation.GetById;
+using Mimbly.Application.Commands.MimboxLogImage.DeleteMimboxLogImage;
+using Mimbly.Application.Commands.MimboxLogImageImage.CreateMimboxLogImageImage;
+using Mimbly.Application.Contracts.Dtos.MimboxLogImage;
+using Mimbly.Application.Queries.MimboxLogImage.GetById;
+using Mimbly.Application.Queries.MimboxLogImage.GetByMimboxLogId;
 
 [ApiController]
 [Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class MimboxLocationController : BaseController
+public class MimboxLogImageController : BaseController
 {
-    public MimboxLocationController(IMediator mediator) : base(mediator)
+    public MimboxLogImageController(IMediator mediator) : base(mediator)
     {
     }
 
-    [HttpGet]
-    public async Task<ActionResult<AllMimboxLocationsVm>> GetAllMimboxLocations()
+    [HttpGet("ByMimboxLogId/{mimboxLogId:guid}", Name = "MimboxLogImagesByMimboxLogId")]
+    public async Task<ActionResult<MimboxLogImagesByMimboxLogIdVm>> FilterMimboxLogImagesByMimboxLogId([BindRequired] Guid mimboxLogId)
     {
-        return Ok(await _mediator.Send(new GetAllMimboxLocationsQuery { }));
+        return Ok(await _mediator.Send(new GetByMimboxLogIdMimboxLogImageQuery { Id = mimboxLogId }));
     }
 
-    [HttpGet("{id:guid}", Name = "MimboxLocationById")]
-    public async Task<ActionResult<MimboxLocationByIdVm>> FilterMimboxLocationsById([BindRequired] Guid id)
+    [HttpGet("{id:guid}", Name = "MimboxLogImageById")]
+    public async Task<ActionResult<MimboxLogImageByIdVm>> FilterMimboxLogImagesById([BindRequired] Guid id)
     {
-        return Ok(await _mediator.Send(new GetByIdMimboxLocationQuery { Id = id }));
+        return Ok(await _mediator.Send(new GetByIdMimboxLogImageQuery { Id = id }));
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateMimboxLocation([FromBody] CreateMimboxLocationRequestDto createMimboxLocationRequestDto)
+    public async Task<ActionResult> CreateMimboxLogImage([FromBody] CreateMimboxLogImageRequestDto createMimboxLogImageRequestDto)
     {
-        var createdMimboxLocation = await _mediator.Send(new CreateMimboxLocationCommand { CreateMimboxLocationRequest = createMimboxLocationRequestDto });
+        var createdMimboxLogImage = await _mediator.Send(new CreateMimboxLogImageCommand { CreateMimboxLogImageRequest = createMimboxLogImageRequestDto });
 
-        return CreatedAtRoute("MimboxLocationById", new { createdMimboxLocation.Id }, createdMimboxLocation);
+        return CreatedAtRoute("MimboxLogImageById", new { createdMimboxLogImage.Id }, createdMimboxLogImage);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<ActionResult> DeleteMimboxLocation([BindRequired] Guid id)
+    public async Task<ActionResult> DeleteMimboxLogImage([BindRequired] Guid id)
     {
-        await _mediator.Send(new DeleteMimboxLocationCommand { Id = id });
+        await _mediator.Send(new DeleteMimboxLogImageCommand { Id = id });
 
         return NoContent();
-    }
-
-    [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateMimboxLocation(Guid id, [FromBody] UpdateMimboxLocationRequestDto updateMimboxLocationRequestDto)
-    {
-        await _mediator.Send(new UpdateMimboxLocationCommand { UpdateMimboxLocationRequest = updateMimboxLocationRequestDto, Id = id });
-
-        return Ok("Mimbox location updated successfully");
     }
 }

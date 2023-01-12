@@ -28,14 +28,26 @@ public class MimboxLogImageRepository : IMimboxLogImageRepository
         return await _db.LoadEntities<MimboxLogImage, dynamic>(sql, new { Id = id });
     }
 
+    public async Task<MimboxLogImage> GetMimboxLogImageById(Guid id)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Mimbox_Log_Image
+            WHERE Id = @id
+        ";
+
+        return await _db.LoadEntity<MimboxLogImage, dynamic>(sql, new { Id = id });
+    }
+
     public async Task CreateMimboxLogImage(MimboxLogImage mimboxLogImage)
     {
         var sql =
         @"
             INSERT INTO Mimbox_Log_Image
-                (Id, Log, Created_At, Mimbox_Id)
+                (Id, Url, Mimbox_Log_Id)
             VALUES
-                (@Id, @Log, @CreatedAt, @MimboxId)
+                (@Id, @Url, @MimboxLogId)
         ";
 
         await _db.SaveChanges(sql, mimboxLogImage);
@@ -51,17 +63,5 @@ public class MimboxLogImageRepository : IMimboxLogImageRepository
         ";
 
         await _db.SaveChanges(sql, mimboxLogImage);
-    }
-
-    public async Task DeleteMimboxLogImagesByMimboxLogId(MimboxLog mimboxLog)
-    {
-        var sql =
-        @"
-            DELETE
-            FROM Mimbox_Log_Image
-            WHERE Mimbox_Log_Id = @Id
-        ";
-
-        await _db.SaveChanges(sql, mimboxLog);
     }
 }

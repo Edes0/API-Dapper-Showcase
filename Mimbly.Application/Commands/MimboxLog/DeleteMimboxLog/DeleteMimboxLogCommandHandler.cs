@@ -1,6 +1,5 @@
 ﻿namespace Mimbly.Application.Commands.MimboxLog.DeleteMimboxLog;
 
-using AutoMapper;
 using Common.Interfaces;
 using MediatR;
 using Mimbly.CoreServices.Exceptions;

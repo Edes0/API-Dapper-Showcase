@@ -1,5 +1,6 @@
 ﻿namespace Mimbly.Persistence.Repositories;
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Mimbly.Application.Common.Interfaces;
@@ -16,7 +17,7 @@ public class MimboxLogRepository : IMimboxLogRepository
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
-    public async Task<MimboxLog> GetMimboxLogByMimboxId(Guid id)
+    public async Task<MimboxLog> GetMimboxLogById(Guid id)
     {
         var sql =
         @"
@@ -26,6 +27,18 @@ public class MimboxLogRepository : IMimboxLogRepository
         ";
 
         return await _db.LoadEntity<MimboxLog, dynamic>(sql, new { Id = id });
+    }
+
+    public async Task<IEnumerable<MimboxLog>> GetMimboxLogsByMimboxId(Guid id)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Mimbox_Log
+            WHERE Mimbox_Id = @id
+        ";
+
+        return await _db.LoadEntities<MimboxLog, dynamic>(sql, new { Id = id });
     }
 
     public async Task CreateMimboxLog(MimboxLog mimboxLog)
@@ -59,7 +72,6 @@ public class MimboxLogRepository : IMimboxLogRepository
         @"
             UPDATE Mimbox_Log
             SET Log = @Log
-                Created_At = @CreatedAt       
             WHERE Id = @Id
         ";
 

@@ -19,9 +19,4 @@
     <ProjectReference Include="..\Mimbly.Infrastructure\Mimbly.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\MimboxLogImage\DeleteMimboxLogImage\" />
-    <Folder Include="Queries\MimboxLogImage\GetByMimboxLogId\" />
-  </ItemGroup>
-
 </Project>
