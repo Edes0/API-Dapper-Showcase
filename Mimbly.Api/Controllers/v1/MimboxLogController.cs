@@ -1,6 +1,7 @@
 ﻿namespace Mimbly.Api.Controllers.v1;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Mimbly.Application.Commands.MimboxLog.CreateMimboxLog;
