@@ -1,31 +1,19 @@
 namespace Mimbly.Application.Contracts.Dtos.Mimbox;
 
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using CoreServices.Validation;
-using Mimbly.Application.Common.Validators.Mimbox;
 
 public record CreateMimboxRequestDto
 {
-    public float WaterSaved { get; init; }
-
-    public float Co2Saved { get; init; }
-
-    public float PlasticSaved { get; init; }
-
-    public float EconomySaved { get; init; }
-
-    [Required]
+    [Required(ErrorMessage = "Nickname is required")]
     public string Nickname { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Status is required")]
     public Guid StatusId { get; init; }
 
-    [Required]
+    [Required(ErrorMessage = "Model is required")]
     public Guid ModelId { get; init; }
 
     public Guid? LocationId { get; init; }
 
-    [Required]
-    public Guid CompanyId { get; set; }
+    public Guid? CompanyId { get; set; }
 }

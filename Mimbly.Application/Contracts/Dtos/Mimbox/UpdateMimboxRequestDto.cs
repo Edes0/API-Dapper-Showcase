@@ -6,18 +6,6 @@ using Mimbly.CoreServices.Validation;
 
 public record UpdateMimboxRequestDto
 {
-    public float WaterSaved { get; set; }
-
-    public float Co2Saved { get; set; }
-
-    public float PlasticSaved { get; set; }
-
-    public float EconomySaved { get; set; }
-
-    public int TotalTap { get; set; }
-
-    public int TotalWashes { get; set; }
-
     public string Nickname { get; set; }
 
     public Guid StatusId { get; set; }
