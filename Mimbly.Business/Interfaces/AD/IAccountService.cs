@@ -8,4 +8,5 @@ public interface IAccountService
     Task<string?> CreateCompany(AdCompany company);
     Task<bool> AddUserToCompany(AdUser user, Guid companyId);
     Task RemoveCompany(Guid id);
+    Task<List<AdRole>> GetRoles();
 }

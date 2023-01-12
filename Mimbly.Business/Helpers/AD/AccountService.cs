@@ -1,5 +1,6 @@
 ﻿namespace Mimbly.Business.Helpers.AD;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using Mimbly.Business.Interfaces.AD;
@@ -10,13 +11,15 @@ public class AccountService : IAccountService
     private readonly IGraphService _graphService;
     private readonly ILogger<AccountService> _logger;
     private readonly IGraphHelper _graphHelper;
+    private readonly IMemoryCache _memoryCache;
     private readonly string _redirectUrl = "https://mimbly-frontend.azurewebsites.net/dashboard/";
 
-    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IGraphHelper graphHelper)
+    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IGraphHelper graphHelper, IMemoryCache memoryCache)
     {
         _graphService = graphService;
         _logger = logger;
         _graphHelper = graphHelper;
+        _memoryCache = memoryCache;
     }
 
     public async Task<bool> InviteUser(AdUser user)
@@ -56,6 +59,7 @@ public class AccountService : IAccountService
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
+
         return group.Id ?? null;
     }
 
@@ -64,6 +68,23 @@ public class AccountService : IAccountService
     public Task RemoveCompany(Guid id)
     {
         var client = _graphService.GetClient();
+
         return client.Groups[id.ToString()].Request().DeleteAsync();
+    }
+
+    public async Task<List<AdRole>> GetRoles()
+    {
+        var selectedGroups = await _graphHelper.GetGroupsThatStartsWith("Role");
+
+        var roles = new List<AdRole>();
+        foreach (var group in selectedGroups)
+        {
+            var roleName = group.DisplayName.Split(" ")[2];
+            var roleId = Guid.Parse(group.Id);
+
+            roles.Add(new AdRole { RoleName = roleName, RoleId = roleId });
+        }
+
+        return roles;
     }
 }
