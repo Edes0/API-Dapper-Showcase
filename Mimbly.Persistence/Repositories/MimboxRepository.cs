@@ -209,21 +209,19 @@ public class MimboxRepository : IMimboxRepository
 
         var sql =
         @"
-            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*, mel.*
+            SELECT c.Id, m.*, ml.*, ms.*, mm.*
             FROM Company c
             LEFT JOIN Mimbox m ON m.Company_Id = c.Id
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
             LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
             LEFT JOIN Mimbox_Model mm ON mm.Id = m.Mimbox_Model_Id
-            LEFT JOIN Mimbox_Contact mc ON mc.Mimbox_Id = m.Id
-            LEFT JOIN Mimbox_Error_Log mel ON mel.Mimbox_Id = m.Id
             WHERE c.Id = @id
         ";
 
         var lookup = new Dictionary<Guid, Mimbox>();
 
-        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, MimboxContact, MimboxErrorLog, Company>
-           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel, mimboxContact, mimboxErrorLog) =>
+        await connection.QueryAsync<Company, Mimbox, MimboxLocation, MimboxStatus, MimboxModel, Company>
+           (sql, (company, mimbox, mimboxLocation, mimboxStatus, mimboxModel) =>
            {
                if (mimbox != null)
                {
@@ -235,12 +233,6 @@ public class MimboxRepository : IMimboxRepository
                        mimboxRef.Location = mimboxLocation;
                        mimboxRef.LocationId = mimboxLocation.Id;
                    }
-
-                   if (mimboxContact != null && !mimboxRef.ContactList.Any(x => x.Id == mimboxContact.Id))
-                       mimboxRef.ContactList.Add(mimboxContact);
-
-                   if (mimboxErrorLog != null && !mimboxRef.ErrorLogList.Any(x => x.Id == mimboxErrorLog.Id))
-                       mimboxRef.ErrorLogList.Add(mimboxErrorLog);
 
                    mimboxRef.Model = mimboxModel;
                    mimboxRef.ModelId = mimboxModel.Id;

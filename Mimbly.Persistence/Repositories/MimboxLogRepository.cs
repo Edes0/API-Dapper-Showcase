@@ -11,15 +11,11 @@ using Mimbly.Domain.Entities;
 public class MimboxLogRepository : IMimboxLogRepository
 {
     private readonly ISqlDataAccess _db;
-    private readonly IConfiguration _config;
-    public string ConnectionStringName { get; set; } = "DbConnectionString";
 
     public MimboxLogRepository(
-        ISqlDataAccess db,
-        IConfiguration config)
+        ISqlDataAccess db)
     {
         _db = db;
-        _config = config;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
@@ -37,35 +33,14 @@ public class MimboxLogRepository : IMimboxLogRepository
 
     public async Task<IEnumerable<MimboxLog>> GetMimboxLogsByMimboxId(Guid id)
     {
-        var connectionString = _config.GetConnectionString(ConnectionStringName);
-        await using var connection = new SqlConnection(connectionString);
-
         var sql =
         @"
-            SELECT ml.*, mli.*
+            SELECT ml.*
             FROM Mimbox_Log ml
-            LEFT JOIN Mimbox_Log_Image mli ON ml.Id = mli.Mimbox_Log_Id
             WHERE ml.Mimbox_Id = @id
         ";
 
-        var lookup = new Dictionary<Guid, MimboxLog>();
-
-        await connection.QueryAsync<MimboxLog, MimboxLogImage, MimboxLog>
-           (sql, (mimboxLog, mimboxLogImage) =>
-           {
-               if (mimboxLog != null)
-               {
-                   if (!lookup.TryGetValue(mimboxLog.Id, out var mimboxLogRef))
-                       lookup.Add(mimboxLog.Id, mimboxLogRef = mimboxLog);
-
-                   if (mimboxLogImage != null)
-                       mimboxLogRef.ImageList.Add(mimboxLogImage);
-               }
-               return null;
-           },
-           new { id });
-
-        return lookup.Values;
+        return await _db.LoadEntities<MimboxLog, dynamic>(sql, new { Id = id });
     }
 
     public async Task CreateMimboxLog(MimboxLog mimboxLog)

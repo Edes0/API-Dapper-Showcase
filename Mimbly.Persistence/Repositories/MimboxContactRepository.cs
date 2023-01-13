@@ -79,4 +79,16 @@ public class MimboxContactRepository : IMimboxContactRepository
 
         await _db.SaveChanges(sql, mimboxContact);
     }
+
+    public async Task<IEnumerable<MimboxContact>> GetMimboxContactsByMimboxId(Guid id)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Mimbox_Contact
+            WHERE Mimbox_Id = @id
+        ";
+
+        return await _db.LoadEntities<MimboxContact, dynamic>(sql, new { id });
+    }
 }

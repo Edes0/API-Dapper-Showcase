@@ -64,4 +64,16 @@ public class MimboxLogImageRepository : IMimboxLogImageRepository
 
         await _db.SaveChanges(sql, mimboxLogImage);
     }
+
+    public async Task<IEnumerable<MimboxLogImage>> GetMimboxLogImagesByMimboxLogIds(IEnumerable<Guid> ids)
+    {
+        var sql =
+        @"
+            SELECT mli.*
+            FROM Mimbox_Log_Image mli
+            WHERE mli.Id IN @ids
+        ";
+
+        return await _db.LoadEntities<MimboxLogImage, dynamic>(sql, new { ids });
+    }
 }

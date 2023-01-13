@@ -35,6 +35,7 @@ public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithC
 
         var companyIds = companies.Select(x => x.Id);
         var companiesWithData = await _companyRepository.GetCompanyByIds(companyIds);
+
         var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
 
         foreach (var company in companiesWithData)
@@ -43,11 +44,7 @@ public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithC
 
             company.MimboxList = currentCompanyMimboxes.ToList();
 
-            var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c =>
-            {
-                c.ChildCompanyList = c.ChildCompanyList;
-                return c;
-            });
+            var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c => c);
 
             company.ChildCompanyList = childCompanies.ToList();
         }

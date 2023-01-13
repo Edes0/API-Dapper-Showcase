@@ -28,6 +28,7 @@ public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, AllC
     {
         var companies = await _companyRepository.GetAllCompanies();
         var companyIds = companies.Select(x => x.Id);
+
         var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
 
         foreach (var company in companies)

@@ -7,34 +7,45 @@ using MediatR;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.MimboxLog;
 using Mimbly.CoreServices.Exceptions;
+using Mimbly.Domain.Entities;
 
 public class GetByMimboxIdMimboxLogHandler : IRequestHandler<GetByMimboxIdMimboxLogQuery, MimboxLogsByMimboxIdVm>
 {
     private readonly IMimboxLogRepository _mimboxLogRepository;
-    private readonly IMimboxRepository _mimboxRepository;
+    private readonly IMimboxLogImageRepository _mimboxLogImageRepository;
     private readonly IMapper _mapper;
 
     public GetByMimboxIdMimboxLogHandler(
         IMimboxLogRepository mimboxLogRepository,
-        IMimboxRepository mimboxRepository,
+        IMimboxLogImageRepository mimboxLogImageRepository,
         IMapper mapper)
     {
         _mimboxLogRepository = mimboxLogRepository;
-        _mimboxRepository = mimboxRepository;
+        _mimboxLogImageRepository = mimboxLogImageRepository;
         _mapper = mapper;
     }
 
     public async Task<MimboxLogsByMimboxIdVm> Handle(GetByMimboxIdMimboxLogQuery request, CancellationToken cancellationToken)
     {
-        var mimbox = await _mimboxRepository.GetMimboxById(request.Id);
+        var mimboxLogs = await _mimboxLogRepository.GetMimboxLogsByMimboxId(request.Id);
 
-        if (mimbox == null)
-            throw new NotFoundException($"Can't find mimbox with id: {request.Id}");
+        if (mimboxLogs != null)
+        {
+            var mimboxLogIds = mimboxLogs.Select(x => x.Id);
 
-        var mimboxLogs = await _mimboxLogRepository.GetMimboxLogsByMimboxId(mimbox.Id);
+            var mimboxLogImages = await _mimboxLogImageRepository.GetMimboxLogImagesByMimboxLogIds(mimboxLogIds);
 
-        var mimboxLogDtos = _mapper.Map<IEnumerable<MimboxLogDto>>(mimboxLogs);
+            foreach (var log in mimboxLogs)
+            {
+                var currentMimboxLogImages = mimboxLogImages.Where(x => x.MimboxLogId == log.Id).Select(x => x);
 
-        return new MimboxLogsByMimboxIdVm { MimboxLogs = mimboxLogDtos };
+                log.ImageList = currentMimboxLogImages.ToList();
+            }
+
+            var mimboxLogDtos = _mapper.Map<IEnumerable<MimboxLogDto>>(mimboxLogs);
+
+            return new MimboxLogsByMimboxIdVm { MimboxLogs = mimboxLogDtos };
+        }
+        return null;
     }
 }

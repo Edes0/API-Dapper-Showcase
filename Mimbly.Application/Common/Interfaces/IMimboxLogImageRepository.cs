@@ -11,4 +11,5 @@ public interface IMimboxLogImageRepository
     Task DeleteMimboxLogImage(MimboxLogImage mimboxLogImage);
     Task<IEnumerable<MimboxLogImage>> GetMimboxLogImagesByMimboxLogId(Guid id);
     Task<MimboxLogImage> GetMimboxLogImageById(Guid id);
+    Task<IEnumerable<MimboxLogImage>> GetMimboxLogImagesByMimboxLogIds(IEnumerable<Guid> ids);
 }

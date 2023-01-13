@@ -8,7 +8,7 @@ public interface IMimboxLogRepository
 {
     Task CreateMimboxLog(MimboxLog mimboxLog);
     Task DeleteMimboxLog(MimboxLog mimboxLog);
-    Task<IEnumerable<MimboxLog>> GetMimboxLogsByMimboxId(Guid id);
     Task<MimboxLog> GetMimboxLogById(Guid id);
+    Task<IEnumerable<MimboxLog>> GetMimboxLogsByMimboxId(Guid id);
     Task UpdateMimboxLog(MimboxLog mimboxLog);
 }
