@@ -1,19 +1,25 @@
 ﻿namespace Mimbly.Persistence.Repositories;
 
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Domain.Entities;
 
 public class MimboxLogRepository : IMimboxLogRepository
 {
     private readonly ISqlDataAccess _db;
+    private readonly IConfiguration _config;
+    public string ConnectionStringName { get; set; } = "DbConnectionString";
 
     public MimboxLogRepository(
-       ISqlDataAccess db)
+        ISqlDataAccess db,
+        IConfiguration config)
     {
         _db = db;
+        _config = config;
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
@@ -31,14 +37,35 @@ public class MimboxLogRepository : IMimboxLogRepository
 
     public async Task<IEnumerable<MimboxLog>> GetMimboxLogsByMimboxId(Guid id)
     {
+        var connectionString = _config.GetConnectionString(ConnectionStringName);
+        await using var connection = new SqlConnection(connectionString);
+
         var sql =
         @"
-            SELECT *
-            FROM Mimbox_Log
-            WHERE Mimbox_Id = @id
+            SELECT ml.*, mli.*
+            FROM Mimbox_Log ml
+            LEFT JOIN Mimbox_Log_Image mli ON ml.Id = mli.Mimbox_Log_Id
+            WHERE ml.Mimbox_Id = @id
         ";
 
-        return await _db.LoadEntities<MimboxLog, dynamic>(sql, new { Id = id });
+        var lookup = new Dictionary<Guid, MimboxLog>();
+
+        await connection.QueryAsync<MimboxLog, MimboxLogImage, MimboxLog>
+           (sql, (mimboxLog, mimboxLogImage) =>
+           {
+               if (mimboxLog != null)
+               {
+                   if (!lookup.TryGetValue(mimboxLog.Id, out var mimboxLogRef))
+                       lookup.Add(mimboxLog.Id, mimboxLogRef = mimboxLog);
+
+                   if (mimboxLogImage != null)
+                       mimboxLogRef.ImageList.Add(mimboxLogImage);
+               }
+               return null;
+           },
+           new { id });
+
+        return lookup.Values;
     }
 
     public async Task CreateMimboxLog(MimboxLog mimboxLog)

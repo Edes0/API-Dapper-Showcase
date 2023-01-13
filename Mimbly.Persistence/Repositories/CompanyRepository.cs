@@ -78,9 +78,7 @@ public class CompanyRepository : ICompanyRepository
         await connection.QueryAsync<Company, CompanyContact, Company>
            (sql, (company, companyContact) =>
            {
-               Company companyRef;
-
-               if (!lookup.TryGetValue(company.Id, out companyRef))
+               if (!lookup.TryGetValue(company.Id, out var companyRef))
                    lookup.Add(company.Id, companyRef = company);
 
                return null;
@@ -159,9 +157,7 @@ public class CompanyRepository : ICompanyRepository
         await connection.QueryAsync<Company, Company, CompanyContact, Company>
            (sql, (company, childCompany, companyContact) =>
            {
-               Company companyRef;
-
-               if (!lookup.TryGetValue(company.Id, out companyRef))
+               if (!lookup.TryGetValue(company.Id, out var companyRef))
                    lookup.Add(company.Id, companyRef = company);
 
                return null;

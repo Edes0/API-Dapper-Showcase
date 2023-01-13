@@ -12,7 +12,7 @@ using Mimbly.Application.Queries.MimboxLog.GetById;
 using Mimbly.Application.Queries.MimboxLog.GetByMimboxId;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class MimboxLogController : BaseController 
