@@ -26,6 +26,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<AddCompanyRequestDto, AdCompany>();
 
+        CreateMap<AdRole, RoleDto>();
+
 
         // Mimbox
         CreateMap<Mimbox, MimboxDto>();

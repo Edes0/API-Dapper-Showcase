@@ -12,4 +12,5 @@ public interface IGraphHelper
     void AddOwnerToGroup(string groupId, string userId);
     Task<string?> InviteAndGetUserId(Invitation invite);
     void UpdateUserInfo(User userInfo, string userId);
+    Task<IEnumerable<Group>> GetGroupsThatStartsWith(string phrase);
 }
