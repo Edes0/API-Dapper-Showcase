@@ -20,8 +20,6 @@ public class CreateMimboxCommandHandler : IRequestHandler<CreateMimboxContactCom
 
     public async Task<MimboxContact> Handle(CreateMimboxContactCommand request, CancellationToken cancellationToken)
     {
-        await request.CreateMimboxContactRequest.Validate();
-
         var mimboxContactEntity = _mapper.Map<MimboxContact>(request.CreateMimboxContactRequest);
 
         await _mimboxContactRepository.CreateMimboxContact(mimboxContactEntity);
