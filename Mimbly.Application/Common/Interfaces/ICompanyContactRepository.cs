@@ -9,4 +9,6 @@ public interface ICompanyContactRepository
     Task CreateCompanyContact(CompanyContact companyContact);
     Task DeleteCompanyContact(CompanyContact companyContact);
     Task UpdateCompanyContact(CompanyContact companyContact);
+    Task<IEnumerable<CompanyContact>> GetCompanyContactsByCompanyIds(IEnumerable<Guid> ids);
+    Task<IEnumerable<CompanyContact>> GetCompanyContactsByCompanyId(Guid id);
 }

@@ -12,5 +12,6 @@ public interface IMimboxContactRepository
     Task<IEnumerable<MimboxContact>> GetAllMimboxContacts();
     Task<MimboxContact> GetMimboxContactById(Guid id);
     Task<IEnumerable<MimboxContact>> GetMimboxContactsByMimboxId(Guid id);
+    Task<IEnumerable<MimboxContact>> GetMimboxContactsByMimboxIds(IEnumerable<Guid> ids);
     Task UpdateMimboxContact(MimboxContact mimboxContact);
 }

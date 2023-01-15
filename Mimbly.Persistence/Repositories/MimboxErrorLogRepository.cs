@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Application.Common.Interfaces;
 using Dapper;
-using Mimbly.Domain.Entities;
 using Mimbly.Domain.Entities.AzureEvents;
 
 public class MimboxErrorLogRepository : IMimboxErrorLogRepository
@@ -27,7 +26,19 @@ public class MimboxErrorLogRepository : IMimboxErrorLogRepository
             WHERE Mimbox_Id = @id
         ";
 
-        return await _db.LoadEntities<MimboxErrorLog, dynamic>(sql, new { Id = id });
+        return await _db.LoadEntities<MimboxErrorLog, dynamic>(sql, new { id });
+    }
+
+    public async Task<IEnumerable<MimboxErrorLog>> GetErrorLogsByMimboxIds(IEnumerable<Guid> ids)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Mimbox_Error_Log
+            WHERE Mimbox_Id IN @ids
+        ";
+
+        return await _db.LoadEntities<MimboxErrorLog, dynamic>(sql, new { ids });
     }
 
     public async Task UpdateMimboxErrorLog(MimboxErrorLog mimboxErrorLog)

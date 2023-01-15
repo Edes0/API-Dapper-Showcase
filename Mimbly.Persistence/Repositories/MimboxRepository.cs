@@ -7,7 +7,6 @@ using Application.Common.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
-using Mimbly.Domain.Entities.AzureEvents;
 
 public class MimboxRepository : IMimboxRepository
 {
@@ -157,14 +156,14 @@ public class MimboxRepository : IMimboxRepository
         return lookup.Values.FirstOrDefault();
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimboxByCompanyIds(IEnumerable<Guid> ids)
+    public async Task<IEnumerable<Mimbox>> GetMimboxesByCompanyIds(IEnumerable<Guid> ids)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
         await using var connection = new SqlConnection(connectionString);
 
         var sql =
         @"
-            SELECT c.Id, m.*, ml.*, ms.*, mm.*, mc.*, mel.*
+            SELECT c.Id, m.*, ml.*, ms.*, mm.*
             FROM Company c
             LEFT JOIN Mimbox m ON m.Company_Id = c.Id
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
@@ -202,7 +201,7 @@ public class MimboxRepository : IMimboxRepository
         return lookup.Values;
     }
 
-    public async Task<IEnumerable<Mimbox>> GetMimboxByCompanyId(Guid id)
+    public async Task<IEnumerable<Mimbox>> GetMimboxesByCompanyId(Guid id)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
         await using var connection = new SqlConnection(connectionString);

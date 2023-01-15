@@ -11,15 +11,18 @@ using Mimbly.CoreServices.Exceptions;
 public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, CompanyByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
+    private readonly ICompanyContactRepository _companyContactRepository;
     private readonly IMimboxRepository _mimboxRepository;
     private readonly IMapper _mapper;
 
     public GetByIdCompanyHandler(
         ICompanyRepository companyRepository,
+        ICompanyContactRepository companyContactRepository,
         IMimboxRepository mimboxRepository,
         IMapper mapper)
     {
         _companyRepository = companyRepository;
+        _companyContactRepository = companyContactRepository;
         _mimboxRepository = mimboxRepository;
         _mapper = mapper;
     }
@@ -27,13 +30,18 @@ public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, Compan
     public async Task<CompanyByIdVm> Handle(GetByIdCompanyQuery request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetCompanyById(request.Id);
+        var companyContacts = await _companyContactRepository.GetCompanyContactsByCompanyId(company.Id);
 
         if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var mimboxes = await _mimboxRepository.GetMimboxByCompanyId(company.Id);
+        var currentCompanyContacts = companyContacts.Where(x => x.CompanyId == company.Id).Select(x => x);
+        if (currentCompanyContacts != null)
+            company.ContactList = currentCompanyContacts.ToList();
 
-        company.MimboxList = mimboxes.ToList();
+        var mimboxes = await _mimboxRepository.GetMimboxesByCompanyId(company.Id);
+        if (mimboxes != null)
+            company.MimboxList = mimboxes.ToList();
 
         var companyDto = _mapper.Map<CompanyDto>(company);
 

@@ -91,4 +91,16 @@ public class MimboxContactRepository : IMimboxContactRepository
 
         return await _db.LoadEntities<MimboxContact, dynamic>(sql, new { id });
     }
+
+    public async Task<IEnumerable<MimboxContact>> GetMimboxContactsByMimboxIds(IEnumerable<Guid> ids)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Mimbox_Contact
+            WHERE Mimbox_Id IN @ids
+        ";
+
+        return await _db.LoadEntities<MimboxContact, dynamic>(sql, new { ids });
+    }
 }
