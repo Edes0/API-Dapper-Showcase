@@ -21,14 +21,14 @@ public class MimboxController : BaseController
     {
     }
 
-    //[ApiKey]
+    [ApiKey]
     [HttpGet]
     public async Task<ActionResult<AllMimboxesVm>> GetAllMimboxes()
     {
         return Ok(await _mediator.Send(new GetAllMimboxesQuery { }));
     }
 
-    //[ApiKey]
+    [ApiKey]
     [HttpGet("{id:guid}", Name = "MimboxById")]
     public async Task<ActionResult<MimboxByIdVm>> FilterMimboxesById([BindRequired] Guid id)
     {

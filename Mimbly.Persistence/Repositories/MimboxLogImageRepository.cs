@@ -71,7 +71,7 @@ public class MimboxLogImageRepository : IMimboxLogImageRepository
         @"
             SELECT mli.*
             FROM Mimbox_Log_Image mli
-            WHERE mli.Id IN @ids
+            WHERE Mimbox_Log_Id IN @ids
         ";
 
         return await _db.LoadEntities<MimboxLogImage, dynamic>(sql, new { ids });
