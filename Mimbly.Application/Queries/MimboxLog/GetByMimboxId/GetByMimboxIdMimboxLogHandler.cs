@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using Mimbly.Application.Common.Interfaces;
 using Mimbly.Application.Contracts.Dtos.MimboxLog;
 using Mimbly.CoreServices.Exceptions;
@@ -29,7 +30,7 @@ public class GetByMimboxIdMimboxLogHandler : IRequestHandler<GetByMimboxIdMimbox
     {
         var mimboxLogs = await _mimboxLogRepository.GetMimboxLogsByMimboxId(request.Id);
 
-        if (mimboxLogs == null) return null;
+        if (mimboxLogs.IsNullOrEmpty()) return null;
 
         var mimboxLogIds = mimboxLogs.Select(x => x.Id);
         var mimboxLogImages = await _mimboxLogImageRepository.GetMimboxLogImagesByMimboxLogIds(mimboxLogIds);
