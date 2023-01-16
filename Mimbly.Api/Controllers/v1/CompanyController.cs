@@ -16,7 +16,7 @@ using Mimbly.Application.Queries.Company.GetById;
 using Mimbly.Application.Queries.Company.GetCompanyWithChildrenById;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class CompanyController : BaseController

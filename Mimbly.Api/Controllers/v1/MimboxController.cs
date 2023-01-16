@@ -21,7 +21,7 @@ public class MimboxController : BaseController
     {
     }
 
-    [ApiKey]
+    //[ApiKey]
     [HttpGet]
     public async Task<ActionResult<AllMimboxesVm>> GetAllMimboxes()
     {
@@ -53,7 +53,7 @@ public class MimboxController : BaseController
         return NoContent();
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> UpdateMimbox(Guid id, [FromBody] UpdateMimboxRequestDto updateMimboxRequestDto)
     {

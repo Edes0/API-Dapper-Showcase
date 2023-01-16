@@ -53,11 +53,7 @@ public class MimboxRepository : IMimboxRepository
         var sql =
         @"
             UPDATE Mimbox
-            SET Water_Saved = @WaterSaved,
-                Co2_Saved = @Co2Saved,
-                Plastic_Saved = @PlasticSaved,
-                Economy_Saved = @EconomySaved,
-                Nickname = @Nickname,
+            SET Nickname = @Nickname,
                 Mimbox_Status_Id = @StatusId,
                 Mimbox_Model_Id = @ModelId,
                 Mimbox_Location_Id = @LocationId,
