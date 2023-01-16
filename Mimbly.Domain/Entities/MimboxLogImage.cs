@@ -11,7 +11,7 @@ public class MimboxLogImage
     [Column("Id", TypeName = "uniqueidentifier", Order = 1)]
     public Guid Id { get; set; }
 
-    [Column("Url", TypeName = "Nvarchar(50)")]
+    [Column("Url", TypeName = "Nvarchar(500)")]
     public string Url { get; set; }
 
     [Column("Mimbox_Log_Id", TypeName = "uniqueidentifier")]
