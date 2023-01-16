@@ -29,22 +29,21 @@ public class GetByMimboxIdMimboxLogHandler : IRequestHandler<GetByMimboxIdMimbox
     {
         var mimboxLogs = await _mimboxLogRepository.GetMimboxLogsByMimboxId(request.Id);
 
-        if (mimboxLogs != null)
+        if (mimboxLogs == null)
+            return null;
+
+        var mimboxLogIds = mimboxLogs.Select(x => x.Id);
+        var mimboxLogImages = await _mimboxLogImageRepository.GetMimboxLogImagesByMimboxLogIds(mimboxLogIds);
+
+        foreach (var log in mimboxLogs)
         {
-            var mimboxLogIds = mimboxLogs.Select(x => x.Id);
-            var mimboxLogImages = await _mimboxLogImageRepository.GetMimboxLogImagesByMimboxLogIds(mimboxLogIds);
+            var currentMimboxLogImages = mimboxLogImages.Where(x => x.MimboxLogId == log.Id).Select(x => x);
 
-            foreach (var log in mimboxLogs)
-            {
-                var currentMimboxLogImages = mimboxLogImages.Where(x => x.MimboxLogId == log.Id).Select(x => x);
-
-                log.ImageList = currentMimboxLogImages.ToList();
-            }
-
-            var mimboxLogDtos = _mapper.Map<IEnumerable<MimboxLogDto>>(mimboxLogs);
-
-            return new MimboxLogsByMimboxIdVm { MimboxLogs = mimboxLogDtos };
+            log.ImageList = currentMimboxLogImages.ToList();
         }
-        return null;
+
+        var mimboxLogDtos = _mapper.Map<IEnumerable<MimboxLogDto>>(mimboxLogs);
+
+        return new MimboxLogsByMimboxIdVm { MimboxLogs = mimboxLogDtos };
     }
 }
