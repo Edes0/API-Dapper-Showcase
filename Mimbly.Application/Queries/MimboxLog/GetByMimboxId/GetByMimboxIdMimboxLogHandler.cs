@@ -30,8 +30,6 @@ public class GetByMimboxIdMimboxLogHandler : IRequestHandler<GetByMimboxIdMimbox
     {
         var mimboxLogs = await _mimboxLogRepository.GetMimboxLogsByMimboxId(request.Id);
 
-        if (mimboxLogs.IsNullOrEmpty()) return null;
-
         var mimboxLogIds = mimboxLogs.Select(x => x.Id);
         var mimboxLogImages = await _mimboxLogImageRepository.GetMimboxLogImagesByMimboxLogIds(mimboxLogIds);
 
