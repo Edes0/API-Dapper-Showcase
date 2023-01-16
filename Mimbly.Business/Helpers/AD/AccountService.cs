@@ -1,5 +1,6 @@
 ﻿namespace Mimbly.Business.Helpers.AD;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using Mimbly.Business.Interfaces.AD;
@@ -10,13 +11,15 @@ public class AccountService : IAccountService
     private readonly IGraphService _graphService;
     private readonly ILogger<AccountService> _logger;
     private readonly IGraphHelper _graphHelper;
+    private readonly IMemoryCache _memoryCache;
     private readonly string _redirectUrl = "https://mimbly-frontend.azurewebsites.net/dashboard/";
 
-    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IGraphHelper graphHelper)
+    public AccountService(IGraphService graphService, ILogger<AccountService> logger, IGraphHelper graphHelper, IMemoryCache memoryCache)
     {
         _graphService = graphService;
         _logger = logger;
         _graphHelper = graphHelper;
+        _memoryCache = memoryCache;
     }
 
     public async Task<bool> InviteUser(AdUser user)
@@ -31,46 +34,8 @@ public class AccountService : IAccountService
         if (invitedUserId != null)
         {
             _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
+            _graphHelper.AddMemberToGroup(user.RoleId.ToString(), invitedUserId);
             _graphHelper.AddMemberToGroup(user.GroupId.ToString(), invitedUserId);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public async Task<bool> InviteTechnician(AdUser technician)
-    {
-        var userInvitation = _graphHelper.GetInvitation(technician, _redirectUrl);
-        var userInfo = _graphHelper.GetUserInfo(technician);
-
-        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
-
-        if (invitedUserId != null)
-        {
-            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-
-            return true;
-        }
-
-        return false;
-
-        // TODO: Add technician to database, once entity is created
-    }
-
-    public async Task<bool> InviteAdmin(AdUser admin)
-    {
-        var userInvitation = _graphHelper.GetInvitation(admin, _redirectUrl);
-        var userInfo = _graphHelper.GetUserInfo(admin);
-
-        var invitedUserId = await _graphHelper.InviteAndGetUserId(userInvitation);
-
-        if (invitedUserId != null)
-        {
-            _graphHelper.UpdateUserInfo(userInfo, invitedUserId);
-
-            // TODO: Insert admin group id, best case have in memory dicitionary of companyName and Ids.
-            _graphHelper.AddMemberToGroup("Admin group Id", invitedUserId);
 
             return true;
         }
@@ -94,6 +59,7 @@ public class AccountService : IAccountService
         };
 
         var group = await client.Groups.Request().AddAsync(groupInfo);
+
         return group.Id ?? null;
     }
 
@@ -102,6 +68,23 @@ public class AccountService : IAccountService
     public Task RemoveCompany(Guid id)
     {
         var client = _graphService.GetClient();
+
         return client.Groups[id.ToString()].Request().DeleteAsync();
+    }
+
+    public async Task<List<AdRole>> GetRoles()
+    {
+        var selectedGroups = await _graphHelper.GetGroupsThatStartsWith("Role");
+
+        var roles = new List<AdRole>();
+        foreach (var group in selectedGroups)
+        {
+            var roleName = group.DisplayName.Split(" ")[2];
+            var roleId = Guid.Parse(group.Id);
+
+            roles.Add(new AdRole { RoleName = roleName, RoleId = roleId });
+        }
+
+        return roles;
     }
 }

@@ -1,19 +1,17 @@
 namespace Mimbly.Domain.Entities.AD;
 
-using System.ComponentModel.DataAnnotations;
-
 public class AdUser
 {
-    [EmailAddress]
-    public string Email { get; set; } = null!;
+    public string DisplayName { get; set; }
 
-    public string DisplayName { get; set; } = null!;
+    public string Email { get; set; }
 
     public Guid GroupId { get; set; }
 
+    public Guid RoleId { get; set; }
+
     public string? JobTitle { get; set; }
 
-    [Phone]
     public string? Phone { get; set; }
 
     public string? StreetAddress { get; set; }

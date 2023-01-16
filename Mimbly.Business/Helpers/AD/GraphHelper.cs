@@ -88,4 +88,12 @@ public class GraphHelper : IGraphHelper
         await client.Groups[groupId].Owners.References.Request().AddAsync(dirObj);
     }
 
+    public async Task<IEnumerable<Group>> GetGroupsThatStartsWith(string phrase)
+    {
+        var client = _graphService.GetClient();
+
+        var groups = await client.Groups.Request().Filter($"startsWith(displayName, '{phrase}')").GetAsync();
+
+        return groups;
+    }
 }

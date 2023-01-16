@@ -1,16 +1,15 @@
 ﻿namespace Mimbly.Api.Controllers.v1;
 
-using Application.Commands.AD.AddCompanyToAd;
 using Application.Commands.AD.InviteUserToAd;
 using Application.Contracts.Dtos.AD;
+using Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mimbly.Application.Commands.Company.CreateCompany;
-using Mimbly.Application.Contracts.Dtos.Company;
 using MediatR;
+using Mimbly.Application.Queries.AD.GetRoles;
+
 
 [ApiController]
-[Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 public class AccountController : ControllerBase
@@ -23,6 +22,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     [Route("InviteUser")]
     /*[GroupsAuthorize("Admin")]*/
     public async Task<ActionResult> InviteUser(InviteUserRequestDto inviteUserRequestDto)
@@ -32,19 +32,13 @@ public class AccountController : ControllerBase
         return status ? Ok() : BadRequest();
     }
 
-    [HttpPost]
-    [Route("InviteTechnician")]
-    /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteTechnician(InviteUserRequestDto userRequestDto)
+    [HttpGet]
+    [ApiKey]
+    [Route("GetRoles")]
+    public async Task<ActionResult> GetRoles()
     {
-        return BadRequest();
-    }
+        var roles = await _mediator.Send(new GetRolesQuery());
 
-    [HttpPost]
-    [Route("InviteAdmin")]
-    /*[GroupsAuthorize("Admin")]*/
-    public async Task<ActionResult> InviteAdmin(InviteUserRequestDto userRequestDto)
-    {
-        return BadRequest();
+        return Ok(roles.Roles);
     }
 }

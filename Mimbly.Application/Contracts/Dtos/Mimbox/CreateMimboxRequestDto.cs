@@ -7,14 +7,13 @@ public record CreateMimboxRequestDto
     [Required]
     public string Nickname { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Status is required")]
     public Guid StatusId { get; init; }
 
-    [Required]
+    [Required(ErrorMessage = "Model is required")]
     public Guid ModelId { get; init; }
 
     public Guid? LocationId { get; init; }
 
-    [Required]
-    public Guid CompanyId { get; set; }
+    public Guid? CompanyId { get; set; }
 }
