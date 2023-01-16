@@ -15,7 +15,6 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
     private readonly IMimboxErrorLogRepository _mimboxErrorLogRepository;
     private readonly IMimboxLogRepository _mimboxLogRepository;
     private readonly IMimboxLogImageRepository _mimboxLogImageRepository;
-    private readonly ICompanyRepository _companyRepository;
     private readonly IMapper _mapper;
 
     public GetByIdMimboxHandler(
@@ -24,7 +23,6 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
         IMimboxLogImageRepository mimboxLogImageRepository,
         IMimboxContactRepository mimboxContactRepository,
         IMimboxErrorLogRepository mimboxErrorLogRepository,
-        ICompanyRepository companyRepository,
         IMapper mapper)
     {
         _mimboxRepository = mimboxRepository;
@@ -32,7 +30,6 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
         _mimboxLogImageRepository = mimboxLogImageRepository;
         _mimboxContactRepository = mimboxContactRepository;
         _mimboxErrorLogRepository = mimboxErrorLogRepository;
-        _companyRepository = companyRepository;
         _mapper = mapper;
     }
 
@@ -49,25 +46,14 @@ public class GetByIdMimboxHandler : IRequestHandler<GetByIdMimboxQuery, MimboxBy
         var contactList = await _mimboxContactRepository.GetMimboxContactsByMimboxId(mimbox.Id);
         var errorLogList = await _mimboxErrorLogRepository.GetErrorLogsByMimboxId(mimbox.Id);
 
-        if (mimbox.CompanyId != null)
-            mimbox.Company = await _companyRepository.GetCompanyById(mimbox.Company.Id);
+        mimbox.ContactList = contactList.ToList();
+        mimbox.ErrorLogList = errorLogList.ToList();
+        mimbox.LogList = logList.ToList();
 
-        if (mimbox.ContactList != null)
-            mimbox.ContactList = contactList.ToList();
-
-        if (mimbox.ErrorLogList != null)
-            mimbox.ErrorLogList = errorLogList.ToList();
-
-        if (mimbox.LogList != null)
+        foreach (var log in logList)
         {
-            mimbox.LogList = logList.ToList();
-
-            foreach (var log in logList)
-            {
-                var currentLogImages = logImageList.Where(x => x.MimboxLogId == log.Id).Select(x => x);
-                if (currentLogImages != null)
-                    log.ImageList = currentLogImages.ToList();
-            }
+            var currentLogImages = logImageList.Where(x => x.MimboxLogId == log.Id).Select(x => x);
+            log.ImageList = currentLogImages.ToList();
         }
 
         var mimboxDto = _mapper.Map<MimboxDto>(mimbox);

@@ -44,15 +44,12 @@ public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithC
         foreach (var company in companiesWithData)
         {
             var currentCompanyMimboxes = mimboxes.Where(x => x.CompanyId == company.Id).Select(x => x);
-            if (currentCompanyMimboxes != null)
                 company.MimboxList = currentCompanyMimboxes.ToList();
 
             var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c => c);
-            if (childCompanies != null)
                 company.ChildCompanyList = childCompanies.ToList();
 
             var currentCompanyContacts = companyContacts.Where(x => x.CompanyId == company.Id).Select(x => x);
-            if (currentCompanyContacts != null)
                 company.ContactList = currentCompanyContacts.ToList();
         }
 

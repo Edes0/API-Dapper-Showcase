@@ -28,7 +28,7 @@ public class MimboxController : BaseController
         return Ok(await _mediator.Send(new GetAllMimboxesQuery { }));
     }
 
-    [ApiKey]
+    //[ApiKey]
     [HttpGet("{id:guid}", Name = "MimboxById")]
     public async Task<ActionResult<MimboxByIdVm>> FilterMimboxesById([BindRequired] Guid id)
     {

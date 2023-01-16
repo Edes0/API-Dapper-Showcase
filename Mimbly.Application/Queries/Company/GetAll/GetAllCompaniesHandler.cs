@@ -37,12 +37,10 @@ public class GetAllCompaniesHandler : IRequestHandler<GetAllCompaniesQuery, AllC
         foreach (var company in companies)
         {
             var currentCompanyContacts = companyContacts.Where(x => x.CompanyId == company.Id).Select(x => x);
-            if (currentCompanyContacts != null)
-                company.ContactList = currentCompanyContacts.ToList();
+            company.ContactList = currentCompanyContacts.ToList();
 
             var currentCompanyMimboxData = mimboxes.Select(x => x).Where(x => x.CompanyId == company.Id);
-            if (currentCompanyMimboxData != null)
-                company.MimboxList = currentCompanyMimboxData.ToList();
+            company.MimboxList = currentCompanyMimboxData.ToList();
         }
 
         var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
