@@ -30,15 +30,15 @@ public class GetByIdCompanyHandler : IRequestHandler<GetByIdCompanyQuery, Compan
     public async Task<CompanyByIdVm> Handle(GetByIdCompanyQuery request, CancellationToken cancellationToken)
     {
         var company = await _companyRepository.GetCompanyById(request.Id);
-        var companyContacts = await _companyContactRepository.GetCompanyContactsByCompanyId(company.Id);
+ 
 
         if (company == null)
             throw new NotFoundException($"Can't find company with id: {request.Id}");
 
-        var currentCompanyContacts = companyContacts.Where(x => x.CompanyId == company.Id).Select(x => x);
-        company.ContactList = currentCompanyContacts.ToList();
-
         var mimboxes = await _mimboxRepository.GetMimboxesByCompanyId(company.Id);
+        var companyContacts = await _companyContactRepository.GetCompanyContactsByCompanyId(company.Id);
+
+        company.ContactList = companyContacts.ToList();
         company.MimboxList = mimboxes.ToList();
 
         var companyDto = _mapper.Map<CompanyDto>(company);
