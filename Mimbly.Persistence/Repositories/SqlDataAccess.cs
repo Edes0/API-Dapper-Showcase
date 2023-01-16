@@ -40,7 +40,7 @@ public class SqlDataAccess : ISqlDataAccess
         await connection.ExecuteAsync(sql, parameters);
     }
 
-    public async Task Transaction(params string[] sqlArray)
+    public async Task Transaction<T>(string sql, List<T> objectArray)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
 
@@ -48,9 +48,9 @@ public class SqlDataAccess : ISqlDataAccess
         await connection.OpenAsync();
         var transaction = await connection.BeginTransactionAsync();
 
-        foreach (var sql in sqlArray)
+        foreach (var part in objectArray)
         {
-            await connection.ExecuteAsync(sql, transaction);
+            await connection.ExecuteAsync(sql, part);
         }
 
         await transaction.CommitAsync();

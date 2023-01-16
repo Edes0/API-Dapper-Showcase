@@ -63,6 +63,7 @@ public class MimboxModelRepository : IMimboxModelRepository
 
         await _db.SaveChanges(sql, mimboxModel);
     }
+
     public async Task UpdateMimboxModel(MimboxModel mimboxModel)
     {
         var sql =

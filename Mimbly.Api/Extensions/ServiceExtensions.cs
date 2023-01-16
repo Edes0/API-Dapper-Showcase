@@ -48,6 +48,8 @@ public static class ServiceExtensions
         services.AddScoped<IMimboxLocationRepository, MimboxLocationRepository>();
         services.AddScoped<IMimboxErrorLogRepository, MimboxErrorLogRepository>();
         services.AddScoped<IMimboxContactRepository, MimboxContactRepository>();
+        services.AddScoped<IMimboxLogRepository, MimboxLogRepository>();
+        services.AddScoped<IMimboxLogImageRepository, MimboxLogImageRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<ICompanyContactRepository, CompanyContactRepository>();
         services.AddScoped<IEventLogRepository, EventLogRepository>();
