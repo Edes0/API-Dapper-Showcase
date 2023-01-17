@@ -15,7 +15,7 @@ using Mimbly.Application.Queries.MimboxLog.GetByMimboxId;
 [Authorize]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class MimboxLogController : BaseController 
+public class MimboxLogController : BaseController
 {
     public MimboxLogController(IMediator mediator) : base(mediator)
     {
