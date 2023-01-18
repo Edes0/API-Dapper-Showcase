@@ -14,6 +14,12 @@ public class GraphService : IGraphService
     {
         _config = config;
     }
+
+    /// <summary>
+    /// Method <c>GraphServiceClient</c> instantiates a GraphAPI client
+    /// using Azure Ad credentials from appsettings.
+    /// </summary>
+    /// <returns>returns a <c>GraphServiceClient</c>.</returns>
     public GraphServiceClient GetClient()
     {
 
