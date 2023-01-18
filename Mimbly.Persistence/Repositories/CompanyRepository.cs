@@ -23,7 +23,11 @@ public class CompanyRepository : ICompanyRepository
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
-
+    /// <summary>
+    /// Method <c>CreateCompany</c> inserts a single <c>Company</c>
+    /// into the database.
+    /// </summary>
+    /// <param name="company">The <c>Company</c> to be inserted.</param>
     public async Task CreateCompany(Company company)
     {
         var sql =
@@ -37,6 +41,11 @@ public class CompanyRepository : ICompanyRepository
         await _db.SaveChanges(sql, company);
     }
 
+    /// <summary>
+    /// Method <c>DeleteCompany</c> removes the provided
+    /// <c>Company</c> from the database.
+    /// </summary>
+    /// <param name="company">The <c>Company</c> to be deleted.</param>
     public async Task DeleteCompany(Company company)
     {
         var sql =
@@ -49,6 +58,11 @@ public class CompanyRepository : ICompanyRepository
         await _db.SaveChanges(sql, company);
     }
 
+    /// <summary>
+    /// Method <c>UpdateCompany</c> updates the <c>Company</c> in
+    /// the database with new values.
+    /// </summary>
+    /// <param name="company">The <c>Company</c> to be updated.</param>
     public async Task UpdateCompany(Company company)
     {
         var sql =
@@ -62,6 +76,11 @@ public class CompanyRepository : ICompanyRepository
         await _db.SaveChanges(sql, company);
     }
 
+    /// <summary>
+    /// Method <c>GetAllCompanies</c> queries the database
+    /// for every <c>Company</c>.
+    /// </summary>
+    /// <returns>A <c>IEnumerable</c> of <c>Company</c>.</returns>
     public async Task<IEnumerable<Company>> GetAllCompanies()
     {
         var sql =
@@ -73,6 +92,12 @@ public class CompanyRepository : ICompanyRepository
         return await _db.LoadEntities<Company, dynamic>(sql, new { });
     }
 
+    /// <summary>
+    /// Method <c>GetCompanyById</c> queries the database
+    /// for a single <c>Company</c>.
+    /// </summary>
+    /// <param name="id">The <c>companyId</c> to look for.</param>
+    /// <returns>A single <c>Company</c>.</returns>
     public async Task<Company> GetCompanyById(Guid id)
     {
         var sql =
@@ -85,6 +110,12 @@ public class CompanyRepository : ICompanyRepository
         return await _db.LoadEntity<Company, dynamic>(sql, new { Id = id });
     }
 
+    /// <summary>
+    /// Method <c>GetParentAndChildrenIdsById</c> queries the database
+    /// for a list of <c>Company</c> containing it's children.
+    /// </summary>
+    /// <param name="id">The <c>companyId</c> to look for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>Company</c>.</returns>
     public async Task<IEnumerable<Company>> GetParentAndChildrenIdsById(Guid id)
     {
         var sql =
@@ -105,6 +136,13 @@ public class CompanyRepository : ICompanyRepository
         return await _db.LoadEntities<Company, dynamic>(sql, new { Id = id });
     }
 
+    /// <summary>
+    /// Method <c>GetCompanyByIds</c> queries the database
+    /// for a list of <c>Company</c> that belongs to different companies
+    /// by using the provided list of <c>companyId</c>.
+    /// </summary>
+    /// <param name="ids">The list of <c>companyId</c> to query for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>Company</c>.</returns>
     public async Task<IEnumerable<Company>> GetCompanyByIds(IEnumerable<Guid> ids)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);

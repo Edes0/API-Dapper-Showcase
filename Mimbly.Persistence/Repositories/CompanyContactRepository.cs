@@ -16,6 +16,11 @@ public class CompanyContactRepository : ICompanyContactRepository
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
+    /// <summary>
+    /// Method <c>GetAllCompanyContacts</c> queries the database
+    /// for all <c>CompanyContact</c>.
+    /// </summary>
+    /// <returns>A <c>IEnumerable</c> of <c>CompanyContact</c>.</returns>
     public async Task<IEnumerable<CompanyContact>> GetAllCompanyContacts()
     {
         var sql =
@@ -27,6 +32,12 @@ public class CompanyContactRepository : ICompanyContactRepository
         return await _db.LoadEntities<CompanyContact, dynamic>(sql, new { });
     }
 
+    /// <summary>
+    /// Method <c>GetCompanyContactById</c> queries the database
+    /// for a single <c>CompanyContact</c> using the provided <c>companyContactId</c>
+    /// </summary>
+    /// <param name="id">The <c>CompanyContact</c> to look for.</param>
+    /// <returns>A single <c>CompanyContact</c>.</returns>
     public async Task<CompanyContact> GetCompanyContactById(Guid id)
     {
         var sql =
@@ -51,6 +62,11 @@ public class CompanyContactRepository : ICompanyContactRepository
         return await _db.LoadEntities<CompanyContact, dynamic>(sql, new { id });
     }
 
+    /// <summary>
+    /// Method <c>CreateCompanyContact</c> inserts a single <c>CompanyContact</c>
+    /// into the database.
+    /// </summary>
+    /// <param name="companyContact">The <c>CompanyContact</c> to be inserted.</param>
     public async Task CreateCompanyContact(CompanyContact companyContact)
     {
         var sql =
@@ -64,6 +80,11 @@ public class CompanyContactRepository : ICompanyContactRepository
         await _db.SaveChanges(sql, companyContact);
     }
 
+    /// <summary>
+    /// Method <c>DeleteCompanyContact</c> removes the provided
+    /// <c>CompanyContact</c> from the database.
+    /// </summary>
+    /// <param name="companyContact">The <c>CompanyContact</c> to be removed.</param>
     public async Task DeleteCompanyContact(CompanyContact companyContact)
     {
         var sql =
@@ -76,6 +97,11 @@ public class CompanyContactRepository : ICompanyContactRepository
         await _db.SaveChanges(sql, companyContact);
     }
 
+    /// <summary>
+    /// Method <c>UpdateCompanyContact</c> updates the specified
+    /// <c>CompanyContact</c> in the database with new values.
+    /// </summary>
+    /// <param name="companyContact">The <c>CompanyContact</c> to be updated.</param>
     public async Task UpdateCompanyContact(CompanyContact companyContact)
     {
         var sql =
@@ -92,7 +118,13 @@ public class CompanyContactRepository : ICompanyContactRepository
 
         await _db.SaveChanges(sql, companyContact);
     }
-
+    /// <summary>
+    /// Method <c>GetCompanyContactsByCompanyIds</c> queries the database
+    /// for a list of <c>CompanyContact</c> that belongs to different companies
+    /// by using the provided list of <c>companyId</c>.
+    /// </summary>
+    /// <param name="ids">The list of <c>companyId</c> to query for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>CompanyContact</c>.</returns>
     public async Task<IEnumerable<CompanyContact>> GetCompanyContactsByCompanyIds(IEnumerable<Guid> ids)
     {
         var sql =

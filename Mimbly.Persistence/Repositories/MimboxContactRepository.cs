@@ -16,6 +16,11 @@ public class MimboxContactRepository : IMimboxContactRepository
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
+    /// <summary>
+    /// Method <c>GetAllMimboxContacts</c> queries the database
+    /// for all <c>MimboxContact</c>.
+    /// </summary>
+    /// <returns>A <c>IEnumerable</c> of <c>MimboxContact</c>.</returns>
     public async Task<IEnumerable<MimboxContact>> GetAllMimboxContacts()
     {
         var sql =
@@ -27,6 +32,12 @@ public class MimboxContactRepository : IMimboxContactRepository
         return await _db.LoadEntities<MimboxContact, dynamic>(sql, new { });
     }
 
+    /// <summary>
+    /// Method <c>GetMimboxContactById</c> queries the database
+    /// for a single <c>MimboxContact</c> using the provided <c>mimboxContactId</c>
+    /// </summary>
+    /// <param name="id">The <c>MimboxContact</c> to look for.</param>
+    /// <returns>A single <c>MimboxContact</c>.</returns>
     public async Task<MimboxContact> GetMimboxContactById(Guid id)
     {
         var sql =
@@ -38,6 +49,12 @@ public class MimboxContactRepository : IMimboxContactRepository
 
         return await _db.LoadEntity<MimboxContact, dynamic>(sql, new { Id = id });
     }
+
+    /// <summary>
+    /// Method <c>CreateMimboxContact</c> inserts a single <c>MimboxContact</c>
+    /// into the database.
+    /// </summary>
+    /// <param name="mimboxContact">The <c>MimboxContact</c> to be inserted.</param>
     public async Task CreateMimboxContact(MimboxContact mimboxContact)
     {
         var sql =
@@ -51,6 +68,11 @@ public class MimboxContactRepository : IMimboxContactRepository
         await _db.SaveChanges(sql, mimboxContact);
     }
 
+    /// <summary>
+    /// Method <c>DeleteMimboxContact</c> removes the provided
+    /// <c>MimboxContact</c> from the database.
+    /// </summary>
+    /// <param name="mimboxContact">The <c>MimboxContact</c> to be removed.</param>
     public async Task DeleteMimboxContact(MimboxContact mimboxContact)
     {
         var sql =
@@ -63,6 +85,11 @@ public class MimboxContactRepository : IMimboxContactRepository
         await _db.SaveChanges(sql, mimboxContact);
     }
 
+    /// <summary>
+    /// Method <c>UpdateMimboxContact</c> updates the specified
+    /// <c>MimboxContact</c> in the database with new values.
+    /// </summary>
+    /// <param name="mimboxContact">The <c>MimboxContact</c> to be updated.</param>
     public async Task UpdateMimboxContact(MimboxContact mimboxContact)
     {
         var sql =
@@ -80,6 +107,12 @@ public class MimboxContactRepository : IMimboxContactRepository
         await _db.SaveChanges(sql, mimboxContact);
     }
 
+    /// <summary>
+    /// Method <c>GetMimboxContactsByMimboxId</c> queries the database
+    /// for a list of <c>MimboxContact</c> using the provided <c>mimboxId</c>
+    /// </summary>
+    /// <param name="id">The <c>mimboxId</c> to look for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>MimboxContact</c>.</returns>
     public async Task<IEnumerable<MimboxContact>> GetMimboxContactsByMimboxId(Guid id)
     {
         var sql =
@@ -92,6 +125,13 @@ public class MimboxContactRepository : IMimboxContactRepository
         return await _db.LoadEntities<MimboxContact, dynamic>(sql, new { id });
     }
 
+    /// <summary>
+    /// Method <c>GetMimboxContactsByMimboxIds</c> queries the database
+    /// for a list of <c>MimboxContact</c> that belongs to different mimboxes
+    /// by using the provided list of <c>mimboxId</c>.
+    /// </summary>
+    /// <param name="ids">The list of <c>mimboxId</c> to query for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>MimboxContact</c>.</returns>
     public async Task<IEnumerable<MimboxContact>> GetMimboxContactsByMimboxIds(IEnumerable<Guid> ids)
     {
         var sql =
