@@ -38,6 +38,19 @@ public class CompanyContactRepository : ICompanyContactRepository
 
         return await _db.LoadEntity<CompanyContact, dynamic>(sql, new { Id = id });
     }
+
+    public async Task<IEnumerable<CompanyContact>> GetCompanyContactsByCompanyId(Guid id)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Company_Contact
+            WHERE Company_Id = @id
+        ";
+
+        return await _db.LoadEntities<CompanyContact, dynamic>(sql, new { id });
+    }
+
     public async Task CreateCompanyContact(CompanyContact companyContact)
     {
         var sql =
@@ -78,5 +91,17 @@ public class CompanyContactRepository : ICompanyContactRepository
         ";
 
         await _db.SaveChanges(sql, companyContact);
+    }
+
+    public async Task<IEnumerable<CompanyContact>> GetCompanyContactsByCompanyIds(IEnumerable<Guid> ids)
+    {
+        var sql =
+        @"
+            SELECT *
+            FROM Company_Contact
+            WHERE Company_Id IN @ids
+        ";
+
+        return await _db.LoadEntities<CompanyContact, dynamic>(sql, new { ids });
     }
 }

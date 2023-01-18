@@ -6,6 +6,7 @@ using Application.Common.Interfaces;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Mimbly.Domain.Entities;
+using Mimbly.Domain.Entities.AzureEvents;
 
 public class CompanyRepository : ICompanyRepository
 {
@@ -63,61 +64,25 @@ public class CompanyRepository : ICompanyRepository
 
     public async Task<IEnumerable<Company>> GetAllCompanies()
     {
-        var connectionString = _config.GetConnectionString(ConnectionStringName);
-        await using var connection = new SqlConnection(connectionString);
-
         var sql =
         @"
-            SELECT c.*, ccl.*
+            SELECT c.*
             FROM Company c
-            LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
         ";
 
-        var lookup = new Dictionary<Guid, Company>();
-
-        await connection.QueryAsync<Company, CompanyContact, Company>
-           (sql, (company, companyContact) =>
-           {
-               Company companyRef;
-
-               if (!lookup.TryGetValue(company.Id, out companyRef))
-                   lookup.Add(company.Id, companyRef = company);
-
-               return null;
-           });
-
-        return lookup.Values;
+        return await _db.LoadEntities<Company, dynamic>(sql, new { });
     }
 
     public async Task<Company> GetCompanyById(Guid id)
     {
-        var connectionString = _config.GetConnectionString(ConnectionStringName);
-        await using var connection = new SqlConnection(connectionString);
-
         var sql =
         @"
-            SELECT c.*, ccl.*
+            SELECT c.*
             FROM Company c
-            LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
             WHERE c.Id = @id
         ";
 
-        var lookup = new Dictionary<Guid, Company>();
-
-        await connection.QueryAsync<Company, CompanyContact, Company>
-           (sql, (company, companyContact) =>
-           {
-               if (!lookup.TryGetValue(company.Id, out var companyRef))
-                   lookup.Add(company.Id, companyRef = company);
-
-               if (companyContact != null && !companyRef.ContactList.Any(x => x.Id == companyContact.Id))
-                   companyRef.ContactList.Add(companyContact);
-
-               return null;
-           },
-           new { id });
-
-        return lookup.Values.FirstOrDefault();
+        return await _db.LoadEntity<Company, dynamic>(sql, new { Id = id });
     }
 
     public async Task<IEnumerable<Company>> GetParentAndChildrenIdsById(Guid id)
@@ -147,30 +112,11 @@ public class CompanyRepository : ICompanyRepository
 
         var sql =
         @"
-            SELECT c.*, cc.*, ccl.*
+            SELECT c.*
             FROM Company c
-            LEFT JOIN Company cc ON c.Id = cc.Parent_Id
-            LEFT JOIN Company_Contact ccl ON ccl.Company_Id = c.Id
             WHERE c.Id IN @ids
         ";
 
-        var lookup = new Dictionary<Guid, Company>();
-
-        await connection.QueryAsync<Company, Company, CompanyContact, Company>
-           (sql, (company, childCompany, companyContact) =>
-           {
-               Company companyRef;
-
-               if (!lookup.TryGetValue(company.Id, out companyRef))
-                   lookup.Add(company.Id, companyRef = company);
-
-               if (companyContact != null && !companyRef.ContactList.Any(x => x.Id == companyContact.Id))
-                   companyRef.ContactList.Add(companyContact);
-
-               return null;
-           },
-           new { ids });
-
-        return lookup.Values;
+        return await _db.LoadEntities<Company, dynamic>(sql, new { ids });
     }
 }

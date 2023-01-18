@@ -370,7 +370,6 @@ namespace Mimbly.Api.Migrations
                         .HasColumnName("Created_At");
 
                     b.Property<string>("Log")
-                        .IsRequired()
                         .HasColumnType("Nvarchar(max)")
                         .HasColumnName("Log");
 
@@ -383,6 +382,30 @@ namespace Mimbly.Api.Migrations
                     b.HasIndex("MimboxId");
 
                     b.ToTable("Mimbox_Log");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLogImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id")
+                        .HasColumnOrder(1);
+
+                    b.Property<Guid>("MimboxLogId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Mimbox_Log_Id");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("Nvarchar(500)")
+                        .HasColumnName("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MimboxLogId");
+
+                    b.ToTable("Mimbox_Log_Image");
                 });
 
             modelBuilder.Entity("Mimbly.Domain.Entities.MimboxModel", b =>
@@ -515,6 +538,15 @@ namespace Mimbly.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLogImage", b =>
+                {
+                    b.HasOne("Mimbly.Domain.Entities.MimboxLog", null)
+                        .WithMany("ImageList")
+                        .HasForeignKey("MimboxLogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Mimbly.Domain.Entities.Company", b =>
                 {
                     b.Navigation("ChildCompanyList");
@@ -535,6 +567,11 @@ namespace Mimbly.Api.Migrations
                     b.Navigation("LogList");
 
                     b.Navigation("WaterToWashingMachineEventList");
+                });
+
+            modelBuilder.Entity("Mimbly.Domain.Entities.MimboxLog", b =>
+                {
+                    b.Navigation("ImageList");
                 });
 #pragma warning restore 612, 618
         }

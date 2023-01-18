@@ -11,32 +11,29 @@ using Mimbly.Application.Contracts.Dtos.Mimbox;
 public class GetAllMimboxesHandler : IRequestHandler<GetAllMimboxesQuery, AllMimboxesVm>
 {
     private readonly IMimboxRepository _mimboxRepository;
-    private readonly ICompanyRepository _companyRepository;
+    private readonly IMimboxErrorLogRepository _mimboxErrorLogRepository;
     private readonly IMapper _mapper;
 
     public GetAllMimboxesHandler(
         IMimboxRepository mimboxRepository,
-        ICompanyRepository companyRepository,
+        IMimboxErrorLogRepository mimboxErrorLogRepository,
         IMapper mapper)
     {
         _mimboxRepository = mimboxRepository;
-        _companyRepository = companyRepository;
+        _mimboxErrorLogRepository = mimboxErrorLogRepository;
         _mapper = mapper;
     }
 
     public async Task<AllMimboxesVm> Handle(GetAllMimboxesQuery request, CancellationToken cancellationToken)
     {
         var mimboxes = await _mimboxRepository.GetAllMimboxes();
-
-        var companyIds = mimboxes.Where(x => x.Company != null).Select(x => (Guid)x.CompanyId);
-
-        var companyData = await _companyRepository.GetCompanyByIds(companyIds);
+        var mimboxIds = mimboxes.Select(x => x.Id);
+        var errorLogs = await _mimboxErrorLogRepository.GetErrorLogsByMimboxIds(mimboxIds);
 
         foreach (var mimbox in mimboxes)
         {
-            var currentMimboxCompanyData = companyData.FirstOrDefault(x => x.Id == mimbox.CompanyId);
-
-            mimbox.Company = currentMimboxCompanyData;
+            var currentMimboxErrorLogList = errorLogs.Where(x => x.MimboxId == mimbox.Id).Select(x => x);
+            mimbox.ErrorLogList = currentMimboxErrorLogList.ToList();
         }
 
         var mimboxDtos = _mapper.Map<IEnumerable<MimboxDto>>(mimboxes);

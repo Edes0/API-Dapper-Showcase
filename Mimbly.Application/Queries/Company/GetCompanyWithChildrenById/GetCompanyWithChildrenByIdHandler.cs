@@ -13,16 +13,22 @@ using Mimbly.CoreServices.Exceptions;
 public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithChildrenByIdQuery, CompanyWithChildrenByIdVm>
 {
     private readonly ICompanyRepository _companyRepository;
+    private readonly ICompanyContactRepository _companyContactRepository;
     private readonly IMimboxRepository _mimboxRepository;
+    private readonly IMimboxErrorLogRepository _mimboxErrorLogRepository;
     private readonly IMapper _mapper;
 
     public GetCompanyWithChildrenByIdHandler(
         ICompanyRepository companyRepository,
+        ICompanyContactRepository companyContactRepository,
         IMimboxRepository mimboxRepository,
+        IMimboxErrorLogRepository mimboxErrorLogRepository,
         IMapper mapper)
     {
         _companyRepository = companyRepository;
+        _companyContactRepository = companyContactRepository;
         _mimboxRepository = mimboxRepository;
+        _mimboxErrorLogRepository = mimboxErrorLogRepository;
         _mapper = mapper;
     }
 
@@ -35,21 +41,27 @@ public class GetCompanyWithChildrenByIdHandler : IRequestHandler<GetCompanyWithC
 
         var companyIds = companies.Select(x => x.Id);
         var companiesWithData = await _companyRepository.GetCompanyByIds(companyIds);
-        var mimboxes = await _mimboxRepository.GetMimboxByCompanyIds(companyIds);
+        var companyContacts = await _companyContactRepository.GetCompanyContactsByCompanyIds(companyIds);
+        var mimboxes = await _mimboxRepository.GetMimboxesByCompanyIds(companyIds);
+        var mimboxesIds = mimboxes.Select(x => x.Id);
+        var mimboxErrorLogs = await _mimboxErrorLogRepository.GetErrorLogsByMimboxIds(mimboxesIds);
+
+        foreach (var mimbox in mimboxes)
+        {
+            var currentMimboxErrorLogs = mimboxErrorLogs.Where(x => x.MimboxId == mimbox.Id).Select(x => x);
+            mimbox.ErrorLogList = currentMimboxErrorLogs.ToList();
+        }
 
         foreach (var company in companiesWithData)
         {
-            var currentCompanyMimboxes = mimboxes.Select(x => x).Where(x => x.CompanyId == company.Id);
-
+            var currentCompanyMimboxes = mimboxes.Where(x => x.CompanyId == company.Id).Select(x => x);
             company.MimboxList = currentCompanyMimboxes.ToList();
 
-            var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c =>
-            {
-                c.ChildCompanyList = c.ChildCompanyList;
-                return c;
-            });
-
+            var childCompanies = companiesWithData.Where(c => c.ParentId == company.Id).Select(c => c);
             company.ChildCompanyList = childCompanies.ToList();
+
+            var currentCompanyContacts = companyContacts.Where(x => x.CompanyId == company.Id).Select(x => x);
+            company.ContactList = currentCompanyContacts.ToList();
         }
 
         var parentCompany = companiesWithData.Where(c => c.Id == request.Id).Select(c => c).First();

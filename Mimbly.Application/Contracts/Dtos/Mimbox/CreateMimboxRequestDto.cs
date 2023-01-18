@@ -4,19 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 public record CreateMimboxRequestDto
 {
-    public float? WaterSaved { get; init; }
-
-    public float? Co2Saved { get; init; }
-
-    public float? PlasticSaved { get; init; }
-
-    public float? EconomySaved { get; init; }
-
-    public int? TotalTap { get; set; }
-
-    public int? TotalWashes { get; set; }
-
-    [Required(ErrorMessage = "Nickname is required")]
+    [Required]
     public string Nickname { get; set; }
 
     [Required(ErrorMessage = "Status is required")]
