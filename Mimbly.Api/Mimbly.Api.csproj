@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Mimbly.Persistence\Mimbly.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Templates\Assets" />
-  </ItemGroup>
-
 </Project>
