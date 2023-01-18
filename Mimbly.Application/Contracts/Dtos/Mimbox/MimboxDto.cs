@@ -16,7 +16,7 @@ public record MimboxDto
 
     public float EconomySaved { get; init; }
 
-    public int TotalTap { get; set; }
+    public float TotalTap { get; set; }
 
     public int TotalWashes { get; set; }
 

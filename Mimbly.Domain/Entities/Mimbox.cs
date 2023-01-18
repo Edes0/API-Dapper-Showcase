@@ -24,8 +24,8 @@ public class Mimbox
     [Column("Economy_Saved", TypeName = "float")]
     public float EconomySaved { get; set; }
 
-    [Column("Total_Tap", TypeName = "int")]
-    public int TotalTap { get; set; }
+    [Column("Total_Tap", TypeName = "float")]
+    public float TotalTap { get; set; }
 
     [Column("Total_Washes", TypeName = "int")]
     public int TotalWashes { get; set; }
