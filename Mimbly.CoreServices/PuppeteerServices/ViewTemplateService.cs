@@ -26,41 +26,44 @@ public class ViewTemplateService : ITemplateService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<string> RenderAsync<TViewModel>(string filename, TViewModel viewModel)
+    /// <summary>
+    /// Method <c>RenderAsync</c> takes in a razor view and model,
+    /// then uses the Razor engine to create the html.
+    /// </summary>
+    /// <param name="viewName">The name for the Razor view.</param>
+    /// <param name="viewModel">The model used in the Razor view</param>
+    /// <typeparam name="TViewModel"></typeparam>
+    /// <returns>Returns a string containing the html generated.</returns>
+    /// <exception cref="KeyNotFoundException">Thrown when the view is not found.</exception>
+    public async Task<string> RenderAsync<TViewModel>(string viewName, TViewModel viewModel)
     {
-        // Creates a context for the mvc action
         var httpContext = new DefaultHttpContext
         {
             RequestServices = _serviceProvider
         };
+
         var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+        var viewResult = _viewEngine.FindView(actionContext, viewName, false);
 
-        // Finds the View for {filename}
-        var viewResult = _viewEngine.FindView(actionContext, filename, false);
-
-        // Adds a model for the View
         var viewDictionary = new ViewDataDictionary<TViewModel>(new EmptyModelMetadataProvider(), new ModelStateDictionary())
         {
             Model = viewModel
         };
         var tempDataDictionary = new TempDataDictionary(httpContext, _tempDataProvider);
 
-        // string for the html output
         await using var outputWriter = new StringWriter();
 
         if (!viewResult.Success)
         {
             throw new KeyNotFoundException(
-                $"Could not render the HTML, because {filename} template does not exist");
+                $"Could not render the HTML, because {viewName} template does not exist");
         }
 
         try
         {
-            // Generate context
             var viewContext = new ViewContext(actionContext, viewResult.View, viewDictionary,
                 tempDataDictionary, outputWriter, new HtmlHelperOptions());
 
-            // Render generated context and return it
             await viewResult.View.RenderAsync(viewContext);
             return outputWriter.ToString();
         }
