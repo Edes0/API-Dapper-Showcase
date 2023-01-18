@@ -1,10 +1,13 @@
 ﻿namespace Mimbly.CoreServices.Authorization;
-using System;
+
 using System.Security.Claims;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Authorization;
 
+/// <summary>
+/// Class <c>GroupsHandler</c> is part of the role based
+/// authorization scheme for controllers.
+/// </summary>
 public class GroupsHandler : AuthorizationHandler<GroupsRequirement>
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, GroupsRequirement requirement)

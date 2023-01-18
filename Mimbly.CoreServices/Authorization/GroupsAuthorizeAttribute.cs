@@ -2,6 +2,10 @@
 
 using Microsoft.AspNetCore.Authorization;
 
+/// <summary>
+/// Class <c>GroupsAuthorizeAttribute</c> is part of the role based
+/// authorization scheme for controllers.
+/// </summary>
 public class GroupsAuthorizeAttribute : AuthorizeAttribute
 {
     const string POLICY_PREFIX = "Groups";
