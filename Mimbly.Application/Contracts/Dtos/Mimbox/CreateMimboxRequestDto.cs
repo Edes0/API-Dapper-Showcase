@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 public record CreateMimboxRequestDto
 {
     [Required]
+    [StringLength(55, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
     public string Nickname { get; set; }
 
     [Required(ErrorMessage = "Status is required")]
