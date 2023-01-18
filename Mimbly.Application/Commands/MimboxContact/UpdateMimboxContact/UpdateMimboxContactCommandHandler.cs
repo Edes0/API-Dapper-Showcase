@@ -20,8 +20,6 @@ public class UpdateMimboxContactCommandHandler : IRequestHandler<UpdateMimboxCon
 
     public async Task<Unit> Handle(UpdateMimboxContactCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateMimboxContactRequest.Validate();
-
         var mimboxContactEntity = _mapper.Map<MimboxContact>(request.UpdateMimboxContactRequest);
 
         mimboxContactEntity.Id = request.Id;

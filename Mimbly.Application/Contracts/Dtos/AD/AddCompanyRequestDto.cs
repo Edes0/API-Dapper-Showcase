@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 public record AddCompanyRequestDto
 {
-    [Required]
+    [Required(ErrorMessage = "{0} is required")]
     public string Name { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "{0} is required")]
     public string Description { get; set; }
 
     [Required]

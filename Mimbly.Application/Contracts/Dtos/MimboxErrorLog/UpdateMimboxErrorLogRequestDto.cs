@@ -1,14 +1,9 @@
 ﻿namespace Mimbly.Application.Contracts.Dtos.MimboxErrorLog;
 
-using Mimbly.Application.Common.Validators.MimboxErrorLog;
-using Mimbly.CoreServices.Validation;
+using System.ComponentModel.DataAnnotations;
 
 public class UpdateMimboxErrorLogRequestDto
 {
+    [Required(ErrorMessage = "{0} is required")]
     public bool Discarded { get; set; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new UpdateMimboxErrorLogRequestDtoValidator());
-    }
 }

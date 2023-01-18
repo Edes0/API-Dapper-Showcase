@@ -20,8 +20,6 @@ public class UpdateMimboxErrorLogCommandHandler : IRequestHandler<UpdateMimboxEr
 
     public async Task<Unit> Handle(UpdateMimboxErrorLogCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateMimboxErrorLogRequest.Validate();
-
         var mimboxErrorLogEntity = _mapper.Map<MimboxErrorLog>(request.UpdateMimboxErrorLogRequest);
 
         mimboxErrorLogEntity.Id = request.Id;

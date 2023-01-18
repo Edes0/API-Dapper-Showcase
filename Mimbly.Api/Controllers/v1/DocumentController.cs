@@ -16,10 +16,7 @@ public class DocumentController : Controller
 {
     private readonly ITemplateService _templateService;
 
-    public DocumentController(ITemplateService templateService)
-    {
-        _templateService = templateService;
-    }
+    public DocumentController(ITemplateService templateService) => _templateService = templateService;
 
     [HttpGet]
     [Route("GetMonthlyReport")]
@@ -84,15 +81,17 @@ public class DocumentController : Controller
         });
 
         if (download)
+        {
             return File(pdfContent, "application/pdf", $"Report-{model.Company.Name}-{model.Created}.pdf");
-        else
-            return File(pdfContent, "application/pdf");
+        }
+
+        return File(pdfContent, "application/pdf");
     }
 
 
     [HttpGet]
     [Route("Preview")]
-    public async Task<IActionResult> Preview(string templateName)
+    public IActionResult Preview(string templateName)
     {
         var model = new ReportModel
         {

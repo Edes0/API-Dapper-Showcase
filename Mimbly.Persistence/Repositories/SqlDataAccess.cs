@@ -1,4 +1,5 @@
 ﻿namespace Mimbly.Persistence.Repositories;
+
 using System.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Configuration;

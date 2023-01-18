@@ -1,23 +1,19 @@
 ﻿namespace Mimbly.Application.Contracts.Dtos.MimboxLocation;
 
-using System.Threading.Tasks;
-using Mimbly.Application.Common.Validators.MimboxLocation;
-using Mimbly.CoreServices.Validation;
+using System.ComponentModel.DataAnnotations;
 
 public record UpdateMimboxLocationRequestDto
 {
+    [Required(ErrorMessage = "{0} is required")]
     public string Country { get; init; }
 
     public string? Region { get; init; }
 
     public string? PostalCode { get; init; }
 
+    [Required(ErrorMessage = "{0} is required")]
     public string City { get; init; }
 
+    [Required(ErrorMessage = "{0} is required")]
     public string StreetAddress { get; init; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new UpdateMimboxLocationRequestDtoValidator());
-    }
 }

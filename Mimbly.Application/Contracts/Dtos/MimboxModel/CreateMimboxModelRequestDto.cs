@@ -1,15 +1,9 @@
 ﻿namespace Mimbly.Application.Contracts.Dtos.MimboxModel;
 
-using System.Threading.Tasks;
-using Mimbly.Application.Common.Validators.MimboxModel;
-using Mimbly.CoreServices.Validation;
+using System.ComponentModel.DataAnnotations;
 
 public record CreateMimboxModelRequestDto
 {
+    [Required(ErrorMessage = "{0} is required")]
     public string Name { get; init; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new CreateMimboxModelRequestDtoValidator());
-    }
 }

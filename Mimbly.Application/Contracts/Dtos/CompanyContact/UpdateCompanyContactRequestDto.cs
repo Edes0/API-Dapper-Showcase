@@ -1,24 +1,36 @@
 ﻿namespace Mimbly.Application.Contracts.Dtos.CompanyContact;
 
-using Mimbly.Application.Common.Validators.CompanyContact;
-using Mimbly.CoreServices.Validation;
+using System.ComponentModel.DataAnnotations;
 
 public class UpdateCompanyContactRequestDto
 {
+    [Required]
+    [StringLength(55, MinimumLength = 3, ErrorMessage = "Title must be between {2} and {1} characters long.")]
+    [RegularExpression(@"^[a-zA-Z''-'\s]*$",
+        ErrorMessage = "Title contains invalid characters.")]
     public string Title { get; set; }
 
+    [Required]
+    [StringLength(55, MinimumLength = 2, ErrorMessage = "First name must be between {2} and {1} characters long.")]
+    [RegularExpression(@"^[a-zA-Z''-'\s]*$",
+        ErrorMessage = "First name contains invalid characters.")]
     public string FirstName { get; set; }
 
+    [Required]
+    [StringLength(55, MinimumLength = 2, ErrorMessage = "Last name must be between {2} and {1} characters long.")]
+    [RegularExpression(@"^[a-zA-Z''-'\s]*$",
+        ErrorMessage = "Last name contains invalid characters.")]
     public string LastName { get; set; }
 
+    [Required]
+    [EmailAddress(ErrorMessage = "Email provided is not valid.")]
     public string Email { get; set; }
 
+    [Required]
+    [StringLength(15, MinimumLength = 5, ErrorMessage = "Phone number provided is not valid.")]
+    [Phone(ErrorMessage = "Phone number provided is not valid.")]
     public string PhoneNumber { get; set; }
 
+    [Required]
     public Guid CompanyId { get; set; }
-
-    public async Task Validate()
-    {
-        await ValidatableEntity.ValidateEntityByFluentRules(this, new UpdateCompanyContactRequestDtoValidator());
-    }
 }
