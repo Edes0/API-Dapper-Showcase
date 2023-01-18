@@ -45,7 +45,7 @@ public class SwaggerExtension : IConfigureNamedOptions<SwaggerGenOptions>
     /// </summary>
     /// <param name="description"></param>
     /// <returns>Information about the API</returns>
-    private OpenApiInfo CreateVersionInfo(
+    private static OpenApiInfo CreateVersionInfo(
             ApiVersionDescription desc)
     {
         var info = new OpenApiInfo()
