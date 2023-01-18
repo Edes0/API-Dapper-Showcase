@@ -35,7 +35,7 @@ public class MimboxController : BaseController
         return Ok(await _mediator.Send(new GetByIdMimboxQuery { Id = id }));
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPost]
     public async Task<ActionResult> CreateMimbox([FromBody] CreateMimboxRequestDto createMimboxRequestDto)
     {
