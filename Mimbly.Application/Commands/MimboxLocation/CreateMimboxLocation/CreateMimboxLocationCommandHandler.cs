@@ -20,8 +20,6 @@ public class CreateMimboxLocationCommandHandler : IRequestHandler<CreateMimboxLo
 
     public async Task<MimboxLocation> Handle(CreateMimboxLocationCommand request, CancellationToken cancellationToken)
     {
-        await request.CreateMimboxLocationRequest.Validate();
-
         var mimboxLocationEntity = _mapper.Map<MimboxLocation>(request.CreateMimboxLocationRequest);
 
         await _mimboxLocationRepository.CreateMimboxLocation(mimboxLocationEntity);

@@ -21,8 +21,6 @@ public class UpdateMimboxLocationCommandHandler : IRequestHandler<UpdateMimboxLo
 
     public async Task<Unit> Handle(UpdateMimboxLocationCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateMimboxLocationRequest.Validate();
-
         var mimboxLocationEntity = _mapper.Map<MimboxLocation>(request.UpdateMimboxLocationRequest);
 
         mimboxLocationEntity.Id = request.Id;

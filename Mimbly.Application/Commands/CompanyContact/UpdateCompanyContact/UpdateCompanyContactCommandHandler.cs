@@ -20,8 +20,6 @@ public class UpdateCompanyContactCommandHandler : IRequestHandler<UpdateCompanyC
 
     public async Task<Unit> Handle(UpdateCompanyContactCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateCompanyContactRequest.Validate();
-
         var companyContactEntity = _mapper.Map<CompanyContact>(request.UpdateCompanyContactRequest);
 
         companyContactEntity.Id = request.Id;

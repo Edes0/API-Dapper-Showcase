@@ -21,8 +21,6 @@ public class UpdateMimboxCommandHandler : IRequestHandler<UpdateMimboxCommand>
 
     public async Task<Unit> Handle(UpdateMimboxCommand request, CancellationToken cancellationToken)
     {
-        await request.UpdateMimboxRequest.Validate();
-
         var mimboxEntity = _mapper.Map<Mimbox>(request.UpdateMimboxRequest);
 
         mimboxEntity.Id = request.Id;

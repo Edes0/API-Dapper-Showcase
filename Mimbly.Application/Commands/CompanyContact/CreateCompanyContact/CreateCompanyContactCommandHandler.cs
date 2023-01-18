@@ -20,8 +20,6 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyContactC
 
     public async Task<CompanyContact> Handle(CreateCompanyContactCommand request, CancellationToken cancellationToken)
     {
-        await request.CreateCompanyContactRequest.Validate();
-
         var companyContactEntity = _mapper.Map<CompanyContact>(request.CreateCompanyContactRequest);
 
         await _companyContactRepository.CreateCompanyContact(companyContactEntity);
