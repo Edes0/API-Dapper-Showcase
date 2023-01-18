@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Mimbly.Api.Attributes;
 using Mimbly.Api.Extensions;
