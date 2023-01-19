@@ -3,6 +3,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
+/// <summary>
+/// Class <c>GroupsPolicyProvider</c> is part of the role based
+/// authorization scheme for controllers.
+/// </summary>
 public class GroupsPolicyProvider : IAuthorizationPolicyProvider
 {
     const string POLICY_PREFIX = "Groups";

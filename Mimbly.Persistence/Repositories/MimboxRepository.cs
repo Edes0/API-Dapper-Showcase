@@ -23,6 +23,11 @@ public class MimboxRepository : IMimboxRepository
         DefaultTypeMap.MatchNamesWithUnderscores = true;
     }
 
+    /// <summary>
+    /// Method <c>CreateMimbox</c> inserts a single <c>mimbox</c>
+    /// into the database.
+    /// </summary>
+    /// <param name="mimbox">The <c>mimbox</c> to be inserted.</param>
     public async Task CreateMimbox(Mimbox mimbox)
     {
         var sql =
@@ -36,6 +41,11 @@ public class MimboxRepository : IMimboxRepository
         await _db.SaveChanges(sql, mimbox);
     }
 
+    /// <summary>
+    /// Method <c>DeleteMimbox</c> removes the provided
+    /// <c>mimbox</c> from the database.
+    /// </summary>
+    /// <param name="mimbox">The <c>mimbox</c> to be deleted.</param>
     public async Task DeleteMimbox(Mimbox mimbox)
     {
         var sql =
@@ -48,6 +58,11 @@ public class MimboxRepository : IMimboxRepository
         await _db.SaveChanges(sql, mimbox);
     }
 
+    /// <summary>
+    /// Method <c>UpdateMimbox</c> updates the <c>mimbox</c> in
+    /// the database with new values.
+    /// </summary>
+    /// <param name="mimbox">The <c>mimbox</c> to be updated.</param>
     public async Task UpdateMimbox(Mimbox mimbox)
     {
         var sql =
@@ -64,6 +79,13 @@ public class MimboxRepository : IMimboxRepository
         await _db.SaveChanges(sql, mimbox);
     }
 
+    /// <summary>
+    /// Method <c>GetAllMimboxes</c> queries the database
+    /// for every <c>mimbox</c>.
+    /// </summary>
+    /// <returns>A <c>IEnumerable</c> of <c>mimbox</c>. The object <c>mimbox</c> includes values for
+    /// <c>mimboxLocation</c>, <c>mimboxStatus</c>, <c>mimboxModel</c> and <c>company</c>.
+    /// </returns>
     public async Task<IEnumerable<Mimbox>> GetAllMimboxes()
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
@@ -107,6 +129,12 @@ public class MimboxRepository : IMimboxRepository
         return lookup.Values;
     }
 
+    /// <summary>
+    /// Method <c>GetMimboxById</c> queries the database
+    /// for a single <c>mimbox</c>.
+    /// </summary>
+    /// <param name="id">The <c>mimboxId</c> to look for.</param>
+    /// <returns>A single <c>mimbox</c>.</returns>
     public async Task<Mimbox> GetMimboxById(Guid id)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
@@ -152,6 +180,15 @@ public class MimboxRepository : IMimboxRepository
         return lookup.Values.FirstOrDefault();
     }
 
+    /// <summary>
+    /// Method <c>GetMimboxesByCompanyIds</c> queries the database
+    /// for a list of <c>mimbox</c> that belongs to different companies
+    /// by using the provided list of <c>companyId</c>.
+    /// </summary>
+    /// <param name="ids">The list of <c>companyId</c> to query for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>mimbox</c>. The object <c>mimbox</c> includes values for
+    /// <c>mimboxLocation</c>, <c>mimboxStatus</c>, <c>mimboxModel</c> and <c>company</c>.
+    /// </returns>
     public async Task<IEnumerable<Mimbox>> GetMimboxesByCompanyIds(IEnumerable<Guid> ids)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);
@@ -197,6 +234,15 @@ public class MimboxRepository : IMimboxRepository
         return lookup.Values;
     }
 
+    /// <summary>
+    /// Method <c>GetMimboxesByCompanyId</c> queries the database
+    /// for a list of <c>mimbox</c> that belongs to a single company
+    /// by using the provided <c>companyId</c>.
+    /// </summary>
+    /// <param name="id">The <c>companyId</c> to query for.</param>
+    /// <returns>A <c>IEnumerable</c> of <c>mimbox</c>. The object <c>mimbox</c> includes values for
+    /// <c>mimboxLocation</c>, <c>mimboxStatus</c>, <c>mimboxModel</c> and <c>company</c>.
+    /// </returns>
     public async Task<IEnumerable<Mimbox>> GetMimboxesByCompanyId(Guid id)
     {
         var connectionString = _config.GetConnectionString(ConnectionStringName);

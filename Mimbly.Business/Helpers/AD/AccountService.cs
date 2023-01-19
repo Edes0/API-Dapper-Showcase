@@ -22,6 +22,11 @@ public class AccountService : IAccountService
         _memoryCache = memoryCache;
     }
 
+    /// <summary>
+    /// Method <c>InviteUser</c> invites a user to Azure Ad.
+    /// </summary>
+    /// <param name="user">A <c>AdUser</c> containing the information required to invite the user.</param>
+    /// <returns>True if successful otherwise false.</returns>
     public async Task<bool> InviteUser(AdUser user)
     {
         var redirectUrl = _redirectUrl + user.GroupId;
@@ -43,6 +48,12 @@ public class AccountService : IAccountService
         return false;
     }
 
+    /// <summary>
+    /// Method <c>CreateCompany</c> creates a group on Azure Ad with
+    /// the provided information.
+    /// </summary>
+    /// <param name="company">A <c>AdCompany</c> containing the information required to create a group.</param>
+    /// <returns>A Guid of the newly created <c>Group</c>.</returns>
     public async Task<string?> CreateCompany(AdCompany company)
     {
         var client = _graphService.GetClient();
@@ -65,6 +76,12 @@ public class AccountService : IAccountService
 
     public Task<bool> AddUserToCompany(AdUser user, Guid companyId) => throw new NotImplementedException();
 
+    /// <summary>
+    /// Method <c>RemoveCompany</c> removes the specified
+    /// group from Azure Ad.
+    /// </summary>
+    /// <param name="id">The group to be removed from Azure Ad.</param>
+    /// <returns></returns>
     public Task RemoveCompany(Guid id)
     {
         var client = _graphService.GetClient();
@@ -72,6 +89,10 @@ public class AccountService : IAccountService
         return client.Groups[id.ToString()].Request().DeleteAsync();
     }
 
+    /// <summary>
+    /// Method <c>GetRoles</c> gets all roles from Azure Ad.
+    /// </summary>
+    /// <returns>A list of <c>AdRole</c>.</returns>
     public async Task<List<AdRole>> GetRoles()
     {
         var selectedGroups = await _graphHelper.GetGroupsThatStartsWith("Role");

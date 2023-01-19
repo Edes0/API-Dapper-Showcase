@@ -2,5 +2,5 @@
 
 public interface ITemplateService
 {
-    Task<string> RenderAsync<TModel>(string templateFileName, TModel model);
+    Task<string> RenderAsync<TModel>(string viewName, TModel model);
 }
