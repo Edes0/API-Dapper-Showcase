@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Mimbly.Api.Attributes;
 using Mimbly.Api.Extensions;
 using Mimbly.CoreServices.Middlewares;
 using Mimbly.Infrastructure.Identity.Context;
@@ -25,7 +24,6 @@ services.ConfigureRepositories();
 
 // Services
 services.ConfigureCors(AllowedOrigins, builder.Configuration);
-services.AddControllers(opt => opt.Filters.Add(typeof(EasyValidationAttribute)));
 services.ConfigureCustomValidationResponse();
 services.ConfigureAppDbContext(builder.Configuration);
 services.ConfigureNugetPackages();
