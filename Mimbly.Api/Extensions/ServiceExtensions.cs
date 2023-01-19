@@ -1,5 +1,6 @@
 ﻿namespace Mimbly.Api.Extensions;
 
+using Attributes;
 using Business.Helpers.AD;
 using Business.Interfaces.AD;
 using MediatR;
@@ -128,7 +129,7 @@ public static class ServiceExtensions
     /// <param name="environment"></param>
     public static void ConfigurePuppeteer(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        services.AddControllersWithViews();
+        services.AddControllersWithViews(opt => opt.Filters.Add(typeof(EasyValidationAttribute)));
         services.AddScoped<ITemplateService, ViewTemplateService>();
         services.PreparePuppeteerAsync(environment).GetAwaiter().GetResult();
         services.Configure<RazorViewEngineOptions>(opt =>
