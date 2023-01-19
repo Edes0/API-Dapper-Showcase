@@ -142,7 +142,7 @@ public class MimboxRepository : IMimboxRepository
 
         var sql =
         @"
-            SELECT m.*, ml.*, ms.*, mm.*, c.Id
+            SELECT m.*, ml.*, ms.*, mm.*, c.*
             FROM Mimbox m
             LEFT JOIN Mimbox_Location ml ON ml.Id = m.Mimbox_Location_Id
             LEFT JOIN Mimbox_Status ms ON ms.Id = m.Mimbox_Status_Id
