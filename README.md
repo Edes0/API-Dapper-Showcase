@@ -5,10 +5,10 @@ Below are the steps to get the project running.
 
 ## Deploying the solution
 
-### Required Service
+### Required Services
 
 -   Azure AD
--   MSSQL Database
+-   Database
 -   Container deployment service
 
 ### Azure AD
